@@ -1,0 +1,60 @@
+Package: vcpkg-cmake-config
+Version: 2026-07-21
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 1e21d37151e4c525b9f4cd855dc39b83970470d07a2dbc78cfee6c99455b574b
+Status: install ok installed
+
+Package: vcpkg-cmake
+Version: 2025-08-07
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 50b704375a05df810e7bbb0d73e3ce8fda6e2ea3b3ca292806c8dee23465c3d8
+Status: install ok installed
+
+Package: asio
+Version: 1.32.0
+Depends: vcpkg-cmake:x64-windows, vcpkg-cmake-config:x64-windows
+Architecture: x86-windows
+Multi-Arch: same
+Abi: 9bb7d04e3f6928a391a06a67c0e7416e9c257e62658a1210840dfc597d33d0fb
+Description: Asio is a cross-platform C++ library for network and low-level I/O programming that provides developers with a consistent asynchronous model using a modern C++ approach.
+Status: install ok installed
+
+Package: nlohmann-json
+Version: 3.12.0
+Port-Version: 2
+Depends: vcpkg-cmake:x64-windows, vcpkg-cmake-config:x64-windows
+Architecture: x86-windows
+Multi-Arch: same
+Abi: df7c474c5cecc158889641bd332c842ce378934372e0be95f58d00deb4e73f49
+Description: JSON for Modern C++
+Status: install ok installed
+
+Package: vcpkg-cmake-get-vars
+Version: 2025-05-29
+Depends: vcpkg-cmake
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 2faedbb3a155cac5b04d35b7c465faa17bad90fb550e23658d808ec353c9eb07
+Status: install ok installed
+
+Package: openssl
+Version: 3.6.4
+Depends: vcpkg-cmake:x64-windows, vcpkg-cmake-config:x64-windows, vcpkg-cmake-get-vars:x64-windows
+Architecture: x86-windows
+Multi-Arch: same
+Abi: 4af55c43444459a7b6f5dd6a9c5579367369833193b5ca11c1c46ebaa8c4fed0
+Description: OpenSSL is an open source project that provides a robust, commercial-grade, and full-featured toolkit for the Transport Layer Security (TLS) and Secure Sockets Layer (SSL) protocols. It is also a general-purpose cryptography library.
+Status: install ok installed
+
+Package: zlib
+Version: 1.3.2
+Port-Version: 2
+Depends: vcpkg-cmake:x64-windows, vcpkg-cmake-config:x64-windows
+Architecture: x86-windows
+Multi-Arch: same
+Abi: 221d3b95bcc67f4001610a71bd45a99b46347bfbe98ca5173d15c5505d35579f
+Description: A compression library
+Status: install ok installed
+

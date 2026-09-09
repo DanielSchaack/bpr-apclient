@@ -1,0 +1,8 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/iolds/source/repos/bpr-apclient/build/cmake_install.cmake",
+		"C:/Users/iolds/source/repos/bpr-apclient/build/src/bpr/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

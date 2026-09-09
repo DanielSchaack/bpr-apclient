@@ -1,0 +1,14 @@
+cmake_minimum_required(VERSION 3.25)
+
+project(bpr-apclient
+    LANGUAGES C CXX
+)
+
+set(BPRAP_RELEASE_VERSION "0.0.1")
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
+include(MinHook)
+include(ApClient)
+include(DearImGui)
+add_subdirectory(src/bpr)

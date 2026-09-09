@@ -1,0 +1,14 @@
+# Target labels
+ websocketpp-populate
+# Source files and their labels
+C:/Users/iolds/source/repos/bpr-apclient/build/_deps/websocketpp-subbuild/CMakeFiles/websocketpp-populate
+C:/Users/iolds/source/repos/bpr-apclient/build/_deps/websocketpp-subbuild/CMakeFiles/60b82069983a63a245780131928f04b1/websocketpp-populate.rule
+C:/Users/iolds/source/repos/bpr-apclient/build/_deps/websocketpp-subbuild/CMakeFiles/fd0e493fb1acc397e933dad5dd5fa39c/websocketpp-populate-complete.rule
+C:/Users/iolds/source/repos/bpr-apclient/build/_deps/websocketpp-subbuild/CMakeFiles/a2c286ae180e8f56d2032ec9f49227ad/websocketpp-populate-build.rule
+C:/Users/iolds/source/repos/bpr-apclient/build/_deps/websocketpp-subbuild/CMakeFiles/a2c286ae180e8f56d2032ec9f49227ad/websocketpp-populate-configure.rule
+C:/Users/iolds/source/repos/bpr-apclient/build/_deps/websocketpp-subbuild/CMakeFiles/a2c286ae180e8f56d2032ec9f49227ad/websocketpp-populate-download.rule
+C:/Users/iolds/source/repos/bpr-apclient/build/_deps/websocketpp-subbuild/CMakeFiles/a2c286ae180e8f56d2032ec9f49227ad/websocketpp-populate-install.rule
+C:/Users/iolds/source/repos/bpr-apclient/build/_deps/websocketpp-subbuild/CMakeFiles/a2c286ae180e8f56d2032ec9f49227ad/websocketpp-populate-mkdir.rule
+C:/Users/iolds/source/repos/bpr-apclient/build/_deps/websocketpp-subbuild/CMakeFiles/a2c286ae180e8f56d2032ec9f49227ad/websocketpp-populate-patch.rule
+C:/Users/iolds/source/repos/bpr-apclient/build/_deps/websocketpp-subbuild/CMakeFiles/a2c286ae180e8f56d2032ec9f49227ad/websocketpp-populate-test.rule
+C:/Users/iolds/source/repos/bpr-apclient/build/_deps/websocketpp-subbuild/CMakeFiles/a2c286ae180e8f56d2032ec9f49227ad/websocketpp-populate-update.rule

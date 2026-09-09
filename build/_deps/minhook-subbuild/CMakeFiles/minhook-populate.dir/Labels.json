@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/iolds/source/repos/bpr-apclient/build/_deps/minhook-subbuild/CMakeFiles/minhook-populate"
+		},
+		{
+			"file" : "C:/Users/iolds/source/repos/bpr-apclient/build/_deps/minhook-subbuild/CMakeFiles/f98fc4f89aa0febb5a1858620fb4973b/minhook-populate.rule"
+		},
+		{
+			"file" : "C:/Users/iolds/source/repos/bpr-apclient/build/_deps/minhook-subbuild/CMakeFiles/6bbbc0666b2a7864f95faeeab7a07f75/minhook-populate-complete.rule"
+		},
+		{
+			"file" : "C:/Users/iolds/source/repos/bpr-apclient/build/_deps/minhook-subbuild/CMakeFiles/11dbccd82d47aeecd126a1b03bd0a647/minhook-populate-build.rule"
+		},
+		{
+			"file" : "C:/Users/iolds/source/repos/bpr-apclient/build/_deps/minhook-subbuild/CMakeFiles/11dbccd82d47aeecd126a1b03bd0a647/minhook-populate-configure.rule"
+		},
+		{
+			"file" : "C:/Users/iolds/source/repos/bpr-apclient/build/_deps/minhook-subbuild/CMakeFiles/11dbccd82d47aeecd126a1b03bd0a647/minhook-populate-download.rule"
+		},
+		{
+			"file" : "C:/Users/iolds/source/repos/bpr-apclient/build/_deps/minhook-subbuild/CMakeFiles/11dbccd82d47aeecd126a1b03bd0a647/minhook-populate-install.rule"
+		},
+		{
+			"file" : "C:/Users/iolds/source/repos/bpr-apclient/build/_deps/minhook-subbuild/CMakeFiles/11dbccd82d47aeecd126a1b03bd0a647/minhook-populate-mkdir.rule"
+		},
+		{
+			"file" : "C:/Users/iolds/source/repos/bpr-apclient/build/_deps/minhook-subbuild/CMakeFiles/11dbccd82d47aeecd126a1b03bd0a647/minhook-populate-patch.rule"
+		},
+		{
+			"file" : "C:/Users/iolds/source/repos/bpr-apclient/build/_deps/minhook-subbuild/CMakeFiles/11dbccd82d47aeecd126a1b03bd0a647/minhook-populate-test.rule"
+		},
+		{
+			"file" : "C:/Users/iolds/source/repos/bpr-apclient/build/_deps/minhook-subbuild/CMakeFiles/11dbccd82d47aeecd126a1b03bd0a647/minhook-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"minhook-populate"
+		],
+		"name" : "minhook-populate"
+	}
+}
