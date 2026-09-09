@@ -10,9 +10,9 @@
 #   * external/ holds only vcpkg.
 #
 # Pins are the exact commits the submodules recorded. asio/OpenSSL/ZLIB/json come
-# from vcpkg (find_package in src/mth), not from here.
+# from vcpkg (find_package in src/bpr), not from here.
 #
-# Exposes: mthap::apclient (INTERFACE, system include dirs only).
+# Exposes: bprap::apclient (INTERFACE, system include dirs only).
 
 include_guard(GLOBAL)
 include(FetchContent)
@@ -59,9 +59,9 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(websocketpp wswrap apclientpp)
 
-add_library(mthap_apclient INTERFACE)
-add_library(mthap::apclient ALIAS mthap_apclient)
-target_include_directories(mthap_apclient SYSTEM INTERFACE
+add_library(bprap_apclient INTERFACE)
+add_library(bprap::apclient ALIAS bprap_apclient)
+target_include_directories(bprap_apclient SYSTEM INTERFACE
     "${apclientpp_SOURCE_DIR}"
     "${wswrap_SOURCE_DIR}/include"
     "${websocketpp_SOURCE_DIR}"

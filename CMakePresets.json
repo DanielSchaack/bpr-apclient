@@ -10,9 +10,11 @@
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_C_COMPILER": "clang-cl",
                 "CMAKE_CXX_COMPILER": "clang-cl",
+                "CMAKE_C_COMPILER_TARGET": "i686-pc-windows-msvc",
+                "CMAKE_CXX_COMPILER_TARGET": "i686-pc-windows-msvc",
                 "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/external/vcpkg/scripts/buildsystems/vcpkg.cmake",
                 "VCPKG_TARGET_TRIPLET": "x86-windows",
-                "CMAKE_MAKE_PROGRAM": "C:/Users/iolds/AppData/Local/Microsoft/WinGet/Packages/Ninja-build.Ninja_Microsoft.Winget.Source_8wekyb3d8bbwe/ninja.exe"
+                "EXPORT_COMPILE_COMMANDS": "ON"
             },
             "condition": {
                 "type": "equals",

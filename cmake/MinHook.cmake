@@ -8,10 +8,6 @@ if(TARGET minhook::minhook)
     return()
 endif()
 
-if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    message(FATAL_ERROR "MinHook.cmake is Windows-only; use FridaGum.cmake on Linux")
-endif()
-
 set(MINHOOK_VERSION "v1.3.4" CACHE STRING "MinHook release tag")
 
 include(FetchContent)

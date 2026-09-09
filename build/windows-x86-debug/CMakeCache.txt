@@ -14,75 +14,102 @@
 # EXTERNAL cache entries
 ########################
 
-//Path to a program.
-CMAKE_ADDR2LINE:FILEPATH=CMAKE_ADDR2LINE-NOTFOUND
+//build shared version
+BUILD_SHARED_LIBS:BOOL=OFF
 
 //Path to a program.
-CMAKE_AR:FILEPATH=CMAKE_AR-NOTFOUND
+CMAKE_AR:FILEPATH=C:/Program Files/LLVM/bin/llvm-lib.exe
 
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
 // MinSizeRel ...
 CMAKE_BUILD_TYPE:STRING=Debug
 
+//CXX compiler
+CMAKE_CXX_COMPILER:STRING=C:/Program Files/LLVM/bin/clang-cl.exe
+
+//LLVM archiver
+CMAKE_CXX_COMPILER_AR:FILEPATH=C:/Program Files/LLVM/bin/llvm-ar.exe
+
+//`clang-scan-deps` dependency scanner
+CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS:FILEPATH=C:/Program Files/LLVM/bin/clang-scan-deps.exe
+
+//Generate index for LLVM archive
+CMAKE_CXX_COMPILER_RANLIB:FILEPATH=C:/Program Files/LLVM/bin/llvm-ranlib.exe
+
 //No help, variable specified on the command line.
-CMAKE_CXX_COMPILER:UNINITIALIZED=clang-cl
+CMAKE_CXX_COMPILER_TARGET:UNINITIALIZED=i686-pc-windows-msvc
 
 //Flags used by the CXX compiler during all build types.
-CMAKE_CXX_FLAGS:STRING=
+CMAKE_CXX_FLAGS:STRING=/DWIN32 /D_WINDOWS /EHsc
 
 //Flags used by the CXX compiler during DEBUG builds.
-CMAKE_CXX_FLAGS_DEBUG:STRING=
+CMAKE_CXX_FLAGS_DEBUG:STRING=/Ob0 /Od /RTC1
 
 //Flags used by the CXX compiler during MINSIZEREL builds.
-CMAKE_CXX_FLAGS_MINSIZEREL:STRING=
+CMAKE_CXX_FLAGS_MINSIZEREL:STRING=/O1 /Ob1 /DNDEBUG
 
 //Flags used by the CXX compiler during RELEASE builds.
-CMAKE_CXX_FLAGS_RELEASE:STRING=
+CMAKE_CXX_FLAGS_RELEASE:STRING=/O2 /Ob2 /DNDEBUG
 
 //Flags used by the CXX compiler during RELWITHDEBINFO builds.
-CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=
+CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=/O2 /Ob1 /DNDEBUG
+
+//Libraries linked by default with all C++ applications.
+CMAKE_CXX_STANDARD_LIBRARIES:STRING=kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+
+//C compiler
+CMAKE_C_COMPILER:STRING=C:/Program Files/LLVM/bin/clang-cl.exe
+
+//LLVM archiver
+CMAKE_C_COMPILER_AR:FILEPATH=C:/Program Files/LLVM/bin/llvm-ar.exe
+
+//`clang-scan-deps` dependency scanner
+CMAKE_C_COMPILER_CLANG_SCAN_DEPS:FILEPATH=C:/Program Files/LLVM/bin/clang-scan-deps.exe
+
+//Generate index for LLVM archive
+CMAKE_C_COMPILER_RANLIB:FILEPATH=C:/Program Files/LLVM/bin/llvm-ranlib.exe
 
 //No help, variable specified on the command line.
-CMAKE_C_COMPILER:UNINITIALIZED=clang-cl
+CMAKE_C_COMPILER_TARGET:UNINITIALIZED=i686-pc-windows-msvc
 
 //Flags used by the C compiler during all build types.
-CMAKE_C_FLAGS:STRING=
+CMAKE_C_FLAGS:STRING=/DWIN32 /D_WINDOWS
 
 //Flags used by the C compiler during DEBUG builds.
-CMAKE_C_FLAGS_DEBUG:STRING=
+CMAKE_C_FLAGS_DEBUG:STRING=/Ob0 /Od /RTC1
 
 //Flags used by the C compiler during MINSIZEREL builds.
-CMAKE_C_FLAGS_MINSIZEREL:STRING=
+CMAKE_C_FLAGS_MINSIZEREL:STRING=/O1 /Ob1 /DNDEBUG
 
 //Flags used by the C compiler during RELEASE builds.
-CMAKE_C_FLAGS_RELEASE:STRING=
+CMAKE_C_FLAGS_RELEASE:STRING=/O2 /Ob2 /DNDEBUG
 
 //Flags used by the C compiler during RELWITHDEBINFO builds.
-CMAKE_C_FLAGS_RELWITHDEBINFO:STRING=
+CMAKE_C_FLAGS_RELWITHDEBINFO:STRING=/O2 /Ob1 /DNDEBUG
 
-//Path to a program.
-CMAKE_DLLTOOL:FILEPATH=CMAKE_DLLTOOL-NOTFOUND
+//Libraries linked by default with all C applications.
+CMAKE_C_STANDARD_LIBRARIES:STRING=kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
 
 //Flags used by the linker during all build types.
-CMAKE_EXE_LINKER_FLAGS:STRING=
+CMAKE_EXE_LINKER_FLAGS:STRING=/machine:X86
 
 //Flags used by the linker during DEBUG builds.
-CMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=
+CMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=/debug /INCREMENTAL
 
 //Flags used by the linker during MINSIZEREL builds.
-CMAKE_EXE_LINKER_FLAGS_MINSIZEREL:STRING=
+CMAKE_EXE_LINKER_FLAGS_MINSIZEREL:STRING=/INCREMENTAL:NO
 
 //Flags used by the linker during RELEASE builds.
-CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=
+CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=/INCREMENTAL:NO
 
 //Flags used by the linker during RELWITHDEBINFO builds.
-CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
+CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=/debug /INCREMENTAL
 
 //Enable/Disable output of build database during the build.
 CMAKE_EXPORT_BUILD_DATABASE:BOOL=
 
-//Enable/Disable output of compile commands during generation.
-CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=
+//No help, variable specified on the command line.
+CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE
 
 //Value Computed by CMake.
 CMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/pkgRedirects
@@ -91,39 +118,36 @@ CMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=C:/Users/iolds/source/repos/bpr-apclient
 CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/bpr-apclient
 
 //Path to a program.
-CMAKE_LINKER:FILEPATH=CMAKE_LINKER-NOTFOUND
+CMAKE_LINKER:FILEPATH=C:/Program Files/LLVM/bin/lld-link.exe
 
-//No help, variable specified on the command line.
-CMAKE_MAKE_PROGRAM:UNINITIALIZED=C:/Users/iolds/AppData/Local/Microsoft/WinGet/Packages/Ninja-build.Ninja_Microsoft.Winget.Source_8wekyb3d8bbwe/ninja.exe
+//Program used to build from build.ninja files.
+CMAKE_MAKE_PROGRAM:FILEPATH=C:/Users/iolds/AppData/Local/Microsoft/WinGet/Links/ninja.exe
 
 //Flags used by the linker during the creation of modules during
 // all build types.
-CMAKE_MODULE_LINKER_FLAGS:STRING=
+CMAKE_MODULE_LINKER_FLAGS:STRING=/machine:X86
 
 //Flags used by the linker during the creation of modules during
 // DEBUG builds.
-CMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=
+CMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=/debug /INCREMENTAL
 
 //Flags used by the linker during the creation of modules during
 // MINSIZEREL builds.
-CMAKE_MODULE_LINKER_FLAGS_MINSIZEREL:STRING=
+CMAKE_MODULE_LINKER_FLAGS_MINSIZEREL:STRING=/INCREMENTAL:NO
 
 //Flags used by the linker during the creation of modules during
 // RELEASE builds.
-CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=
+CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=/INCREMENTAL:NO
 
 //Flags used by the linker during the creation of modules during
 // RELWITHDEBINFO builds.
-CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
+CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO:STRING=/debug /INCREMENTAL
 
 //Path to a program.
-CMAKE_NM:FILEPATH=CMAKE_NM-NOTFOUND
+CMAKE_MT:FILEPATH=C:/Program Files/LLVM/bin/llvm-mt.exe
 
 //Path to a program.
-CMAKE_OBJCOPY:FILEPATH=CMAKE_OBJCOPY-NOTFOUND
-
-//Path to a program.
-CMAKE_OBJDUMP:FILEPATH=CMAKE_OBJDUMP-NOTFOUND
+CMAKE_NM:FILEPATH=C:/Program Files/LLVM/bin/llvm-nm.exe
 
 //Value Computed by CMake
 CMAKE_PROJECT_COMPAT_VERSION:STATIC=
@@ -140,28 +164,43 @@ CMAKE_PROJECT_NAME:STATIC=bpr-apclient
 //Value Computed by CMake
 CMAKE_PROJECT_SPDX_LICENSE:STATIC=
 
-//Path to a program.
-CMAKE_READELF:FILEPATH=CMAKE_READELF-NOTFOUND
+//RC compiler
+CMAKE_RC_COMPILER:FILEPATH=C:/Program Files/LLVM/bin/llvm-rc.exe
+
+//Flags for Windows Resource Compiler during all build types.
+CMAKE_RC_FLAGS:STRING=-DWIN32
+
+//Flags for Windows Resource Compiler during DEBUG builds.
+CMAKE_RC_FLAGS_DEBUG:STRING=-D_DEBUG
+
+//Flags for Windows Resource Compiler during MINSIZEREL builds.
+CMAKE_RC_FLAGS_MINSIZEREL:STRING=
+
+//Flags for Windows Resource Compiler during RELEASE builds.
+CMAKE_RC_FLAGS_RELEASE:STRING=
+
+//Flags for Windows Resource Compiler during RELWITHDEBINFO builds.
+CMAKE_RC_FLAGS_RELWITHDEBINFO:STRING=
 
 //Flags used by the linker during the creation of shared libraries
 // during all build types.
-CMAKE_SHARED_LINKER_FLAGS:STRING=
+CMAKE_SHARED_LINKER_FLAGS:STRING=/machine:X86
 
 //Flags used by the linker during the creation of shared libraries
 // during DEBUG builds.
-CMAKE_SHARED_LINKER_FLAGS_DEBUG:STRING=
+CMAKE_SHARED_LINKER_FLAGS_DEBUG:STRING=/debug /INCREMENTAL
 
 //Flags used by the linker during the creation of shared libraries
 // during MINSIZEREL builds.
-CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL:STRING=
+CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL:STRING=/INCREMENTAL:NO
 
 //Flags used by the linker during the creation of shared libraries
 // during RELEASE builds.
-CMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING=
+CMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING=/INCREMENTAL:NO
 
 //Flags used by the linker during the creation of shared libraries
 // during RELWITHDEBINFO builds.
-CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO:STRING=
+CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO:STRING=/debug /INCREMENTAL
 
 //If set, runtime paths are not added when installing shared libraries,
 // but are added when building.
@@ -172,7 +211,7 @@ CMAKE_SKIP_RPATH:BOOL=NO
 
 //Flags used by the archiver during the creation of static libraries
 // during all build types.
-CMAKE_STATIC_LINKER_FLAGS:STRING=
+CMAKE_STATIC_LINKER_FLAGS:STRING=/machine:X86
 
 //Flags used by the archiver during the creation of static libraries
 // during DEBUG builds.
@@ -190,20 +229,89 @@ CMAKE_STATIC_LINKER_FLAGS_RELEASE:STRING=
 // during RELWITHDEBINFO builds.
 CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
-//Path to a program.
-CMAKE_STRIP:FILEPATH=CMAKE_STRIP-NOTFOUND
-
-//Path to a program.
-CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
-
-//No help, variable specified on the command line.
-CMAKE_TOOLCHAIN_FILE:UNINITIALIZED=C:/Users/iolds/source/repos/bpr-apclient/external/vcpkg/scripts/buildsystems/vcpkg.cmake
+//The CMake toolchain file
+CMAKE_TOOLCHAIN_FILE:FILEPATH=C:/Users/iolds/source/repos/bpr-apclient/external/vcpkg/scripts/buildsystems/vcpkg.cmake
 
 //If this value is on, makefiles will be generated without the
 // .SILENT directive, and all commands will be echoed to the console
 // during the make.  This is useful for debugging only. With Visual
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
+
+//No help, variable specified on the command line.
+EXPORT_COMPILE_COMMANDS:UNINITIALIZED=ON
+
+//Directory under which to collect all populated content
+FETCHCONTENT_BASE_DIR:PATH=C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/_deps
+
+//Disables all attempts to download or update content and assumes
+// source dirs already exist
+FETCHCONTENT_FULLY_DISCONNECTED:BOOL=OFF
+
+//Enables QUIET option for all content population
+FETCHCONTENT_QUIET:BOOL=ON
+
+//When not empty, overrides where to find pre-populated content
+// for apclientpp
+FETCHCONTENT_SOURCE_DIR_APCLIENTPP:PATH=
+
+//When not empty, overrides where to find pre-populated content
+// for dearimgui
+FETCHCONTENT_SOURCE_DIR_DEARIMGUI:PATH=
+
+//When not empty, overrides where to find pre-populated content
+// for minhook
+FETCHCONTENT_SOURCE_DIR_MINHOOK:PATH=
+
+//When not empty, overrides where to find pre-populated content
+// for websocketpp
+FETCHCONTENT_SOURCE_DIR_WEBSOCKETPP:PATH=
+
+//When not empty, overrides where to find pre-populated content
+// for wswrap
+FETCHCONTENT_SOURCE_DIR_WSWRAP:PATH=
+
+//Enables UPDATE_DISCONNECTED behavior for all content population
+FETCHCONTENT_UPDATES_DISCONNECTED:BOOL=OFF
+
+//Enables UPDATE_DISCONNECTED behavior just for population of apclientpp
+FETCHCONTENT_UPDATES_DISCONNECTED_APCLIENTPP:BOOL=OFF
+
+//Enables UPDATE_DISCONNECTED behavior just for population of dearimgui
+FETCHCONTENT_UPDATES_DISCONNECTED_DEARIMGUI:BOOL=OFF
+
+//Enables UPDATE_DISCONNECTED behavior just for population of minhook
+FETCHCONTENT_UPDATES_DISCONNECTED_MINHOOK:BOOL=OFF
+
+//Enables UPDATE_DISCONNECTED behavior just for population of websocketpp
+FETCHCONTENT_UPDATES_DISCONNECTED_WEBSOCKETPP:BOOL=OFF
+
+//Enables UPDATE_DISCONNECTED behavior just for population of wswrap
+FETCHCONTENT_UPDATES_DISCONNECTED_WSWRAP:BOOL=OFF
+
+//Git command line client
+GIT_EXECUTABLE:FILEPATH=C:/Program Files/Git/cmd/git.exe
+
+//Path to a library.
+LIB_EAY_DEBUG:FILEPATH=C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed/x86-windows/debug/lib/libcrypto.lib
+
+//Path to a library.
+LIB_EAY_RELEASE:FILEPATH=C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed/x86-windows/lib/libcrypto.lib
+
+//MinHook release tag
+MINHOOK_VERSION:STRING=v1.3.4
+
+//Path to a file.
+OPENSSL_APPLINK_SOURCE:FILEPATH=C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed/x86-windows/include/openssl/applink.c
+
+//Path to a file.
+OPENSSL_INCLUDE_DIR:PATH=C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed/x86-windows/include
+
+//Path to a library.
+SSL_EAY_DEBUG:FILEPATH=C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed/x86-windows/debug/lib/libssl.lib
+
+//Path to a library.
+SSL_EAY_RELEASE:FILEPATH=C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed/x86-windows/lib/libssl.lib
 
 //Automatically copy dependencies into the output directory for
 // executables.
@@ -266,9 +374,21 @@ X_VCPKG_APPLOCAL_DEPS_INSTALL:BOOL=OFF
 // serialization.
 X_VCPKG_APPLOCAL_DEPS_SERIALIZED:BOOL=OFF
 
+//Path to a file.
+ZLIB_INCLUDE_DIR:PATH=C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed/x86-windows/include
+
+//Path to a library.
+ZLIB_LIBRARY_DEBUG:FILEPATH=C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed/x86-windows/debug/lib/zd.lib
+
+//Path to a library.
+ZLIB_LIBRARY_RELEASE:FILEPATH=C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed/x86-windows/lib/z.lib
+
 //The directory which contains the installed libraries for each
 // triplet
 _VCPKG_INSTALLED_DIR:PATH=C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed
+
+//The directory containing a CMake configuration file for asio.
+asio_DIR:PATH=C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed/x86-windows/share/asio
 
 //Value Computed by CMake
 bpr-apclient_BINARY_DIR:STATIC=C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug
@@ -279,13 +399,23 @@ bpr-apclient_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 bpr-apclient_SOURCE_DIR:STATIC=C:/Users/iolds/source/repos/bpr-apclient
 
+//Value Computed by CMake
+minhook_BINARY_DIR:STATIC=C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/_deps/minhook-build
+
+//Value Computed by CMake
+minhook_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+minhook_SOURCE_DIR:STATIC=C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/_deps/minhook-src
+
+//The directory containing a CMake configuration file for nlohmann_json.
+nlohmann_json_DIR:PATH=C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed/x86-windows/share/nlohmann_json
+
 
 ########################
 # INTERNAL cache entries
 ########################
 
-//ADVANCED property for variable: CMAKE_ADDR2LINE
-CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
 CMAKE_AR-ADVANCED:INTERNAL=1
 //This is the directory where this CMakeCache.txt was created
@@ -304,6 +434,12 @@ CMAKE_CPACK_COMMAND:INTERNAL=C:/Program Files/CMake/bin/cpack.exe
 CMAKE_CTEST_COMMAND:INTERNAL=C:/Program Files/CMake/bin/ctest.exe
 //ADVANCED property for variable: CMAKE_CXX_COMPILER
 CMAKE_CXX_COMPILER-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_CXX_COMPILER_AR
+CMAKE_CXX_COMPILER_AR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS
+CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_CXX_COMPILER_RANLIB
+CMAKE_CXX_COMPILER_RANLIB-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_CXX_FLAGS
 CMAKE_CXX_FLAGS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_CXX_FLAGS_DEBUG
@@ -314,8 +450,16 @@ CMAKE_CXX_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
 CMAKE_CXX_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_CXX_FLAGS_RELWITHDEBINFO
 CMAKE_CXX_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_CXX_STANDARD_LIBRARIES
+CMAKE_CXX_STANDARD_LIBRARIES-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_C_COMPILER
 CMAKE_C_COMPILER-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_C_COMPILER_AR
+CMAKE_C_COMPILER_AR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_C_COMPILER_CLANG_SCAN_DEPS
+CMAKE_C_COMPILER_CLANG_SCAN_DEPS-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_C_COMPILER_RANLIB
+CMAKE_C_COMPILER_RANLIB-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_C_FLAGS
 CMAKE_C_FLAGS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_C_FLAGS_DEBUG
@@ -326,8 +470,8 @@ CMAKE_C_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
 CMAKE_C_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_C_FLAGS_RELWITHDEBINFO
 CMAKE_C_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_DLLTOOL
-CMAKE_DLLTOOL-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_C_STANDARD_LIBRARIES
+CMAKE_C_STANDARD_LIBRARIES-ADVANCED:INTERNAL=1
 //Path to cache edit program executable.
 CMAKE_EDIT_COMMAND:INTERNAL=C:/Program Files/CMake/bin/cmake-gui.exe
 //Executable file format
@@ -344,8 +488,6 @@ CMAKE_EXE_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_EXPORT_BUILD_DATABASE
 CMAKE_EXPORT_BUILD_DATABASE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_EXPORT_COMPILE_COMMANDS
-CMAKE_EXPORT_COMPILE_COMMANDS-ADVANCED:INTERNAL=1
 //Name of external makefile project generator.
 CMAKE_EXTRA_GENERATOR:INTERNAL=
 //Name of generator.
@@ -356,6 +498,12 @@ CMAKE_GENERATOR_INSTANCE:INTERNAL=
 CMAKE_GENERATOR_PLATFORM:INTERNAL=
 //Name of generator toolset.
 CMAKE_GENERATOR_TOOLSET:INTERNAL=
+//Test CMAKE_HAVE_LIBC_PTHREAD
+CMAKE_HAVE_LIBC_PTHREAD:INTERNAL=
+//Have library pthreads
+CMAKE_HAVE_PTHREADS_CREATE:INTERNAL=
+//Have library pthread
+CMAKE_HAVE_PTHREAD_CREATE:INTERNAL=
 //Source directory with the top level CMakeLists.txt file for this
 // project
 CMAKE_HOME_DIRECTORY:INTERNAL=C:/Users/iolds/source/repos/bpr-apclient
@@ -363,6 +511,8 @@ CMAKE_HOME_DIRECTORY:INTERNAL=C:/Users/iolds/source/repos/bpr-apclient
 CMAKE_LINKER-ADVANCED:INTERNAL=1
 //Name of CMakeLists files to read
 CMAKE_LIST_FILE_NAME:INTERNAL=CMakeLists.txt
+//ADVANCED property for variable: CMAKE_MAKE_PROGRAM
+CMAKE_MAKE_PROGRAM-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS
 CMAKE_MODULE_LINKER_FLAGS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS_DEBUG
@@ -373,22 +523,29 @@ CMAKE_MODULE_LINKER_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
 CMAKE_MODULE_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO
 CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_MT
+CMAKE_MT-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=1
-//ADVANCED property for variable: CMAKE_OBJCOPY
-CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_OBJDUMP
-CMAKE_OBJDUMP-ADVANCED:INTERNAL=1
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=3
 //Platform information initialized
 CMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_RANLIB
-CMAKE_RANLIB-ADVANCED:INTERNAL=1
 //noop for ranlib
 CMAKE_RANLIB:INTERNAL=:
-//ADVANCED property for variable: CMAKE_READELF
-CMAKE_READELF-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_RC_COMPILER
+CMAKE_RC_COMPILER-ADVANCED:INTERNAL=1
+CMAKE_RC_COMPILER_WORKS:INTERNAL=1
+//ADVANCED property for variable: CMAKE_RC_FLAGS
+CMAKE_RC_FLAGS-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_RC_FLAGS_DEBUG
+CMAKE_RC_FLAGS_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_RC_FLAGS_MINSIZEREL
+CMAKE_RC_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_RC_FLAGS_RELEASE
+CMAKE_RC_FLAGS_RELEASE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_RC_FLAGS_RELWITHDEBINFO
+CMAKE_RC_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //Path to CMake installation.
 CMAKE_ROOT:INTERNAL=C:/Program Files/CMake/share/cmake-4.3
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS
@@ -415,16 +572,30 @@ CMAKE_STATIC_LINKER_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
 CMAKE_STATIC_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO
 CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_STRIP
-CMAKE_STRIP-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_TAPI
-CMAKE_TAPI-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_TOOLCHAIN_FILE
 CMAKE_TOOLCHAIN_FILE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//Details about finding OpenSSL
+FIND_PACKAGE_MESSAGE_DETAILS_OpenSSL:INTERNAL=[optimized;C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed/x86-windows/lib/libcrypto.lib;debug;C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed/x86-windows/debug/lib/libcrypto.lib][C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed/x86-windows/include][ ][v3.6.4()]
+//Details about finding Threads
+FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
+//Details about finding ZLIB
+FIND_PACKAGE_MESSAGE_DETAILS_ZLIB:INTERNAL=[optimized;C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed/x86-windows/lib/z.lib;debug;C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed/x86-windows/debug/lib/zd.lib][C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed/x86-windows/include][ ][v1.3.2()]
+//Details about finding nlohmann_json
+FIND_PACKAGE_MESSAGE_DETAILS_nlohmann_json:INTERNAL=[C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed/x86-windows/share/nlohmann_json/nlohmann_jsonConfig.cmake][v3.12.0()]
+//ADVANCED property for variable: GIT_EXECUTABLE
+GIT_EXECUTABLE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OPENSSL_INCLUDE_DIR
+OPENSSL_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: VCPKG_VERBOSE
 VCPKG_VERBOSE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: ZLIB_INCLUDE_DIR
+ZLIB_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: ZLIB_LIBRARY_DEBUG
+ZLIB_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: ZLIB_LIBRARY_RELEASE
+ZLIB_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //Making sure VCPKG_MANIFEST_MODE doesn't change
 Z_VCPKG_CHECK_MANIFEST_MODE:INTERNAL=ON
 //Vcpkg root directory

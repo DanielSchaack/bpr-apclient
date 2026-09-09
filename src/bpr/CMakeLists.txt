@@ -29,7 +29,6 @@ target_compile_definitions(bprap_net PUBLIC
 )
 target_link_libraries(bprap_net PUBLIC
     bprap_core
-    bprap::apclient
     asio::asio
     OpenSSL::SSL
     OpenSSL::Crypto
@@ -52,20 +51,17 @@ target_link_libraries(bprap PRIVATE
 )
 
 target_sources(bprap PRIVATE 
-    ui/dev_console.cpp 
-    ui/broadcast_banner.cpp 
-    ui/overlay_root.cpp 
     ui/login_window.cpp
 )
 
 target_compile_features(bprap PRIVATE cxx_std_23)
 
- set(_bprap_mod_name "bpr_apclient.dll")
-  set_target_properties(bprap PROPERTIES
-            OUTPUT_NAME "bpr_apclient"
-            PREFIX ""
-            SUFFIX ".dll"
-            # Without this the PDB is named after the target (mthap.pdb) and mod.dll's debug
-            # directory points at the wrong file.
-            PDB_NAME "bpr_apclient"
-        )
+set(_bprap_mod_name "bpr_apclient.dll")
+set_target_properties(bprap PROPERTIES
+    OUTPUT_NAME "bpr_apclient"
+    PREFIX ""
+    SUFFIX ".dll"
+    # Without this the PDB is named after the target (mthap.pdb) and mod.dll's debug
+    # directory points at the wrong file.
+    PDB_NAME "bpr_apclient"
+)

@@ -1,12 +1,14 @@
 #include <windows.h>
 #include <iostream>
 
-extern "C" BOOL WINAPI DllMain(
-    HINSTANCE hinstDLL,
-    DWORD fdwReason,
-    LPVOID lpvReserved 
-) {
-    switch (fdwReason) {
+extern "C" __declspec(dllexport)
+BOOL APIENTRY DllMain( HMODULE hModule,
+                       DWORD  ul_reason_for_call,
+                       LPVOID lpReserved
+                     )
+{
+    switch (ul_reason_for_call)
+    {
         case DLL_PROCESS_ATTACH:
             // Code here runs when the DLL is loaded into the process memory
             std::cout << "DLL Loaded Successfully!\n";
