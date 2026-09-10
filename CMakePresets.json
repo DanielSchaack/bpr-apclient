@@ -15,6 +15,7 @@
                 "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/external/vcpkg/scripts/buildsystems/vcpkg.cmake",
                 "VCPKG_TARGET_TRIPLET": "x86-windows",
                 "EXPORT_COMPILE_COMMANDS": "ON"
+                
             },
             "condition": {
                 "type": "equals",

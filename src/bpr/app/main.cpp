@@ -1,5 +1,42 @@
 #include <windows.h>
 #include <iostream>
+#include "../hooks/game_hooks.hpp"
+#include "app.hpp"
+
+
+DWORD WINAPI InitializeThread(LPVOID)
+{
+    AllocConsole();
+    FILE* file;
+    freopen_s(&file, "CONOUT$", "w", stdout);
+    HWND hwndConsole = GetConsoleWindow();
+    ShowWindow(hwndConsole, SW_SHOW);
+    std::cout << "DLL Loaded Successfully! WOOOOOOO" << std::endl;
+
+    while (true)
+    {
+        uintptr_t gameModule = *reinterpret_cast<uintptr_t*>(0x013FC8E0);
+        if (gameModule != 0)
+        {
+            int32_t gameUpdateStage = *(reinterpret_cast<int32_t*>(gameModule + 0xB6D464));
+            if (gameUpdateStage == 1)
+                break;
+        }
+        std::cout << "Check" << std::endl;
+        Sleep(1000);
+    }
+    std::cout << "Game initialized" << std::endl;
+    GameHooks::Init();
+
+    new App();
+
+    return 0;
+}
+
+void CreateConsole()
+{
+    
+}
 
 extern "C" __declspec(dllexport)
 BOOL APIENTRY DllMain( HMODULE hModule,
@@ -10,9 +47,19 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     switch (ul_reason_for_call)
     {
         case DLL_PROCESS_ATTACH:
-            // Code here runs when the DLL is loaded into the process memory
-            std::cout << "DLL Loaded Successfully!\n";
+        {
+            HANDLE modThread = CreateThread(
+                nullptr,
+                0,
+                InitializeThread,
+                nullptr,
+                0,
+                nullptr
+            );
+            if (modThread)
+                CloseHandle(modThread);
             break;
+        }
 
         case DLL_THREAD_ATTACH:
             // Code here runs when a new thread is created in the process
@@ -25,6 +72,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
         case DLL_PROCESS_DETACH:
             // Code here runs when the DLL is unloaded from memory
             std::cout << "DLL Unloaded!\n";
+            FreeConsole();
             break;
     }
     return TRUE; // Successful initialization

@@ -13810,8 +13810,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-0hw710"
-      binary: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-0hw710"
+      source: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-4srtpk"
+      binary: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-4srtpk"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "C:/Program Files/LLVM/bin/clang-scan-deps.exe"
       CMAKE_CXX_COMPILER_TARGET: "i686-pc-windows-msvc"
@@ -13828,11 +13828,11 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-0hw710'
+        Change Dir: 'C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-4srtpk'
         
-        Run Build Command(s): C:/Users/iolds/AppData/Local/Microsoft/WinGet/Links/ninja.exe -v cmTC_4dd78
-        [1/2] C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe --target=i686-pc-windows-msvc  /nologo -D_MBCS  /DWIN32 /D_WINDOWS  /Ob0 /Od /RTC1 -MDd -Zi -clang:-MD -clang:-MTCMakeFiles\\cmTC_4dd78.dir\\CMakeCCompilerABI.c.obj -clang:-MFCMakeFiles\\cmTC_4dd78.dir\\CMakeCCompilerABI.c.obj.d /FoCMakeFiles\\cmTC_4dd78.dir\\CMakeCCompilerABI.c.obj /FdCMakeFiles\\cmTC_4dd78.dir\\ -c -- "C:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCCompilerABI.c"
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\\cmTC_4dd78.dir --rc=C:\\PROGRA~1\\LLVM\\bin\\llvm-rc.exe --mt=C:\\PROGRA~1\\LLVM\\bin\\llvm-mt.exe --manifests  -- C:\\PROGRA~1\\LLVM\\bin\\lld-link.exe /nologo CMakeFiles\\cmTC_4dd78.dir\\CMakeCCompilerABI.c.obj  /out:cmTC_4dd78.exe /implib:cmTC_4dd78.lib /pdb:cmTC_4dd78.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console   && cd ."
+        Run Build Command(s): C:/Users/iolds/AppData/Local/Microsoft/WinGet/Links/ninja.exe -v cmTC_c2708
+        [1/2] C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe --target=i686-pc-windows-msvc  /nologo -D_MBCS  /DWIN32 /D_WINDOWS  /Ob0 /Od /RTC1 -MDd -Zi -clang:-MD -clang:-MTCMakeFiles\\cmTC_c2708.dir\\CMakeCCompilerABI.c.obj -clang:-MFCMakeFiles\\cmTC_c2708.dir\\CMakeCCompilerABI.c.obj.d /FoCMakeFiles\\cmTC_c2708.dir\\CMakeCCompilerABI.c.obj /FdCMakeFiles\\cmTC_c2708.dir\\ -c -- "C:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCCompilerABI.c"
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\\cmTC_c2708.dir --rc=C:\\PROGRA~1\\LLVM\\bin\\llvm-rc.exe --mt=C:\\PROGRA~1\\LLVM\\bin\\llvm-mt.exe --manifests  -- C:\\PROGRA~1\\LLVM\\bin\\lld-link.exe /nologo CMakeFiles\\cmTC_c2708.dir\\CMakeCCompilerABI.c.obj  /out:cmTC_c2708.exe /implib:cmTC_c2708.lib /pdb:cmTC_c2708.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console   && cd ."
         
       exitCode: 0
   -
@@ -13893,8 +13893,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-3vzmde"
-      binary: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-3vzmde"
+      source: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-rvp4we"
+      binary: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-rvp4we"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "C:/Program Files/LLVM/bin/clang-scan-deps.exe"
       CMAKE_CXX_COMPILER_TARGET: "i686-pc-windows-msvc"
@@ -13912,11 +13912,11 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-3vzmde'
+        Change Dir: 'C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-rvp4we'
         
-        Run Build Command(s): C:/Users/iolds/AppData/Local/Microsoft/WinGet/Links/ninja.exe -v cmTC_7ea8d
-        [1/2] C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe --target=i686-pc-windows-msvc  /nologo -TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Ob0 /Od /RTC1 -MDd -Zi -clang:-MD -clang:-MTCMakeFiles\\cmTC_7ea8d.dir\\CMakeCXXCompilerABI.cpp.obj -clang:-MFCMakeFiles\\cmTC_7ea8d.dir\\CMakeCXXCompilerABI.cpp.obj.d /FoCMakeFiles\\cmTC_7ea8d.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_7ea8d.dir\\ -c -- "C:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCXXCompilerABI.cpp"
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\\cmTC_7ea8d.dir --rc=C:\\PROGRA~1\\LLVM\\bin\\llvm-rc.exe --mt=C:\\PROGRA~1\\LLVM\\bin\\llvm-mt.exe --manifests  -- C:\\PROGRA~1\\LLVM\\bin\\lld-link.exe /nologo CMakeFiles\\cmTC_7ea8d.dir\\CMakeCXXCompilerABI.cpp.obj  /out:cmTC_7ea8d.exe /implib:cmTC_7ea8d.lib /pdb:cmTC_7ea8d.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console   && cd ."
+        Run Build Command(s): C:/Users/iolds/AppData/Local/Microsoft/WinGet/Links/ninja.exe -v cmTC_804ed
+        [1/2] C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe --target=i686-pc-windows-msvc  /nologo -TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Ob0 /Od /RTC1 -MDd -Zi -clang:-MD -clang:-MTCMakeFiles\\cmTC_804ed.dir\\CMakeCXXCompilerABI.cpp.obj -clang:-MFCMakeFiles\\cmTC_804ed.dir\\CMakeCXXCompilerABI.cpp.obj.d /FoCMakeFiles\\cmTC_804ed.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_804ed.dir\\ -c -- "C:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCXXCompilerABI.cpp"
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\\cmTC_804ed.dir --rc=C:\\PROGRA~1\\LLVM\\bin\\llvm-rc.exe --mt=C:\\PROGRA~1\\LLVM\\bin\\llvm-mt.exe --manifests  -- C:\\PROGRA~1\\LLVM\\bin\\lld-link.exe /nologo CMakeFiles\\cmTC_804ed.dir\\CMakeCXXCompilerABI.cpp.obj  /out:cmTC_804ed.exe /implib:cmTC_804ed.lib /pdb:cmTC_804ed.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console   && cd ."
         
       exitCode: 0
   -
@@ -13980,8 +13980,8 @@ events:
     checks:
       - "Detecting CXX compile features"
     directories:
-      source: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-9g2uik"
-      binary: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-9g2uik"
+      source: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-qva3e0"
+      binary: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-qva3e0"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "C:/Program Files/LLVM/bin/clang-scan-deps.exe"
       CMAKE_CXX_COMPILER_TARGET: "i686-pc-windows-msvc"
@@ -13998,11 +13998,11 @@ events:
       variable: "CMAKE_CXX_FEATURE_TEST"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-9g2uik'
+        Change Dir: 'C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-qva3e0'
         
-        Run Build Command(s): C:/Users/iolds/AppData/Local/Microsoft/WinGet/Links/ninja.exe -v cmTC_a1449
-        [1/2] C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe --target=i686-pc-windows-msvc  /nologo -TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Ob0 /Od /RTC1 -MDd -Zi   -std:c++14 -clang:-MD -clang:-MTCMakeFiles\\cmTC_a1449.dir\\feature_tests.cxx.obj -clang:-MFCMakeFiles\\cmTC_a1449.dir\\feature_tests.cxx.obj.d /FoCMakeFiles\\cmTC_a1449.dir\\feature_tests.cxx.obj /FdCMakeFiles\\cmTC_a1449.dir\\ -c -- C:\\Users\\iolds\\source\\repos\\bpr-apclient\\build\\windows-x86-debug\\CMakeFiles\\CMakeScratch\\TryCompile-9g2uik\\feature_tests.cxx
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\\cmTC_a1449.dir --rc=C:\\PROGRA~1\\LLVM\\bin\\llvm-rc.exe --mt=C:\\PROGRA~1\\LLVM\\bin\\llvm-mt.exe --manifests  -- C:\\PROGRA~1\\LLVM\\bin\\lld-link.exe /nologo CMakeFiles\\cmTC_a1449.dir\\feature_tests.cxx.obj  /out:cmTC_a1449.exe /implib:cmTC_a1449.lib /pdb:cmTC_a1449.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        Run Build Command(s): C:/Users/iolds/AppData/Local/Microsoft/WinGet/Links/ninja.exe -v cmTC_e1f8a
+        [1/2] C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe --target=i686-pc-windows-msvc  /nologo -TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Ob0 /Od /RTC1 -MDd -Zi   -std:c++14 -clang:-MD -clang:-MTCMakeFiles\\cmTC_e1f8a.dir\\feature_tests.cxx.obj -clang:-MFCMakeFiles\\cmTC_e1f8a.dir\\feature_tests.cxx.obj.d /FoCMakeFiles\\cmTC_e1f8a.dir\\feature_tests.cxx.obj /FdCMakeFiles\\cmTC_e1f8a.dir\\ -c -- C:\\Users\\iolds\\source\\repos\\bpr-apclient\\build\\windows-x86-debug\\CMakeFiles\\CMakeScratch\\TryCompile-qva3e0\\feature_tests.cxx
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\\cmTC_e1f8a.dir --rc=C:\\PROGRA~1\\LLVM\\bin\\llvm-rc.exe --mt=C:\\PROGRA~1\\LLVM\\bin\\llvm-mt.exe --manifests  -- C:\\PROGRA~1\\LLVM\\bin\\lld-link.exe /nologo CMakeFiles\\cmTC_e1f8a.dir\\feature_tests.cxx.obj  /out:cmTC_e1f8a.exe /implib:cmTC_e1f8a.lib /pdb:cmTC_e1f8a.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
         
       exitCode: 0
   -
@@ -14017,8 +14017,8 @@ events:
     checks:
       - "Detecting CXX compile features"
     directories:
-      source: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-eisl1h"
-      binary: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-eisl1h"
+      source: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-y6lp1g"
+      binary: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-y6lp1g"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "C:/Program Files/LLVM/bin/clang-scan-deps.exe"
       CMAKE_CXX_COMPILER_TARGET: "i686-pc-windows-msvc"
@@ -14035,11 +14035,11 @@ events:
       variable: "CMAKE_CXX_FEATURE_TEST"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-eisl1h'
+        Change Dir: 'C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-y6lp1g'
         
-        Run Build Command(s): C:/Users/iolds/AppData/Local/Microsoft/WinGet/Links/ninja.exe -v cmTC_bfe9e
-        [1/2] C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe --target=i686-pc-windows-msvc  /nologo -TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Ob0 /Od /RTC1 -MDd -Zi -clang:-MD -clang:-MTCMakeFiles\\cmTC_bfe9e.dir\\feature_tests.cxx.obj -clang:-MFCMakeFiles\\cmTC_bfe9e.dir\\feature_tests.cxx.obj.d /FoCMakeFiles\\cmTC_bfe9e.dir\\feature_tests.cxx.obj /FdCMakeFiles\\cmTC_bfe9e.dir\\ -c -- C:\\Users\\iolds\\source\\repos\\bpr-apclient\\build\\windows-x86-debug\\CMakeFiles\\CMakeScratch\\TryCompile-eisl1h\\feature_tests.cxx
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\\cmTC_bfe9e.dir --rc=C:\\PROGRA~1\\LLVM\\bin\\llvm-rc.exe --mt=C:\\PROGRA~1\\LLVM\\bin\\llvm-mt.exe --manifests  -- C:\\PROGRA~1\\LLVM\\bin\\lld-link.exe /nologo CMakeFiles\\cmTC_bfe9e.dir\\feature_tests.cxx.obj  /out:cmTC_bfe9e.exe /implib:cmTC_bfe9e.lib /pdb:cmTC_bfe9e.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        Run Build Command(s): C:/Users/iolds/AppData/Local/Microsoft/WinGet/Links/ninja.exe -v cmTC_099d2
+        [1/2] C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe --target=i686-pc-windows-msvc  /nologo -TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Ob0 /Od /RTC1 -MDd -Zi -clang:-MD -clang:-MTCMakeFiles\\cmTC_099d2.dir\\feature_tests.cxx.obj -clang:-MFCMakeFiles\\cmTC_099d2.dir\\feature_tests.cxx.obj.d /FoCMakeFiles\\cmTC_099d2.dir\\feature_tests.cxx.obj /FdCMakeFiles\\cmTC_099d2.dir\\ -c -- C:\\Users\\iolds\\source\\repos\\bpr-apclient\\build\\windows-x86-debug\\CMakeFiles\\CMakeScratch\\TryCompile-y6lp1g\\feature_tests.cxx
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\\cmTC_099d2.dir --rc=C:\\PROGRA~1\\LLVM\\bin\\llvm-rc.exe --mt=C:\\PROGRA~1\\LLVM\\bin\\llvm-mt.exe --manifests  -- C:\\PROGRA~1\\LLVM\\bin\\lld-link.exe /nologo CMakeFiles\\cmTC_099d2.dir\\feature_tests.cxx.obj  /out:cmTC_099d2.exe /implib:cmTC_099d2.lib /pdb:cmTC_099d2.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
         
       exitCode: 0
   -
@@ -14053,7 +14053,7 @@ events:
       - "C:/Program Files/CMake/share/cmake-4.3/Modules/FetchContent.cmake:2158 (cmake_language)"
       - "C:/Program Files/CMake/share/cmake-4.3/Modules/FetchContent.cmake:2399 (__FetchContent_Populate)"
       - "cmake/MinHook.cmake:20 (FetchContent_MakeAvailable)"
-      - "CMakeLists.txt:11 (include)"
+      - "CMakeLists.txt:16 (include)"
     mode: "program"
     variable: "GIT_EXECUTABLE"
     description: "Git command line client"
@@ -15477,8 +15477,8 @@ events:
     checks:
       - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
     directories:
-      source: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-nmii5w"
-      binary: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-nmii5w"
+      source: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-r0iklr"
+      binary: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-r0iklr"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "C:/Program Files/LLVM/bin/clang-scan-deps.exe"
       CMAKE_CXX_COMPILER_TARGET: "i686-pc-windows-msvc"
@@ -15488,6 +15488,7 @@ events:
       CMAKE_C_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
       CMAKE_EXE_LINKER_FLAGS: "/machine:X86"
       CMAKE_MODULE_PATH: "C:/Users/iolds/source/repos/bpr-apclient/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "ON"
       VCPKG_INSTALLED_DIR: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed"
       VCPKG_PREFER_SYSTEM_LIBS: "OFF"
       VCPKG_TARGET_TRIPLET: "x86-windows"
@@ -15496,13 +15497,13 @@ events:
       variable: "CMAKE_HAVE_LIBC_PTHREAD"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-nmii5w'
+        Change Dir: 'C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-r0iklr'
         
-        Run Build Command(s): C:/Users/iolds/AppData/Local/Microsoft/WinGet/Links/ninja.exe -v cmTC_c14a6
-        [1/2] C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe --target=i686-pc-windows-msvc  /nologo -DCMAKE_HAVE_LIBC_PTHREAD -D_MBCS  /DWIN32 /D_WINDOWS  /Ob0 /Od /RTC1 -MDd -Zi -clang:-MD -clang:-MTCMakeFiles\\cmTC_c14a6.dir\\src.c.obj -clang:-MFCMakeFiles\\cmTC_c14a6.dir\\src.c.obj.d /FoCMakeFiles\\cmTC_c14a6.dir\\src.c.obj /FdCMakeFiles\\cmTC_c14a6.dir\\ -c -- C:\\Users\\iolds\\source\\repos\\bpr-apclient\\build\\windows-x86-debug\\CMakeFiles\\CMakeScratch\\TryCompile-nmii5w\\src.c
-        FAILED: [code=1] CMakeFiles/cmTC_c14a6.dir/src.c.obj 
-        C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe --target=i686-pc-windows-msvc  /nologo -DCMAKE_HAVE_LIBC_PTHREAD -D_MBCS  /DWIN32 /D_WINDOWS  /Ob0 /Od /RTC1 -MDd -Zi -clang:-MD -clang:-MTCMakeFiles\\cmTC_c14a6.dir\\src.c.obj -clang:-MFCMakeFiles\\cmTC_c14a6.dir\\src.c.obj.d /FoCMakeFiles\\cmTC_c14a6.dir\\src.c.obj /FdCMakeFiles\\cmTC_c14a6.dir\\ -c -- C:\\Users\\iolds\\source\\repos\\bpr-apclient\\build\\windows-x86-debug\\CMakeFiles\\CMakeScratch\\TryCompile-nmii5w\\src.c
-        C:\\Users\\iolds\\source\\repos\\bpr-apclient\\build\\windows-x86-debug\\CMakeFiles\\CMakeScratch\\TryCompile-nmii5w\\src.c(1,10): fatal error: 'pthread.h' file not found
+        Run Build Command(s): C:/Users/iolds/AppData/Local/Microsoft/WinGet/Links/ninja.exe -v cmTC_89fcd
+        [1/2] C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe --target=i686-pc-windows-msvc  /nologo -DCMAKE_HAVE_LIBC_PTHREAD -D_MBCS  /DWIN32 /D_WINDOWS  /Ob0 /Od /RTC1 -MDd -Zi -clang:-MD -clang:-MTCMakeFiles\\cmTC_89fcd.dir\\src.c.obj -clang:-MFCMakeFiles\\cmTC_89fcd.dir\\src.c.obj.d /FoCMakeFiles\\cmTC_89fcd.dir\\src.c.obj /FdCMakeFiles\\cmTC_89fcd.dir\\ -c -- C:\\Users\\iolds\\source\\repos\\bpr-apclient\\build\\windows-x86-debug\\CMakeFiles\\CMakeScratch\\TryCompile-r0iklr\\src.c
+        FAILED: [code=1] CMakeFiles/cmTC_89fcd.dir/src.c.obj 
+        C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe --target=i686-pc-windows-msvc  /nologo -DCMAKE_HAVE_LIBC_PTHREAD -D_MBCS  /DWIN32 /D_WINDOWS  /Ob0 /Od /RTC1 -MDd -Zi -clang:-MD -clang:-MTCMakeFiles\\cmTC_89fcd.dir\\src.c.obj -clang:-MFCMakeFiles\\cmTC_89fcd.dir\\src.c.obj.d /FoCMakeFiles\\cmTC_89fcd.dir\\src.c.obj /FdCMakeFiles\\cmTC_89fcd.dir\\ -c -- C:\\Users\\iolds\\source\\repos\\bpr-apclient\\build\\windows-x86-debug\\CMakeFiles\\CMakeScratch\\TryCompile-r0iklr\\src.c
+        C:\\Users\\iolds\\source\\repos\\bpr-apclient\\build\\windows-x86-debug\\CMakeFiles\\CMakeScratch\\TryCompile-r0iklr\\src.c(1,10): fatal error: 'pthread.h' file not found
             1 | #include <pthread.h>
               |          ^~~~~~~~~~~
         1 error generated.
@@ -15520,8 +15521,8 @@ events:
     checks:
       - "Looking for pthread_create in pthreads"
     directories:
-      source: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-1my070"
-      binary: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-1my070"
+      source: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-chscvp"
+      binary: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-chscvp"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "C:/Program Files/LLVM/bin/clang-scan-deps.exe"
       CMAKE_CXX_COMPILER_TARGET: "i686-pc-windows-msvc"
@@ -15531,6 +15532,7 @@ events:
       CMAKE_C_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
       CMAKE_EXE_LINKER_FLAGS: "/machine:X86"
       CMAKE_MODULE_PATH: "C:/Users/iolds/source/repos/bpr-apclient/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "ON"
       VCPKG_INSTALLED_DIR: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed"
       VCPKG_PREFER_SYSTEM_LIBS: "OFF"
       VCPKG_TARGET_TRIPLET: "x86-windows"
@@ -15539,14 +15541,14 @@ events:
       variable: "CMAKE_HAVE_PTHREADS_CREATE"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-1my070'
+        Change Dir: 'C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-chscvp'
         
-        Run Build Command(s): C:/Users/iolds/AppData/Local/Microsoft/WinGet/Links/ninja.exe -v cmTC_ee67d
-        [1/2] C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe --target=i686-pc-windows-msvc  /nologo -D_MBCS  /DWIN32 /D_WINDOWS -DCHECK_FUNCTION_EXISTS=pthread_create /Ob0 /Od /RTC1 -MDd -Zi -clang:-MD -clang:-MTCMakeFiles\\cmTC_ee67d.dir\\CheckFunctionExists.c.obj -clang:-MFCMakeFiles\\cmTC_ee67d.dir\\CheckFunctionExists.c.obj.d /FoCMakeFiles\\cmTC_ee67d.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_ee67d.dir\\ -c -- C:\\Users\\iolds\\source\\repos\\bpr-apclient\\build\\windows-x86-debug\\CMakeFiles\\CMakeScratch\\TryCompile-1my070\\CheckFunctionExists.c
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\\cmTC_ee67d.dir --rc=C:\\PROGRA~1\\LLVM\\bin\\llvm-rc.exe --mt=C:\\PROGRA~1\\LLVM\\bin\\llvm-mt.exe --manifests  -- C:\\PROGRA~1\\LLVM\\bin\\lld-link.exe /nologo CMakeFiles\\cmTC_ee67d.dir\\CheckFunctionExists.c.obj  /out:cmTC_ee67d.exe /implib:cmTC_ee67d.lib /pdb:cmTC_ee67d.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console  pthreads.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
-        FAILED: [code=4294967295] cmTC_ee67d.exe 
-        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\\cmTC_ee67d.dir --rc=C:\\PROGRA~1\\LLVM\\bin\\llvm-rc.exe --mt=C:\\PROGRA~1\\LLVM\\bin\\llvm-mt.exe --manifests  -- C:\\PROGRA~1\\LLVM\\bin\\lld-link.exe /nologo CMakeFiles\\cmTC_ee67d.dir\\CheckFunctionExists.c.obj  /out:cmTC_ee67d.exe /implib:cmTC_ee67d.lib /pdb:cmTC_ee67d.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console  pthreads.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
-        LINK Pass 1: command "C:\\PROGRA~1\\LLVM\\bin\\lld-link.exe /nologo CMakeFiles\\cmTC_ee67d.dir\\CheckFunctionExists.c.obj /out:cmTC_ee67d.exe /implib:cmTC_ee67d.lib /pdb:cmTC_ee67d.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console pthreads.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_ee67d.dir/intermediate.manifest CMakeFiles\\cmTC_ee67d.dir/manifest.res" failed (exit code 1) with the following output:
+        Run Build Command(s): C:/Users/iolds/AppData/Local/Microsoft/WinGet/Links/ninja.exe -v cmTC_0107d
+        [1/2] C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe --target=i686-pc-windows-msvc  /nologo -D_MBCS  /DWIN32 /D_WINDOWS -DCHECK_FUNCTION_EXISTS=pthread_create /Ob0 /Od /RTC1 -MDd -Zi -clang:-MD -clang:-MTCMakeFiles\\cmTC_0107d.dir\\CheckFunctionExists.c.obj -clang:-MFCMakeFiles\\cmTC_0107d.dir\\CheckFunctionExists.c.obj.d /FoCMakeFiles\\cmTC_0107d.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_0107d.dir\\ -c -- C:\\Users\\iolds\\source\\repos\\bpr-apclient\\build\\windows-x86-debug\\CMakeFiles\\CMakeScratch\\TryCompile-chscvp\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\\cmTC_0107d.dir --rc=C:\\PROGRA~1\\LLVM\\bin\\llvm-rc.exe --mt=C:\\PROGRA~1\\LLVM\\bin\\llvm-mt.exe --manifests  -- C:\\PROGRA~1\\LLVM\\bin\\lld-link.exe /nologo CMakeFiles\\cmTC_0107d.dir\\CheckFunctionExists.c.obj  /out:cmTC_0107d.exe /implib:cmTC_0107d.lib /pdb:cmTC_0107d.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console  pthreads.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        FAILED: [code=4294967295] cmTC_0107d.exe 
+        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\\cmTC_0107d.dir --rc=C:\\PROGRA~1\\LLVM\\bin\\llvm-rc.exe --mt=C:\\PROGRA~1\\LLVM\\bin\\llvm-mt.exe --manifests  -- C:\\PROGRA~1\\LLVM\\bin\\lld-link.exe /nologo CMakeFiles\\cmTC_0107d.dir\\CheckFunctionExists.c.obj  /out:cmTC_0107d.exe /implib:cmTC_0107d.lib /pdb:cmTC_0107d.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console  pthreads.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        LINK Pass 1: command "C:\\PROGRA~1\\LLVM\\bin\\lld-link.exe /nologo CMakeFiles\\cmTC_0107d.dir\\CheckFunctionExists.c.obj /out:cmTC_0107d.exe /implib:cmTC_0107d.lib /pdb:cmTC_0107d.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console pthreads.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_0107d.dir/intermediate.manifest CMakeFiles\\cmTC_0107d.dir/manifest.res" failed (exit code 1) with the following output:
         lld-link: error: could not open 'pthreads.lib': no such file or directory\x0d
         ninja: build stopped: subcommand failed.
         
@@ -15562,8 +15564,8 @@ events:
     checks:
       - "Looking for pthread_create in pthread"
     directories:
-      source: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-5yrzyx"
-      binary: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-5yrzyx"
+      source: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-0u831z"
+      binary: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-0u831z"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "C:/Program Files/LLVM/bin/clang-scan-deps.exe"
       CMAKE_CXX_COMPILER_TARGET: "i686-pc-windows-msvc"
@@ -15573,6 +15575,7 @@ events:
       CMAKE_C_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
       CMAKE_EXE_LINKER_FLAGS: "/machine:X86"
       CMAKE_MODULE_PATH: "C:/Users/iolds/source/repos/bpr-apclient/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "ON"
       VCPKG_INSTALLED_DIR: "C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/vcpkg_installed"
       VCPKG_PREFER_SYSTEM_LIBS: "OFF"
       VCPKG_TARGET_TRIPLET: "x86-windows"
@@ -15581,14 +15584,14 @@ events:
       variable: "CMAKE_HAVE_PTHREAD_CREATE"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-5yrzyx'
+        Change Dir: 'C:/Users/iolds/source/repos/bpr-apclient/build/windows-x86-debug/CMakeFiles/CMakeScratch/TryCompile-0u831z'
         
-        Run Build Command(s): C:/Users/iolds/AppData/Local/Microsoft/WinGet/Links/ninja.exe -v cmTC_b65b4
-        [1/2] C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe --target=i686-pc-windows-msvc  /nologo -D_MBCS  /DWIN32 /D_WINDOWS -DCHECK_FUNCTION_EXISTS=pthread_create /Ob0 /Od /RTC1 -MDd -Zi -clang:-MD -clang:-MTCMakeFiles\\cmTC_b65b4.dir\\CheckFunctionExists.c.obj -clang:-MFCMakeFiles\\cmTC_b65b4.dir\\CheckFunctionExists.c.obj.d /FoCMakeFiles\\cmTC_b65b4.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_b65b4.dir\\ -c -- C:\\Users\\iolds\\source\\repos\\bpr-apclient\\build\\windows-x86-debug\\CMakeFiles\\CMakeScratch\\TryCompile-5yrzyx\\CheckFunctionExists.c
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\\cmTC_b65b4.dir --rc=C:\\PROGRA~1\\LLVM\\bin\\llvm-rc.exe --mt=C:\\PROGRA~1\\LLVM\\bin\\llvm-mt.exe --manifests  -- C:\\PROGRA~1\\LLVM\\bin\\lld-link.exe /nologo CMakeFiles\\cmTC_b65b4.dir\\CheckFunctionExists.c.obj  /out:cmTC_b65b4.exe /implib:cmTC_b65b4.lib /pdb:cmTC_b65b4.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console  pthread.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
-        FAILED: [code=4294967295] cmTC_b65b4.exe 
-        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\\cmTC_b65b4.dir --rc=C:\\PROGRA~1\\LLVM\\bin\\llvm-rc.exe --mt=C:\\PROGRA~1\\LLVM\\bin\\llvm-mt.exe --manifests  -- C:\\PROGRA~1\\LLVM\\bin\\lld-link.exe /nologo CMakeFiles\\cmTC_b65b4.dir\\CheckFunctionExists.c.obj  /out:cmTC_b65b4.exe /implib:cmTC_b65b4.lib /pdb:cmTC_b65b4.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console  pthread.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
-        LINK Pass 1: command "C:\\PROGRA~1\\LLVM\\bin\\lld-link.exe /nologo CMakeFiles\\cmTC_b65b4.dir\\CheckFunctionExists.c.obj /out:cmTC_b65b4.exe /implib:cmTC_b65b4.lib /pdb:cmTC_b65b4.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_b65b4.dir/intermediate.manifest CMakeFiles\\cmTC_b65b4.dir/manifest.res" failed (exit code 1) with the following output:
+        Run Build Command(s): C:/Users/iolds/AppData/Local/Microsoft/WinGet/Links/ninja.exe -v cmTC_71357
+        [1/2] C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe --target=i686-pc-windows-msvc  /nologo -D_MBCS  /DWIN32 /D_WINDOWS -DCHECK_FUNCTION_EXISTS=pthread_create /Ob0 /Od /RTC1 -MDd -Zi -clang:-MD -clang:-MTCMakeFiles\\cmTC_71357.dir\\CheckFunctionExists.c.obj -clang:-MFCMakeFiles\\cmTC_71357.dir\\CheckFunctionExists.c.obj.d /FoCMakeFiles\\cmTC_71357.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_71357.dir\\ -c -- C:\\Users\\iolds\\source\\repos\\bpr-apclient\\build\\windows-x86-debug\\CMakeFiles\\CMakeScratch\\TryCompile-0u831z\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\\cmTC_71357.dir --rc=C:\\PROGRA~1\\LLVM\\bin\\llvm-rc.exe --mt=C:\\PROGRA~1\\LLVM\\bin\\llvm-mt.exe --manifests  -- C:\\PROGRA~1\\LLVM\\bin\\lld-link.exe /nologo CMakeFiles\\cmTC_71357.dir\\CheckFunctionExists.c.obj  /out:cmTC_71357.exe /implib:cmTC_71357.lib /pdb:cmTC_71357.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console  pthread.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        FAILED: [code=4294967295] cmTC_71357.exe 
+        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\\cmTC_71357.dir --rc=C:\\PROGRA~1\\LLVM\\bin\\llvm-rc.exe --mt=C:\\PROGRA~1\\LLVM\\bin\\llvm-mt.exe --manifests  -- C:\\PROGRA~1\\LLVM\\bin\\lld-link.exe /nologo CMakeFiles\\cmTC_71357.dir\\CheckFunctionExists.c.obj  /out:cmTC_71357.exe /implib:cmTC_71357.lib /pdb:cmTC_71357.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console  pthread.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        LINK Pass 1: command "C:\\PROGRA~1\\LLVM\\bin\\lld-link.exe /nologo CMakeFiles\\cmTC_71357.dir\\CheckFunctionExists.c.obj /out:cmTC_71357.exe /implib:cmTC_71357.lib /pdb:cmTC_71357.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_71357.dir/intermediate.manifest CMakeFiles\\cmTC_71357.dir/manifest.res" failed (exit code 1) with the following output:
         lld-link: error: could not open 'pthread.lib': no such file or directory\x0d
         ninja: build stopped: subcommand failed.
         
@@ -15597,7 +15600,7 @@ events:
     kind: "find_package-v1"
     backtrace:
       - "external/vcpkg/scripts/buildsystems/vcpkg.cmake:939 (_find_package)"
-      - "src/bpr/CMakeLists.txt:14 (find_package)"
+      - "src/bpr/CMakeLists.txt:4 (find_package)"
     name: "asio"
     configs:
       -
@@ -15744,7 +15747,7 @@ events:
     backtrace:
       - "build/windows-x86-debug/vcpkg_installed/x86-windows/share/openssl/vcpkg-cmake-wrapper.cmake:23 (find_path)"
       - "external/vcpkg/scripts/buildsystems/vcpkg.cmake:893 (include)"
-      - "src/bpr/CMakeLists.txt:15 (find_package)"
+      - "src/bpr/CMakeLists.txt:5 (find_package)"
     mode: "path"
     variable: "OPENSSL_INCLUDE_DIR"
     description: "Path to a file."
@@ -15817,7 +15820,7 @@ events:
     backtrace:
       - "build/windows-x86-debug/vcpkg_installed/x86-windows/share/openssl/vcpkg-cmake-wrapper.cmake:25 (find_library)"
       - "external/vcpkg/scripts/buildsystems/vcpkg.cmake:893 (include)"
-      - "src/bpr/CMakeLists.txt:15 (find_package)"
+      - "src/bpr/CMakeLists.txt:5 (find_package)"
     mode: "library"
     variable: "LIB_EAY_DEBUG"
     description: "Path to a library."
@@ -15899,7 +15902,7 @@ events:
     backtrace:
       - "build/windows-x86-debug/vcpkg_installed/x86-windows/share/openssl/vcpkg-cmake-wrapper.cmake:26 (find_library)"
       - "external/vcpkg/scripts/buildsystems/vcpkg.cmake:893 (include)"
-      - "src/bpr/CMakeLists.txt:15 (find_package)"
+      - "src/bpr/CMakeLists.txt:5 (find_package)"
     mode: "library"
     variable: "LIB_EAY_RELEASE"
     description: "Path to a library."
@@ -15983,7 +15986,7 @@ events:
     backtrace:
       - "build/windows-x86-debug/vcpkg_installed/x86-windows/share/openssl/vcpkg-cmake-wrapper.cmake:27 (find_library)"
       - "external/vcpkg/scripts/buildsystems/vcpkg.cmake:893 (include)"
-      - "src/bpr/CMakeLists.txt:15 (find_package)"
+      - "src/bpr/CMakeLists.txt:5 (find_package)"
     mode: "library"
     variable: "SSL_EAY_DEBUG"
     description: "Path to a library."
@@ -16065,7 +16068,7 @@ events:
     backtrace:
       - "build/windows-x86-debug/vcpkg_installed/x86-windows/share/openssl/vcpkg-cmake-wrapper.cmake:28 (find_library)"
       - "external/vcpkg/scripts/buildsystems/vcpkg.cmake:893 (include)"
-      - "src/bpr/CMakeLists.txt:15 (find_package)"
+      - "src/bpr/CMakeLists.txt:5 (find_package)"
     mode: "library"
     variable: "SSL_EAY_RELEASE"
     description: "Path to a library."
@@ -16150,7 +16153,7 @@ events:
       - "C:/Program Files/CMake/share/cmake-4.3/Modules/FindOpenSSL.cmake:370 (find_path)"
       - "build/windows-x86-debug/vcpkg_installed/x86-windows/share/openssl/vcpkg-cmake-wrapper.cmake:37 (_find_package)"
       - "external/vcpkg/scripts/buildsystems/vcpkg.cmake:893 (include)"
-      - "src/bpr/CMakeLists.txt:15 (find_package)"
+      - "src/bpr/CMakeLists.txt:5 (find_package)"
     mode: "path"
     variable: "OPENSSL_INCLUDE_DIR"
     description: "Path to a file."
@@ -16232,7 +16235,7 @@ events:
       - "C:/Program Files/CMake/share/cmake-4.3/Modules/FindOpenSSL.cmake:836 (find_file)"
       - "build/windows-x86-debug/vcpkg_installed/x86-windows/share/openssl/vcpkg-cmake-wrapper.cmake:37 (_find_package)"
       - "external/vcpkg/scripts/buildsystems/vcpkg.cmake:893 (include)"
-      - "src/bpr/CMakeLists.txt:15 (find_package)"
+      - "src/bpr/CMakeLists.txt:5 (find_package)"
     mode: "file"
     variable: "OPENSSL_APPLINK_SOURCE"
     description: "Path to a file."

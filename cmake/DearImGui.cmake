@@ -19,7 +19,7 @@ add_library(bprap_imgui OBJECT
     "${dearimgui_SOURCE_DIR}/imgui_draw.cpp"
     "${dearimgui_SOURCE_DIR}/imgui_tables.cpp"
     "${dearimgui_SOURCE_DIR}/imgui_widgets.cpp"
-    "${dearimgui_SOURCE_DIR}/backends/imgui_impl_dx12.cpp"
+    "${dearimgui_SOURCE_DIR}/backends/imgui_impl_dx11.cpp"
     "${dearimgui_SOURCE_DIR}/backends/imgui_impl_win32.cpp"
 )
 target_include_directories(bprap_imgui SYSTEM PUBLIC
@@ -32,7 +32,7 @@ target_compile_definitions(bprap_imgui PUBLIC IMGUI_IMPL_WIN32_DISABLE_GAMEPAD)
 # dxguid: COM IID_* symbols. dwmapi: imgui_impl_win32's alpha-compositing
 # helper calls Dwm*. clang-cl picks these up via #pragma comment(lib) too,
 # but mingw ignores those pragmas, so list them explicitly for both.
-target_link_libraries(bprap_imgui PUBLIC d3d12 dxgi dxguid d3dcompiler dwmapi user32)
+target_link_libraries(bprap_imgui PUBLIC d3d11 dxgi dxguid d3dcompiler dwmapi user32)
 
 
 set_target_properties(bprap_imgui PROPERTIES POSITION_INDEPENDENT_CODE ON)
