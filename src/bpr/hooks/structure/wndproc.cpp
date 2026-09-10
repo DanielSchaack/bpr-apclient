@@ -85,8 +85,6 @@ namespace WndProc
         if (status != MH_OK)
         {
             std::cout << "Hook WndProc Failed" << std::endl;
-        }else{
-            std::cout << "Hook WndProc Success" << std::endl;
         }
 
     }
