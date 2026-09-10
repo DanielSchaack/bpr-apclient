@@ -22,10 +22,9 @@ DWORD WINAPI InitializeThread(LPVOID)
             if (gameUpdateStage == 1)
                 break;
         }
-        std::cout << "Check" << std::endl;
         Sleep(1000);
     }
-    std::cout << "Game initialized" << std::endl;
+    std::cout << "Game initialized. Initializing AP mod" << std::endl;
     GameHooks::Init();
 
     new App();

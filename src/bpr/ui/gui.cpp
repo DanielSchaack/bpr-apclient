@@ -29,7 +29,6 @@ GUI::~GUI()
 }
 
 
-// extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 bool GUI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (msg == WM_KEYDOWN && wParam == VK_F3) {
         std::cout << "F3 Was Pressed";
