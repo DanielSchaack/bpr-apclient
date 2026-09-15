@@ -12,6 +12,11 @@ add_library(bprap SHARED
     ui/gui.cpp
 
     hooks/game_hooks.cpp
+
+    hooks/function/log_event.cpp
+    hooks/function/disable_trigger.cpp
+
+
     hooks/structure/wndproc.cpp
 )
 

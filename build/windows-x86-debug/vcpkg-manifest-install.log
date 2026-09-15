@@ -2,7 +2,7 @@ Detecting compiler hash for triplet x64-windows...
 Compiler found: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
 Detecting compiler hash for triplet x86-windows...
 Compiler found: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x86/cl.exe
-The following packages will be built and installed:
+The following packages are already installed:
     asio:x86-windows@1.32.0
     nlohmann-json:x86-windows@3.12.0#2
     openssl:x86-windows@3.6.4
@@ -10,35 +10,6 @@ The following packages will be built and installed:
   * vcpkg-cmake-config:x64-windows@2026-07-21
   * vcpkg-cmake-get-vars:x64-windows@2025-05-29
     zlib:x86-windows@1.3.2#2
-Additional packages (*) will be modified to complete this operation.
-Restored 7 package(s) from C:\Users\iolds\AppData\Local\vcpkg\archives in 1 s. Use --debug to see more details.
-Installing 1/7 vcpkg-cmake-config:x64-windows@2026-07-21...
-vcpkg-cmake-config:x64-windows@2026-07-21 package ABI: 1e21d37151e4c525b9f4cd855dc39b83970470d07a2dbc78cfee6c99455b574b
-Elapsed time to handle vcpkg-cmake-config:x64-windows: 35.6 ms
-Installing 2/7 vcpkg-cmake:x64-windows@2025-08-07...
-vcpkg-cmake:x64-windows@2025-08-07 package ABI: 50b704375a05df810e7bbb0d73e3ce8fda6e2ea3b3ca292806c8dee23465c3d8
-Elapsed time to handle vcpkg-cmake:x64-windows: 75.8 ms
-Installing 3/7 asio:x86-windows@1.32.0...
-asio:x86-windows@1.32.0 package ABI: 9bb7d04e3f6928a391a06a67c0e7416e9c257e62658a1210840dfc597d33d0fb
-Elapsed time to handle asio:x86-windows: 466 ms
-Installing 4/7 nlohmann-json:x86-windows@3.12.0#2...
-nlohmann-json:x86-windows@3.12.0#2 package ABI: df7c474c5cecc158889641bd332c842ce378934372e0be95f58d00deb4e73f49
-Elapsed time to handle nlohmann-json:x86-windows: 101 ms
-Installing 5/7 vcpkg-cmake-get-vars:x64-windows@2025-05-29...
-vcpkg-cmake-get-vars:x64-windows@2025-05-29 package ABI: 2faedbb3a155cac5b04d35b7c465faa17bad90fb550e23658d808ec353c9eb07
-Elapsed time to handle vcpkg-cmake-get-vars:x64-windows: 59.1 ms
-Installing 6/7 openssl:x86-windows@3.6.4...
-openssl:x86-windows@3.6.4 package ABI: 4af55c43444459a7b6f5dd6a9c5579367369833193b5ca11c1c46ebaa8c4fed0
-Elapsed time to handle openssl:x86-windows: 186 ms
-Installing 7/7 zlib:x86-windows@1.3.2#2...
-zlib:x86-windows@1.3.2#2 package ABI: 221d3b95bcc67f4001610a71bd45a99b46347bfbe98ca5173d15c5505d35579f
-Elapsed time to handle zlib:x86-windows: 121 ms
-Installed contents are licensed to you by owners. Microsoft is not responsible for, nor does it grant any licenses to, third-party packages.
-Packages installed in this vcpkg installation declare the following licenses:
-Apache-2.0
-BSL-1.0
-MIT
-Zlib
 asio provides CMake targets:
 
   # this is heuristically generated, and may not be correct
@@ -79,4 +50,4 @@ zlib provides pkg-config modules:
   # zlib compression library
   zlib
 
-All requested installations completed successfully in: 1.1 s
+All requested installations completed successfully in: 691 us
