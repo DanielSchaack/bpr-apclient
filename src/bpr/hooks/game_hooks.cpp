@@ -11,5 +11,6 @@ void GameHooks::Init(){
     DisableTrigger::Install();
     DisableEventStart::Install();
     DetectBreakable::Install();
+    Render::Install();
     MH_EnableHook(MH_ALL_HOOKS);
 }

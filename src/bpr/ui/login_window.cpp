@@ -19,7 +19,7 @@ void LoginWindow::Draw(int outerWidth, int outerHeight, float uiScale) {
     ImGui::InputText("Password", password, IM_ARRAYSIZE(password), ImGuiInputTextFlags_Password);
     ImGui::InputText("Slot Name", slot, IM_ARRAYSIZE(slot));
 
-    if (!App::Instance->State().isDisconnected()) {
+    if (App::Instance->State().isDisconnected()) {
         if (ImGui::Button("Connect")) {
             if (strlen(server) > 0 && strlen(slot) > 0) {
                 App::Instance->State().Connect(server, slot, password);

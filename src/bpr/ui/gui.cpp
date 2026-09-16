@@ -20,7 +20,7 @@ GUI::GUI()
     ImGui_ImplWin32_Init(GUI::windowHandle);
     ImGui_ImplDX11_Init(d3d11Device, d3d11DeviceContext);
 
-    SetClassLongPtrA(GUI::windowHandle, GCLP_HCURSOR, NULL);
+    // SetClassLongPtrA(GUI::windowHandle, GCLP_HCURSOR, NULL);
 
     
     windows.push_back(std::make_unique<LoginWindow>());
@@ -36,16 +36,51 @@ GUI::~GUI()
     std::cout << "Unloaded ImGui manager.";
 }
 
+
+
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 bool GUI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (msg == WM_KEYDOWN && wParam == VK_F3) {
         App::Instance->State().Connect("localhost:38321", "Fyre", "");
     }
-
-
-    if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
+    if (msg == WM_KEYDOWN && wParam == VK_F1)
+    {
+        SetInputMode(!imguiInputMode);
+        std::cout << "Toggle: " << !imguiInputMode << std::endl;
         return true;
-    return false;
+    }
+
+    if (!imguiInputMode)
+        return false;
+    
+    ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam);
+    const ImGuiIO& io = ImGui::GetIO();
+    if (io.WantCaptureMouse)
+    {
+        switch (msg)
+        {
+        case WM_MOUSEMOVE:
+        case WM_LBUTTONDOWN:
+        case WM_LBUTTONUP:
+        case WM_MOUSEWHEEL:
+            return false;
+        }
+    }
+
+    if (io.WantCaptureKeyboard)
+    {
+        switch (msg)
+        {
+        case WM_KEYDOWN:
+        case WM_SYSKEYDOWN:
+        case WM_CHAR:
+        case WM_MENUCHAR:
+        case WM_COMMAND:
+            return false;
+        }
+    }
+
+    return true;
 }
 
 void GUI::Render(){
@@ -71,4 +106,20 @@ void GUI::Render(){
 
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+}
+
+void GUI::SetInputMode(bool enabled)
+{
+    imguiInputMode = enabled;
+
+    ImGuiIO& io = ImGui::GetIO();
+
+    // ImGui draws its own cursor only while input mode is enabled.
+    io.MouseDrawCursor = enabled;
+
+    if (enabled)
+    {
+        // Release the game's mouse clipping.
+        ClipCursor(nullptr);
+    }
 }

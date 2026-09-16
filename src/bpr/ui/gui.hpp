@@ -16,4 +16,6 @@ class GUI
     private:
         std::vector<std::unique_ptr<Window>> windows;
         HWND windowHandle;
+        void SetInputMode(bool enabled);
+        bool imguiInputMode = false;
 };

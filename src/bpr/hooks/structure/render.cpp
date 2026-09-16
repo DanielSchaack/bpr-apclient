@@ -1,6 +1,7 @@
 #include "detours.hpp"
 #include "MinHook.h"
 #include <cstdint>
+#include <iostream>
 #include <windows.h>
 #include "../../app/app.hpp"
 
@@ -13,7 +14,7 @@ namespace Render
 
     FunctionType Original = nullptr;
 
-    void __stdcall Detour(void* self, void*)
+    void __fastcall Detour(void* self, void* edx)
     {
         App::Render();
         Original(self);
