@@ -3,7 +3,6 @@
 #include "../hooks/game_hooks.hpp"
 #include "app.hpp"
 
-
 DWORD WINAPI InitializeThread(LPVOID)
 {
     AllocConsole();

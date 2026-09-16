@@ -3,3 +3,4 @@ build/
 compile_commands.json
 .vcpkg-cache/
 __pycache__/
+CMakeUserPresets.json

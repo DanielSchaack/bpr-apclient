@@ -7,7 +7,11 @@ find_package(OpenSSL REQUIRED)
 add_library(bprap SHARED
     app/app.cpp
     app/main.cpp
+
+    core/ap/ap_state.cpp
     core/ap/slot_data.cpp
+
+    net/ap_net.cpp
 
     ui/gui.cpp
 
@@ -15,13 +19,15 @@ add_library(bprap SHARED
 
     hooks/function/log_event.cpp
     hooks/function/disable_trigger.cpp
-
+    hooks/function/disable_event_start.cpp
+    hooks/function/detect_breakable.cpp
 
     hooks/structure/wndproc.cpp
+    hooks/structure/render.cpp
 )
 
 target_include_directories(bprap PUBLIC "${CMAKE_SOURCE_DIR}/src")
-target_link_libraries(bprap PUBLIC 
+target_link_libraries(bprap PUBLIC
     nlohmann_json::nlohmann_json 
     ZLIB::ZLIB 
     Threads::Threads
@@ -30,6 +36,8 @@ target_link_libraries(bprap PUBLIC
     OpenSSL::Crypto
     bprap::imgui
     minhook::minhook
+    bprap::apclient
+    crypt32
 )
 target_compile_features(bprap PUBLIC cxx_std_23)
 set_target_properties(bprap PROPERTIES POSITION_INDEPENDENT_CODE ON)

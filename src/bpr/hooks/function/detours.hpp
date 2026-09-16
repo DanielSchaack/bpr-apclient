@@ -1,5 +1,8 @@
 #pragma once
 
+#include "MinHook.h"
+#include <array>
+#include <cstdint>
 #include <windows.h>
 
 namespace NOP
@@ -15,10 +18,22 @@ namespace NOP
 
 namespace logEvent
 {
-    void Install();
+    MH_STATUS Install();
 }
 
 namespace DisableTrigger
 {
-    void Install();
+    static constexpr std::array<std::uint32_t, 0> AllowedJunctionIds{};
+    MH_STATUS Install();
+}
+
+namespace DisableEventStart
+{
+    static constexpr std::array<std::uint32_t, 0> AllowedJunctionIds{};
+    MH_STATUS Install();
+}
+
+namespace DetectBreakable
+{
+    MH_STATUS Install();
 }

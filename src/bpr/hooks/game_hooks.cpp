@@ -9,5 +9,7 @@ void GameHooks::Init(){
     WndProc::Install();
     logEvent::Install();
     DisableTrigger::Install();
+    DisableEventStart::Install();
+    DetectBreakable::Install();
     MH_EnableHook(MH_ALL_HOOKS);
 }

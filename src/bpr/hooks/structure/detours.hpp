@@ -1,11 +1,17 @@
 #pragma once
 
+#include "MinHook.h"
 namespace WndProc
 {
-    void Install();
+    MH_STATUS Install();
 }
 
 namespace Test
 {
-    void Install();
+    MH_STATUS Install();
+}
+
+namespace Render
+{
+    MH_STATUS Install();
 }

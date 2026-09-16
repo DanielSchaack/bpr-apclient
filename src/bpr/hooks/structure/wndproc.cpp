@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <iostream>
 #include <windows.h>
-#include "../../ui/gui.hpp"
+#include "../../app/app.hpp"
 
 namespace WndProc
 {
@@ -15,7 +15,7 @@ namespace WndProc
         WPARAM wParam,
         LPARAM lParam)
     {
-        return GUI::WndProc(hWnd, msg, wParam, lParam);
+        return  App::WndProc(hWnd, msg, wParam, lParam);
     }
 
     __declspec(naked) void Hook_WindowProc()
@@ -74,7 +74,7 @@ namespace WndProc
 
 
 
-    void Install()
+    MH_STATUS Install()
     {
         MH_STATUS status = MH_CreateHook(
             reinterpret_cast<void*>(Address),
@@ -86,6 +86,8 @@ namespace WndProc
         {
             std::cout << "Hook WndProc Failed" << std::endl;
         }
+
+        return status;
 
     }
 }

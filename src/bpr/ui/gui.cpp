@@ -2,6 +2,7 @@
 #include <imgui.h>
 #include <iostream>
 #include <d3d11.h>
+#include "bpr/app/app.hpp"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
 
@@ -31,7 +32,7 @@ GUI::~GUI()
 
 bool GUI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (msg == WM_KEYDOWN && wParam == VK_F3) {
-        std::cout << "F3 Was Pressed";
+        App::Instance->State().Connect("localhost:38321", "Fyre", "");
     }
 
 
@@ -39,4 +40,8 @@ bool GUI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     //     if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
     //         return true;
     return false;
+}
+
+void GUI::Render(){
+
 }

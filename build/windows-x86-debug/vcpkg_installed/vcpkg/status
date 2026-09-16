@@ -15,9 +15,9 @@ Status: install ok installed
 Package: asio
 Version: 1.32.0
 Depends: vcpkg-cmake:x64-windows, vcpkg-cmake-config:x64-windows
-Architecture: x86-windows
+Architecture: x86-windows-static
 Multi-Arch: same
-Abi: 9bb7d04e3f6928a391a06a67c0e7416e9c257e62658a1210840dfc597d33d0fb
+Abi: 69112bdd4db84cd7bace795e3c25ef2c79e118ab1b07cc40d275eab6fa053132
 Description: Asio is a cross-platform C++ library for network and low-level I/O programming that provides developers with a consistent asynchronous model using a modern C++ approach.
 Status: install ok installed
 
@@ -25,9 +25,9 @@ Package: nlohmann-json
 Version: 3.12.0
 Port-Version: 2
 Depends: vcpkg-cmake:x64-windows, vcpkg-cmake-config:x64-windows
-Architecture: x86-windows
+Architecture: x86-windows-static
 Multi-Arch: same
-Abi: df7c474c5cecc158889641bd332c842ce378934372e0be95f58d00deb4e73f49
+Abi: 6111b290192ec5112fe580aa594e4412964780b8404ad22b1fe7fa54a6c0fb9c
 Description: JSON for Modern C++
 Status: install ok installed
 
@@ -42,9 +42,9 @@ Status: install ok installed
 Package: openssl
 Version: 3.6.4
 Depends: vcpkg-cmake:x64-windows, vcpkg-cmake-config:x64-windows, vcpkg-cmake-get-vars:x64-windows
-Architecture: x86-windows
+Architecture: x86-windows-static
 Multi-Arch: same
-Abi: 4af55c43444459a7b6f5dd6a9c5579367369833193b5ca11c1c46ebaa8c4fed0
+Abi: bcbc68f074a2aef0814841e37a1d9e6f456982f097b214ad77c7b3c4668bbc76
 Description: OpenSSL is an open source project that provides a robust, commercial-grade, and full-featured toolkit for the Transport Layer Security (TLS) and Secure Sockets Layer (SSL) protocols. It is also a general-purpose cryptography library.
 Status: install ok installed
 
@@ -52,9 +52,9 @@ Package: zlib
 Version: 1.3.2
 Port-Version: 2
 Depends: vcpkg-cmake:x64-windows, vcpkg-cmake-config:x64-windows
-Architecture: x86-windows
+Architecture: x86-windows-static
 Multi-Arch: same
-Abi: 221d3b95bcc67f4001610a71bd45a99b46347bfbe98ca5173d15c5505d35579f
+Abi: 2c3b876940577ffcc779cc144830a0f2b8f595b7bff8397239c060e4981c3cac
 Description: A compression library
 Status: install ok installed
 

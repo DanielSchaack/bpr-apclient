@@ -1,40 +1,42 @@
 #pragma once
 
-#include <cstdint>
-#include <list>
+#include "net_bridge.hpp"
 #include <string>
-#define CERT_STORE "cacert.pem"
-class LoginWindow;
 
-#define UUID_FILE "uuid" // TODO: place in %appdata%
+//#define CERT_STORE "cacert.pem"
+//#define UUID_FILE "uuid" // TODO: place in %appdata%
 
+class APClient; 
 
-
-class ArchipelagoHandler
+class ArchepelagoNet
 {
 public:
-	static void ConnectAP(LoginWindow* login);
-	static void DisconnectAP();
-	static void gameFinished();
-	static void Poll();
-	static void SendDeath();
-	static std::string GetSaveIdentifier();
-	static std::string GetItemDesc(int player);
-	static std::string GetItemName(int64_t id, int player);
-	static std::string GetPlayerName(int player);
-	static std::string GetLocationName(int64_t id, int player);
-	static bool ScoutLocations(std::list<int64_t> locations, int create_as_hint = 0);
-	static void SendLocation(int64_t locationId);
-	static std::string uuid;
-	static bool ap_connected;
-	static bool polling;
-	static bool wrongVersion;
-	static std::string seed;
-	static std::string slotname;
+	ArchepelagoNet(NetworkBridge& bridge);
+	 ~ArchepelagoNet();
+	 
+	void Run();
+	void Stop();
+	std::atomic_bool running_{false};
 
-	static SlotData* slotdata;
-	static APSaveData* customSaveData;
+	//static std::string GetSaveIdentifier();
+	//static std::string GetItemDesc(int player);
+	//static std::string GetItemName(int64_t id, int player);
+	//static std::string GetPlayerName(int player);
+	//static std::string GetLocationName(int64_t id, int player);
+	//static bool ScoutLocations(std::list<int64_t> locations, int create_as_hint = 0);
+
+	std::string uuid;
+	bool polling;
+
+	std::string seed;
+	std::string slotname;
 private:
-	static bool ap_sync_queued;
-	static APClient* ap;
+	NetworkBridge& bridge_;
+	std::unique_ptr<APClient> ap;
+
+	void do_connect(const std::string &server, const std::string &slot, const std::string &password);
+    void do_disconnect();
+
+	
+	
 };

@@ -16,6 +16,7 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/TsudaKageyu/minhook.git
     GIT_TAG        ${MINHOOK_VERSION}
     GIT_SHALLOW    TRUE
+    EXCLUDE_FROM_ALL TRUE
 )
 FetchContent_MakeAvailable(minhook)
 

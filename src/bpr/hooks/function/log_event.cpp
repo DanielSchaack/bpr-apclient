@@ -22,12 +22,14 @@ namespace logEvent
         return Original(param1, param2);
     }
 
-    void Install()
+    MH_STATUS Install()
     {
-        MH_CreateHook(
+        MH_STATUS status = MH_CreateHook(
             reinterpret_cast<void*>(Address),
             reinterpret_cast<void*>(&Detour),
             reinterpret_cast<void**>(&Original)
         );
+
+        return status;
     }
 }
