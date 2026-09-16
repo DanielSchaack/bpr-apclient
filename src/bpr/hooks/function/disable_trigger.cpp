@@ -4,6 +4,7 @@
 #include <iostream>
 #include <ostream>
 #include <windows.h>
+#include "../../app/app.hpp"
 
 namespace DisableTrigger {
 
@@ -12,13 +13,13 @@ constexpr uintptr_t Address = 0x00a21d73;
 constexpr uintptr_t returnAdress = 0x00a21d73 + 5;
 constexpr uintptr_t endAddress = 0x00A223FA;
 
-extern "C" bool __stdcall IsJunctionAllowed(std::uint32_t junctionId) {
-//this is truely the juntion ID which is wrong. must be event Id
-  std::cout << "UI Id" <<junctionId << std::endl;
-  for (const auto allowedId : AllowedJunctionIds) {
-    if (allowedId == junctionId)
-      return true;
-  }
+extern "C" bool __stdcall IsJunctionAllowed(std::uint32_t eventID) {
+
+  std::cout << "UI Id" <<eventID << std::endl;
+//   for (const auto allowedId : App::Instance->State().getRecievedItems()) {
+//     if (allowedId == eventID)
+//       return true;
+//   }
 
   return false;
 }
@@ -29,7 +30,7 @@ extern "C" bool __stdcall IsJunctionAllowed(std::uint32_t junctionId) {
         __asm
         {
             pushad
-            push dword ptr [ebp-0x14]
+            push dword ptr [ebp-0x10]
             call DisableTrigger::IsJunctionAllowed
             test al, al
             je blocked

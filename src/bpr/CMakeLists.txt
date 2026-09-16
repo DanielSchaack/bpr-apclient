@@ -14,6 +14,7 @@ add_library(bprap SHARED
     net/ap_net.cpp
 
     ui/gui.cpp
+    ui/login_window.cpp
 
     hooks/game_hooks.cpp
 

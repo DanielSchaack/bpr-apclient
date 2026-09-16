@@ -23,13 +23,12 @@ namespace logEvent
 
 namespace DisableTrigger
 {
-    static constexpr std::array<std::uint32_t, 0> AllowedJunctionIds{};
+
     MH_STATUS Install();
 }
 
 namespace DisableEventStart
 {
-    static constexpr std::array<std::uint32_t, 0> AllowedJunctionIds{};
     MH_STATUS Install();
 }
 

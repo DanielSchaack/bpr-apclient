@@ -12,6 +12,8 @@ class GUI
         ~GUI();
         bool WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
         void Render();
+        void Initialize();
     private:
         std::vector<std::unique_ptr<Window>> windows;
+        HWND windowHandle;
 };

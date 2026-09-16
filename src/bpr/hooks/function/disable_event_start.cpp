@@ -17,9 +17,9 @@ namespace DisableEventStart {
     StreetlightEvent_IsAllowed(std::uint32_t eventId) noexcept
     {
         std::cout << "Trigger Start Id" <<eventId << std::endl;
-        for (const auto allowedId: DisableEventStart::AllowedJunctionIds)
-            if (allowedId == eventId)
-                return true;
+        // for (const auto allowedId: DisableEventStart::AllowedJunctionIds)
+        //     if (allowedId == eventId)
+        //         return true;
         return false;
     }
 
@@ -29,11 +29,10 @@ namespace DisableEventStart {
     {
         __asm
         {
-            // EAX = resolved junction; [EAX+38h] = event lookup key.
             pushfd
             pushad
 
-            // Preserve floating-point and SIMD state across the C++ call.
+
             mov ebx, esp
             sub esp, 528
             and esp, -16
@@ -48,7 +47,7 @@ namespace DisableEventStart {
             mov esp, ebx
             popad
             popfd
-            // Replay the six bytes overwritten by MinHook.
+    
             mov dword ptr [ebp-30h], eax
             mov eax, dword ptr [eax+38h]
             jmp dword ptr [ContinueAddress]

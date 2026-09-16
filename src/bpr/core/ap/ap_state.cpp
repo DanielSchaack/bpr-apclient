@@ -1,4 +1,5 @@
 #include "ap_state.hpp"
+#include "bpr/net/net_bridge.hpp"
 
 
 void ApState::Update(){
@@ -36,5 +37,11 @@ void ApState::Update(){
 void ApState::Connect(const std::string &server, const std::string &slot, const std::string &password){
     if (phase_ == ConnectionPhase::Disconnected){
         bridge_.SendToNetwork(NetCommands::Connect{server, slot, password});
+    }
+}
+
+void ApState::Disconnect(){
+    if (phase_ == ConnectionPhase::Connected){
+        bridge_.SendToNetwork(NetCommands::Disconnect{});
     }
 }
