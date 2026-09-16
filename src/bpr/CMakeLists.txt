@@ -52,8 +52,10 @@ target_compile_definitions(bprap PUBLIC
     WSWRAP_ASYNC_CLEANUP
 )
 
+
 target_compile_definitions(bprap PRIVATE
-    BPRAP_RELEASE_VERSION="${BPRAP_RELEASE_VERSION}"
+    BPRAP_RELEASE_VERSION=\"${BPRAP_RELEASE_VERSION}\"
+    BPRAP_GAME_NAME=\"${BPRAP_GAME_NAME}\"
 )
 
 set(_bprap_mod_name "bpr_apclient.dll")

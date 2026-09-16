@@ -40,13 +40,9 @@ GUI::~GUI()
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 bool GUI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-    if (msg == WM_KEYDOWN && wParam == VK_F3) {
-        App::Instance->State().Connect("localhost:38321", "Fyre", "");
-    }
     if (msg == WM_KEYDOWN && wParam == VK_F1)
     {
         SetInputMode(!imguiInputMode);
-        std::cout << "Toggle: " << !imguiInputMode << std::endl;
         return true;
     }
 

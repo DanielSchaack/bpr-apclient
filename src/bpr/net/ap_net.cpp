@@ -1,8 +1,18 @@
 #include "ap_net.hpp"
+#include "bpr/core/ap/slot_data.hpp"
+#include "deathlink.hpp"
+#include "net_events.hpp"
 
 #include <apclient.hpp>
 #include <iostream>
-// #include <apuuid.hpp>
+#include <variant>
+#include <apuuid.hpp>
+
+#define UUID_FILE "uuid" // TODO: place in %appdata%
+
+bool is_wss = false;
+bool is_ws = false;
+constexpr int kItemHandling = 0b111;   
 
 ArchepelagoNet::ArchepelagoNet(NetworkBridge& bridge) : bridge_(bridge) {
 }
@@ -20,8 +30,8 @@ void ArchepelagoNet::Run() {
 
                     if constexpr (std::is_same_v<T, NetCommands::SendLocation>)
                     {
-                        if (ap)
-                            ap->LocationChecks({cmd.location_id});
+                        if (client_)
+                            client_->LocationChecks({cmd.location_id});
                     }
                     else if constexpr (std::is_same_v<T, NetCommands::SendDeathLink>)
                     {
@@ -29,8 +39,8 @@ void ArchepelagoNet::Run() {
                     }
                     else if constexpr (std::is_same_v<T, NetCommands::SendGoal>)
                     {
-                        if (ap)
-                            ap->StatusUpdate(APClient::ClientStatus::GOAL);
+                        if (client_)
+                            client_->StatusUpdate(APClient::ClientStatus::GOAL);
                     }
                     else if constexpr (std::is_same_v<T, NetCommands::Disconnect>)
                     {
@@ -42,8 +52,8 @@ void ArchepelagoNet::Run() {
                 *command
             );
         }
-		if (ap && polling) {
-			ap->poll();
+		if (client_ && polling) {
+			client_->poll();
 		}
 	}
 }
@@ -56,13 +66,107 @@ void ArchepelagoNet::Stop()
 void ArchepelagoNet::do_connect(const std::string &server, const std::string &slot, const std::string &password)
 {
     do_disconnect();
-    std::cout << "Try Connecting!!!" << std::endl;
-    return;
+    polling = true;
+    std::string uuid = ap_get_uuid(UUID_FILE,
+	server.empty() ? APClient::DEFAULT_URI :
+        is_ws ? server.substr(5) :
+        is_wss ? server.substr(6) :
+        server);
+    std::cout << GAME_NAME << std::endl;
+    client_ = std::make_unique<APClient>(uuid, GAME_NAME, server);
+
+    client_->set_slot_connected_handler([this,slot, password](const nlohmann::json& data) {
+        slotname = slot;
+        SlotData slot_data = parse_slot_data(data);
+        deathlink_allowed_.store(slot_data.deathlink);
+
+        std::list<std::string> tags;
+        if (slot_data.deathlink)
+            tags.push_back("DeathLink");
+        client_->ConnectUpdate(false, kItemHandling, true, tags);
+        client_->StatusUpdate(APClient::ClientStatus::PLAYING);
+
+        const std::string new_seed = client_->get_seed();
+        const int new_player_slot = client_->get_player_number();
+        if (new_seed != seed || new_player_slot != session_slot)
+        {
+            seed = new_seed;
+            session_slot = new_player_slot;
+            last_item_index_ = -1;
+            bridge_.SendToGame(NetEvents::Disconnected{});
+        }
+
+        auto missing = client_->get_missing_locations();
+        auto checked = client_->get_checked_locations();
+        bridge_.SendToGame(NetEvents::Connected{
+            .seed = client_->get_seed(),
+            .slot = session_slot,
+            .slot_data = slot_data
+        });
+        connected.store(true);
+    });
+    client_->set_socket_disconnected_handler(
+        [this]
+        {
+            connected.store(false);
+            bridge_.SendToGame(NetEvents::Disconnected{});
+        });
+    client_->set_room_info_handler(
+        [this, slot, password]
+        {
+            std::list<std::string> tags;
+            if (deathlink_allowed_.load())
+                tags.push_back("DeathLink");
+            client_->ConnectSlot(slot, password, kItemHandling, tags);
+        });
+    client_->set_slot_refused_handler(
+        [this](const std::list<std::string> &errors)
+        {
+            connected.store(false);
+            bridge_.SendToGame(NetEvents::ApConnectionRefused{std::vector<std::string>(errors.begin(), errors.end())});
+        });
+    client_->set_items_received_handler(
+        [this](const std::list<APClient::NetworkItem> &items)
+        {
+            for (const auto &item : items)
+            {
+                if (item.index <= last_item_index_)
+                    continue;
+                bridge_.SendToGame(NetEvents::ItemReceived{.item_id = item.item, .index = item.index, .player = item.player});
+                last_item_index_ = item.index;
+            }
+        });
+    client_->set_bounced_handler(
+        [this](const nlohmann::json &cmd)
+        {
+            if (!deathlink_allowed_.load())
+                return;
+            if (auto t = cmd.find("tags"); t == cmd.end() || std::find(t->begin(), t->end(), "DeathLink") == t->end())
+                return;
+            std::string payload = cmd.contains("data") ? cmd["data"].dump() : std::string{};
+            auto dl = bpr_net::parse_deathlink_payload(payload);
+            // The server relays a tagged Bounce to every same-team client holding that tag, sender included, so
+            // our own death comes back to us; the echo is the only evidence it reached the room. `source` is
+            // optional in the parse, so guard on a non-empty slot name, or a sourceless bounce from someone else
+            // gets swallowed as our echo.
+            if (dl && !slotname.empty() && dl->source == slotname)
+            {
+                return;
+            }
+            std::string source = dl ? std::move(dl->source) : std::string{};
+            std::string cause = dl ? std::move(dl->cause) : std::string{};
+            bridge_.SendToGame(NetEvents::DeathLinkReceived{.source = std::move(source), .cause = std::move(cause)});
+        });
+    client_->set_print_json_handler(
+        [this](const APClient::PrintJSONArgs &args)
+        {
+            return;
+        });
 }
 
 void ArchepelagoNet::do_disconnect()
 {
-    if (!ap)
+    if (!client_)
         return;
-    ap.reset();
+    client_.reset();
 }

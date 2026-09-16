@@ -1,6 +1,7 @@
 #pragma once
 #include <nlohmann/json_fwd.hpp>
 
+
 enum class Goal {
     ReachLicense = 0,
     AquireCars = 2

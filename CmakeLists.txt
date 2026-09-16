@@ -5,6 +5,7 @@ project(bpr-apclient
 )
 
 set(BPRAP_RELEASE_VERSION "0.0.1")
+set(BPRAP_GAME_NAME "Burnout Paradise Remastered")
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 

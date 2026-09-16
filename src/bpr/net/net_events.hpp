@@ -1,5 +1,6 @@
 #pragma once
 
+#include "bpr/core/ap/slot_data.hpp"
 #include <stdint.h>
 #include <string>
 #include <variant>
@@ -8,14 +9,17 @@ namespace NetEvents{
     struct Connected
     {
         std::string seed;
-        std::string slot_name;
-        std::string slot_data;
+        int slot;
+        SlotData slot_data;
     };
 
     struct Disconnected
     {
     };
-
+    struct ApConnectionRefused
+    {
+        std::vector<std::string> errors;
+    };
     struct ItemReceived
     {
         int64_t item_id;
@@ -34,5 +38,6 @@ using NetworkEvent = std::variant<
         NetEvents::Connected,
         NetEvents::Disconnected,
         NetEvents::ItemReceived,
-        NetEvents::DeathLinkReceived
+        NetEvents::DeathLinkReceived,
+        NetEvents::ApConnectionRefused
     >;

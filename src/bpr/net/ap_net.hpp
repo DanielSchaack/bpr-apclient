@@ -6,6 +6,12 @@
 //#define CERT_STORE "cacert.pem"
 //#define UUID_FILE "uuid" // TODO: place in %appdata%
 
+
+#define STRINGIFY_IMPL(x) #x
+#define STRINGIFY(x) STRINGIFY_IMPL(x)
+
+static constexpr const char* GAME_NAME = STRINGIFY(BPRAP_GAME_NAME);
+
 class APClient; 
 
 class ArchepelagoNet
@@ -28,15 +34,18 @@ public:
 	std::string uuid;
 	bool polling;
 
-	std::string seed;
-	std::string slotname;
+	
 private:
 	NetworkBridge& bridge_;
-	std::unique_ptr<APClient> ap;
+	std::unique_ptr<APClient> client_;
 
 	void do_connect(const std::string &server, const std::string &slot, const std::string &password);
     void do_disconnect();
 
-	
-	
+	std::atomic<bool> connected{false};
+	std::atomic<bool> deathlink_allowed_{false};
+	std::string seed;
+	int session_slot{-1};   
+	std::string slotname;
+	int last_item_index_{-1}; 	
 };
