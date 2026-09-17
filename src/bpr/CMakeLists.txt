@@ -24,7 +24,9 @@ add_library(bprap SHARED
     hooks/function/disable_event_start.cpp
     hooks/function/detect_breakable.cpp
     hooks/function/disable_add_car.cpp
-
+    hooks/function/event_win.cpp
+    hooks/function/license_upgrade.cpp
+    hooks/function/deathlink.cpp
 
     hooks/structure/wndproc.cpp
     hooks/structure/render.cpp

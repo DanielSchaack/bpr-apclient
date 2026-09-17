@@ -14,5 +14,8 @@ void GameHooks::Init(){
     Render::Install();
     CarUnlockControl::Install();
     GameLoop::Install();
+    EventWinLog::Install();
+    LicenseUpgradeLog::Install();
+    DeathLink::Install();
     MH_EnableHook(MH_ALL_HOOKS);
 }
