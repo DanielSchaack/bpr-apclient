@@ -1,23 +1,25 @@
 #pragma once
 #include <nlohmann/json_fwd.hpp>
 
-
-enum class Goal {
-    ReachLicense = 0,
-    AquireCars = 2
-};
-
-
-struct SlotData
+namespace bpr
 {
-    int licenseLevel;
-    int CarGoalAmount;
+    enum class Goal {
+        ReachLicense = 0,
+        AquireCars = 2
+    };
 
-    int superJumpAmount;
-    int smashAmount;
-    int billboardAmount;
 
-    bool deathlink;
-};
+    struct SlotData
+    {
+        int licenseLevel;
+        int CarGoalAmount;
 
-[[nodiscard]] SlotData parse_slot_data(const nlohmann::json &data);
+        int superJumpAmount;
+        int smashAmount;
+        int billboardAmount;
+
+        bool deathlink;
+    };
+
+    [[nodiscard]] SlotData parse_slot_data(const nlohmann::json &data);
+}

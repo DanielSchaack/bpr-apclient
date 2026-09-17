@@ -77,7 +77,7 @@ void ArchepelagoNet::do_connect(const std::string &server, const std::string &sl
 
     client_->set_slot_connected_handler([this,slot, password](const nlohmann::json& data) {
         slotname = slot;
-        SlotData slot_data = parse_slot_data(data);
+        bpr::SlotData slot_data = bpr::parse_slot_data(data);
         deathlink_allowed_.store(slot_data.deathlink);
 
         std::list<std::string> tags;

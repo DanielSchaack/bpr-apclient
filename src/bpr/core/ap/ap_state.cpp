@@ -1,5 +1,6 @@
 #include "ap_state.hpp"
 #include "bpr/net/net_bridge.hpp"
+#include <iostream>
 
 
 void ApState::Update(){
@@ -44,4 +45,15 @@ void ApState::Disconnect(){
     if (phase_ == ConnectionPhase::Connected){
         bridge_.SendToNetwork(NetCommands::Disconnect{});
     }
+}
+
+void ApState::SendLocation(int64_t location_id){
+    std::cout << "Try Check: " << location_id << std::endl;
+    if (phase_ == ConnectionPhase::Connected){
+        bridge_.SendToNetwork(NetCommands::SendLocation{location_id});
+    }
+}
+
+void ApState::SendBreakableLocation(std::uint32_t type, std::uint32_t id, std::uint32_t area){
+    
 }

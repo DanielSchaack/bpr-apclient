@@ -7,10 +7,12 @@ void GameHooks::Init(){
     MH_Uninitialize();
     MH_Initialize();
     WndProc::Install();
-    logEvent::Install();
+    // logEvent::Install();
     DisableTrigger::Install();
     DisableEventStart::Install();
     DetectBreakable::Install();
     Render::Install();
+    CarUnlockControl::Install();
+    GameLoop::Install();
     MH_EnableHook(MH_ALL_HOOKS);
 }

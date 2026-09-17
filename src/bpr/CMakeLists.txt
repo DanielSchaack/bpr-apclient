@@ -12,6 +12,7 @@ add_library(bprap SHARED
     core/ap/slot_data.cpp
 
     net/ap_net.cpp
+    net/deathlink.cpp
 
     ui/gui.cpp
     ui/login_window.cpp
@@ -22,9 +23,12 @@ add_library(bprap SHARED
     hooks/function/disable_trigger.cpp
     hooks/function/disable_event_start.cpp
     hooks/function/detect_breakable.cpp
+    hooks/function/disable_add_car.cpp
+
 
     hooks/structure/wndproc.cpp
     hooks/structure/render.cpp
+    hooks/structure/game_loop.cpp
 )
 
 target_include_directories(bprap PUBLIC "${CMAKE_SOURCE_DIR}/src")

@@ -2,6 +2,7 @@
 #include "MinHook.h"
 #include <iostream>
 #include <windows.h>
+#include "../../app/app.hpp"
 
 
 
@@ -17,6 +18,7 @@ namespace DetectBreakable
     LogBreakable(std::uint32_t type, std::uint32_t id, std::uint32_t area) noexcept
     {
         std::cout << "Type: " << type << "Id: " << id << "Area: " << area <<std::endl;
+        //App::Instance->State().
     }
 
     __declspec(naked) void Detour()

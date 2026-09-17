@@ -20,7 +20,7 @@ namespace DisableEventStart {
         // for (const auto allowedId: DisableEventStart::AllowedJunctionIds)
         //     if (allowedId == eventId)
         //         return true;
-        return false;
+        return true;
     }
 
 

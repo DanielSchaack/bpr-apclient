@@ -18,6 +18,7 @@ class ApState
 
 
         void SendLocation(int64_t location_id);
+        void SendBreakableLocation(std::uint32_t type, std::uint32_t id, std::uint32_t area);
         void Connect(const std::string &server, const std::string &slot, const std::string &password);
         void Disconnect();
         void Update();
@@ -29,5 +30,5 @@ class ApState
     private:
         NetworkBridge& bridge_;
         std::atomic<ConnectionPhase> phase_{ConnectionPhase::Disconnected};
-        SlotData SlotData{};
+        bpr::SlotData SlotData{};
 }; 

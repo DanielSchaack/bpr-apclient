@@ -10,7 +10,7 @@ namespace NetEvents{
     {
         std::string seed;
         int slot;
-        SlotData slot_data;
+        bpr::SlotData slot_data;
     };
 
     struct Disconnected

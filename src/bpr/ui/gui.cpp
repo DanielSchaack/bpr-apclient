@@ -6,6 +6,7 @@
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
 #include "login_window.hpp"
+#include "bpr/hooks/function/detours.hpp"
 
 GUI::GUI()
 {
@@ -22,8 +23,8 @@ GUI::GUI()
 
     // SetClassLongPtrA(GUI::windowHandle, GCLP_HCURSOR, NULL);
 
-    
-    windows.push_back(std::make_unique<LoginWindow>());
+    login_window = std::make_unique<LoginWindow>();
+    // windows.push_back(login_window);
 } 
 
 GUI::~GUI()
@@ -43,6 +44,12 @@ bool GUI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (msg == WM_KEYDOWN && wParam == VK_F1)
     {
         SetInputMode(!imguiInputMode);
+        return true;
+    }
+
+    if (msg == WM_KEYDOWN && wParam == VK_F3)
+    {
+        CarUnlockControl::AddCar(0xD38DAC870CC20000ULL);
         return true;
     }
 

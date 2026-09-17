@@ -15,3 +15,7 @@ namespace Render
 {
     MH_STATUS Install();
 }
+
+namespace GameLoop {
+    MH_STATUS Install();
+}

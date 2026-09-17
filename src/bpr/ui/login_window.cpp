@@ -1,6 +1,8 @@
 #include "login_window.hpp"
+#include <functional>
 #include <imgui.h>
 #include <nlohmann/json.hpp>
+#include <string>
 #include "../app/app.hpp"
 
 

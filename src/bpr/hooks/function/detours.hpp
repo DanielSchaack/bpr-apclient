@@ -1,7 +1,6 @@
 #pragma once
 
 #include "MinHook.h"
-#include <array>
 #include <cstdint>
 #include <windows.h>
 
@@ -34,5 +33,11 @@ namespace DisableEventStart
 
 namespace DetectBreakable
 {
+    MH_STATUS Install();
+}
+
+namespace CarUnlockControl
+{
+    bool AddCar(std::uint64_t vehicleId);
     MH_STATUS Install();
 }
