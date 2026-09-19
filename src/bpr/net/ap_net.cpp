@@ -93,7 +93,7 @@ void ArchepelagoNet::do_connect(const std::string &server, const std::string &sl
             seed = new_seed;
             session_slot = new_player_slot;
             last_item_index_ = -1;
-            bridge_.SendToGame(NetEvents::Disconnected{});
+            // bridge_.SendToGame(NetEvents::Disconnected{});
         }
 
         auto missing = client_->get_missing_locations();

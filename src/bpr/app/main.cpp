@@ -27,7 +27,7 @@ DWORD WINAPI InitializeThread(LPVOID)
     GameHooks::Init();
 
     new App();
-
+    
     return 0;
 }
 

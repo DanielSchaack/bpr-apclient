@@ -2,10 +2,10 @@
 #include "window.hpp"
 
 
-#define STRINGIFY_IMPL(x) #x
-#define STRINGIFY(x) STRINGIFY_IMPL(x)
+// #define STRINGIFY_IMPL(x) #x
+// #define STRINGIFY(x) STRINGIFY_IMPL(x)
 
-static constexpr const char* VERSION = STRINGIFY(BPRAP_RELEASE_VERSION);
+static constexpr const char* VERSION = BPRAP_RELEASE_VERSION;
 
 class LoginWindow : public Window {
 public:
@@ -15,7 +15,7 @@ public:
     void ToggleVisibility() override;
     void Draw(int outerWidth, int outerHeight, float uiScale) override;
     void SetMessage(std::string);
-    char server[128] = "archipelago.gg:";
+    char server[128] = "localhost:38281"; //archipelago.gg:";
     char password[128] = "";
     char slot[128] = "";
     char id[128] = "";

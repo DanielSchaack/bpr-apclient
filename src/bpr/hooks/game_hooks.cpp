@@ -7,15 +7,21 @@ void GameHooks::Init(){
     MH_Uninitialize();
     MH_Initialize();
     WndProc::Install();
+    Render::Install();
+    GameLoop::Install();
+    DeathLink::Install();
+    RedirectSave::Install();
+    WaitForConnection::Install();
+
     // logEvent::Install();
     DisableTrigger::Install();
     DisableEventStart::Install();
     DetectBreakable::Install();
-    Render::Install();
+    
     CarUnlockControl::Install();
-    GameLoop::Install();
+    
     EventWinLog::Install();
     LicenseUpgradeLog::Install();
-    DeathLink::Install();
+    
     MH_EnableHook(MH_ALL_HOOKS);
 }

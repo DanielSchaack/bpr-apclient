@@ -27,10 +27,13 @@ add_library(bprap SHARED
     hooks/function/event_win.cpp
     hooks/function/license_upgrade.cpp
     hooks/function/deathlink.cpp
+    hooks/function/enable_event.cpp
 
     hooks/structure/wndproc.cpp
     hooks/structure/render.cpp
     hooks/structure/game_loop.cpp
+    hooks/structure/save_control.cpp
+    hooks/structure/connection_wait.cpp
 )
 
 target_include_directories(bprap PUBLIC "${CMAKE_SOURCE_DIR}/src")

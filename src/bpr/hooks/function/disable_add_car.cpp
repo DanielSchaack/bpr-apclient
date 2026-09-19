@@ -6,6 +6,7 @@
 #include "MinHook.h"
 #include <cstdint>
 #include <cstddef>
+#include <iostream>
 #include "../../app/app.hpp"
 
 namespace CarUnlockControl
@@ -52,15 +53,21 @@ namespace CarUnlockControl
     static CarData* __stdcall MakeSuppressedCar(
         void* manager, std::uint64_t vehicleId, std::uint32_t unlockType)
     {
-        App::Instance->State().SendLocation(vehicleId);
-        auto* profile = reinterpret_cast<std::uint8_t*>(manager) + 0x170;
-        const auto* existing = FindCar(profile, vehicleId);
-        if (existing)
-            suppressedCar = *existing;
-        else
-            suppressedCar = {vehicleId, 0xFF, 0xFF, 1, 2, 0.0f, unlockType, 0};
+        try{
+            App::Instance->State().SendLocation(vehicleId);
+            auto* profile = reinterpret_cast<std::uint8_t*>(manager) + 0x170;
+            const auto* existing = FindCar(profile, vehicleId);
+            if (existing)
+                suppressedCar = *existing;
+            else
+                suppressedCar = {vehicleId, 0xFF, 0xFF, 1, 2, 0.0f, unlockType, 0};
 
-        return &suppressedCar;
+            return &suppressedCar;
+        }
+        catch (const std::exception& e){
+            std::cerr << "Caught exception: " << e.what() << std::endl;
+            return nullptr;
+        }
     }
 
     __declspec(naked) void BlockAddCar()

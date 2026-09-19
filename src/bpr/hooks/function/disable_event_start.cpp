@@ -16,11 +16,9 @@ namespace DisableEventStart {
     extern "C" __declspec(noinline) bool __stdcall
     StreetlightEvent_IsAllowed(std::uint32_t eventId) noexcept
     {
+        
         std::cout << "Trigger Start Id" <<eventId << std::endl;
-        // for (const auto allowedId: DisableEventStart::AllowedJunctionIds)
-        //     if (allowedId == eventId)
-        //         return true;
-        return true;
+        return EnableEvent::IsEventEnabled(eventId);
     }
 
 

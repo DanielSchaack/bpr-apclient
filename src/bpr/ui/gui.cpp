@@ -3,6 +3,7 @@
 #include <iostream>
 #include <d3d11.h>
 #include "bpr/app/app.hpp"
+#include "bpr/hooks/game_hooks.hpp"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
 #include "login_window.hpp"
@@ -23,8 +24,9 @@ GUI::GUI()
 
     // SetClassLongPtrA(GUI::windowHandle, GCLP_HCURSOR, NULL);
 
-    login_window = std::make_unique<LoginWindow>();
-    // windows.push_back(login_window);
+    auto login = std::make_unique<LoginWindow>();
+    login_window = login.get();
+    windows.push_back(std::move(login));
 } 
 
 GUI::~GUI()
@@ -44,17 +46,18 @@ bool GUI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (msg == WM_KEYDOWN && wParam == VK_F1)
     {
         SetInputMode(!imguiInputMode);
-        return true;
+        return false;
     }
 
     if (msg == WM_KEYDOWN && wParam == VK_F3)
     {
-        DeathLink::KillPlayer();
-        return true;
+        EnableEvent::EnableEvent(481094);
+        std::cout << "Saves: " << GameHooks::GetEventSaveManager() << std::endl;
+        return false;
     }
 
     if (!imguiInputMode)
-        return false;
+        return true;
     
     ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam);
     const ImGuiIO& io = ImGui::GetIO();

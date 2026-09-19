@@ -7,10 +7,10 @@
 //#define UUID_FILE "uuid" // TODO: place in %appdata%
 
 
-#define STRINGIFY_IMPL(x) #x
-#define STRINGIFY(x) STRINGIFY_IMPL(x)
+// #define STRINGIFY_IMPL(x) #x
+// #define STRINGIFY(x) STRINGIFY_IMPL(x)
 
-static constexpr const char* GAME_NAME = STRINGIFY(BPRAP_GAME_NAME);
+static constexpr const char* GAME_NAME = BPRAP_GAME_NAME;
 
 class APClient; 
 

@@ -11,6 +11,8 @@ App::App(): state_(bridge_),
     {
         network_.Run();
     });
+
+    
 }
 
 App::~App()

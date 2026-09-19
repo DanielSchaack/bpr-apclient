@@ -27,7 +27,7 @@ class App
         {
             return network_;
         }
-            
+        
         static bool WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
         static void Render();
         static void GameThread();
@@ -37,7 +37,4 @@ class App
         ArchepelagoNet network_;
         GUI gui_;
         std::thread network_thread_;
-
-        
-    
 };

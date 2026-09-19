@@ -1,5 +1,6 @@
 #pragma once
 
+#include "bpr/ui/login_window.hpp"
 #include "login_window.hpp"
 #include "window.hpp"
 #include <memory>
@@ -14,7 +15,7 @@ class GUI
         bool WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
         void Render();
         void Initialize();
-        std::unique_ptr<Window> login_window;
+        LoginWindow* login_window;
     private:
         std::vector<std::unique_ptr<Window>> windows;
         HWND windowHandle;

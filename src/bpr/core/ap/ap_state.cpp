@@ -1,7 +1,10 @@
 #include "ap_state.hpp"
+#include "bpr/hooks/function/detours.hpp"
 #include "bpr/net/net_bridge.hpp"
+#include <cstdint>
 #include <iostream>
-
+#include "../../app/app.hpp"
+#include "../../hooks/game_hooks.hpp"
 
 void ApState::Update(){
     //handle every single event
@@ -14,29 +17,44 @@ void ApState::Update(){
 
                 if constexpr (std::is_same_v<T, NetEvents::Connected>)
                 {
+                    
+                    App::Instance->Gui().login_window->SetMessage("Connected");
+                    slot_ = e.slot;
+                    seed_ = std::move(e.seed);
+                    slot_data_ = std::move(e.slot_data);
 
+                    phase_.store(ConnectionPhase::Connected);
                 }
                 else if constexpr (std::is_same_v<T, NetEvents::Disconnected>)
                 {
-
+                    App::Instance->Gui().login_window->SetMessage("Disconnected");
+                    phase_.store(ConnectionPhase::Disconnected);
                 }
                 else if constexpr (std::is_same_v<T, NetEvents::ItemReceived>)
                 {
-
+                    std::cout << "Recieved: " << e.item_id << std::endl;
+                    // ProcessItem(e.item_id);
                 }
                 else if constexpr (std::is_same_v<T, NetEvents::DeathLinkReceived>)
                 {
-
+                    DeathLink::KillPlayer();
                 }
             },
             *event
         );
+    }
+
+    if (GameHooks::GetCurrentGameStateFlag() == 6){
+        while (auto item = PopItem()){
+            ProcessItem(item->item_id);
+        }
     }
 }
 
 
 void ApState::Connect(const std::string &server, const std::string &slot, const std::string &password){
     if (phase_ == ConnectionPhase::Disconnected){
+        phase_ = ConnectionPhase::Connecting;
         bridge_.SendToNetwork(NetCommands::Connect{server, slot, password});
     }
 }
@@ -56,4 +74,15 @@ void ApState::SendLocation(int64_t location_id){
 
 void ApState::SendBreakableLocation(std::uint32_t type, std::uint32_t id, std::uint32_t area){
     
+}
+
+void ApState::ProcessItem(uint64_t item_id){
+    std::cout << "Process: " << item_id << std::endl;
+    if (item_id > 400000 && item_id < 600000){
+        EnableEvent::EnableEvent(item_id);
+    }
+
+    if (item_id > (uint64_t(0xA) << 48)){
+        CarUnlockControl::AddCar(item_id << 12);
+    }
 }

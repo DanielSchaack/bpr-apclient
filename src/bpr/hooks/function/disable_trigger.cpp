@@ -13,14 +13,7 @@ constexpr uintptr_t returnAdress = 0x00a21d73 + 5;
 constexpr uintptr_t endAddress = 0x00A223FA;
 
 extern "C" bool __stdcall IsJunctionAllowed(std::uint32_t eventID) {
-
-//  std::cout << "UI Id" <<eventID << std::endl;
-//   for (const auto allowedId : App::Instance->State().getRecievedItems()) {
-//     if (allowedId == eventID)
-//       return true;
-//   }
-
-  return true;
+    return EnableEvent::IsEventEnabled(eventID);
 }
 
 
