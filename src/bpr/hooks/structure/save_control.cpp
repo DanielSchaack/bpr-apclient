@@ -22,7 +22,7 @@ namespace RedirectSave
                 std::cout << "Loading with no connection to AP" << std::endl;
                 return suffix;
             }
-            return "AP_Saves\\";
+            return "Save\\";
         }
 
         return suffix;

@@ -18,7 +18,7 @@ void GameHooks::Init(){
     DisableEventStart::Install();
     DetectBreakable::Install();
     
-    CarUnlockControl::Install();
+    // CarUnlockControl::Install();
     
     EventWinLog::Install();
     LicenseUpgradeLog::Install();
