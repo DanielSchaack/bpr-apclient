@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <intrin.h>
 #include <iostream>
+#include "../../app/app.hpp"
 
 namespace EventWinLog
 {
@@ -20,6 +21,7 @@ namespace EventWinLog
         Original(manager, actionQueue, eventId, results, mode);
         if (position == 1)
         {
+            App::Instance->State().SendLocation(eventId);
             std::cout << "Event Win: " << eventId << std::endl;
         }
     }

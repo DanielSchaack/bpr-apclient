@@ -2,7 +2,7 @@
 
 #include "bpr/net/net_bridge.hpp"
 #include "slot_data.hpp"
-#include <vector>
+#include "../save/save_data.hpp"
 
 class ApState
 {
@@ -22,16 +22,30 @@ class ApState
         void Connect(const std::string &server, const std::string &slot, const std::string &password);
         void Disconnect();
         void Update();
-        void ProcessItem(uint64_t item_id);
+        void ProcessItem(int64_t item_id, int index);
+        void CacheBreakable(int64_t loc_id, uint32_t area_id);
+
+        [[nodiscard]] bool HasApSaveData() const{
+            return save_data_initialized;
+        }
+
+        void MarkSaveAsInitialized(){
+            save_data_initialized = true;
+        }
+
+        [[nodiscard]] bpr::SaveData& GetSaveData() noexcept
+        {
+            return save_data_;
+        }
 
         [[nodiscard]] std::string GetSeed() const noexcept
         {
-            return seed_;
+            return save_data_.seed_;
         }
 
         [[nodiscard]] int GetSlot() const noexcept
         {
-            return slot_;
+            return save_data_.slot_;
         }
 
         [[nodiscard]] bool isDisconnected() const noexcept
@@ -72,8 +86,8 @@ class ApState
         NetworkBridge& bridge_;
         std::atomic<ConnectionPhase> phase_{ConnectionPhase::Disconnected};
         bpr::SlotData slot_data_{};
-        std::string seed_;
-        int slot_;
+        bool save_data_initialized = false;
+        bpr::SaveData save_data_{};
 
         std::mutex item_mutex_;
         std::queue<NetEvents::ItemReceived> queued_items_;

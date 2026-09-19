@@ -1,8 +1,10 @@
 #include "ap_state.hpp"
 #include "bpr/hooks/function/detours.hpp"
 #include "bpr/net/net_bridge.hpp"
+#include <algorithm>
 #include <cstdint>
 #include <iostream>
+#include <ostream>
 #include "../../app/app.hpp"
 #include "../../hooks/game_hooks.hpp"
 
@@ -17,10 +19,11 @@ void ApState::Update(){
 
                 if constexpr (std::is_same_v<T, NetEvents::Connected>)
                 {
-                    
                     App::Instance->Gui().login_window->SetMessage("Connected");
-                    slot_ = e.slot;
-                    seed_ = std::move(e.seed);
+                    save_data_ = bpr::SaveData{
+                        .seed_ = std::move(e.seed),
+                        .slot_ = e.slot
+                    };
                     slot_data_ = std::move(e.slot_data);
 
                     phase_.store(ConnectionPhase::Connected);
@@ -33,7 +36,7 @@ void ApState::Update(){
                 else if constexpr (std::is_same_v<T, NetEvents::ItemReceived>)
                 {
                     std::cout << "Recieved: " << e.item_id << std::endl;
-                    // ProcessItem(e.item_id);
+                    ProcessItem(e.item_id, e.index);
                 }
                 else if constexpr (std::is_same_v<T, NetEvents::DeathLinkReceived>)
                 {
@@ -46,7 +49,7 @@ void ApState::Update(){
 
     if (GameHooks::GetCurrentGameStateFlag() == 6){
         while (auto item = PopItem()){
-            ProcessItem(item->item_id);
+            ProcessItem(item->item_id, item->index);
         }
     }
 }
@@ -76,8 +79,26 @@ void ApState::SendBreakableLocation(std::uint32_t type, std::uint32_t id, std::u
     
 }
 
-void ApState::ProcessItem(uint64_t item_id){
+void ApState::ProcessItem(int64_t item_id, int index){
+
+    if (index < save_data_.lastIndex_){
+        return;
+    }
+    save_data_.lastIndex_++;
+    
     std::cout << "Process: " << item_id << std::endl;
+
+    if (item_id >= 1000 && item_id < 2000){
+        auto area_id = item_id-1000;
+        save_data_.owned_areas.insert(save_data_.owned_areas.end(), area_id);
+        std::ranges::for_each(save_data_.defered_breakables[area_id], 
+            [&](int64_t location_id)
+        {
+            SendLocation(location_id + save_data_.breakable_counts[area_id]);
+            save_data_.breakable_counts[area_id]++;
+        });
+    }
+
     if (item_id > 400000 && item_id < 600000){
         EnableEvent::EnableEvent(item_id);
     }
@@ -85,4 +106,15 @@ void ApState::ProcessItem(uint64_t item_id){
     if (item_id > (uint64_t(0xA) << 48)){
         CarUnlockControl::AddCar(item_id << 12);
     }
+}
+
+void ApState::CacheBreakable(int64_t loc_id, uint32_t area_id){
+    if (std::ranges::find(save_data_.owned_areas, area_id) != save_data_.owned_areas.end()) {
+        SendLocation(loc_id + save_data_.breakable_counts[area_id]);
+        save_data_.breakable_counts[area_id]++;
+        std::cout << "Send Breakable" << std::endl;
+        return;
+    }
+    std::cout << "Defer Breakable" << std::endl;
+    save_data_.defered_breakables[area_id].insert(save_data_.defered_breakables[area_id].end(), loc_id);
 }

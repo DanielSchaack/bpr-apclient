@@ -5,7 +5,7 @@
 
 struct EventSave{
     uint32_t eventId;
-    uint32_t flags;
+    uint16_t flags;
 };
 
 
@@ -28,7 +28,7 @@ bool EnableEvent::EnableEvent(uint32_t  event_id) noexcept {
     }
 
     std::cout << "Event: " << result->eventId << " Flags: " << result->flags << std::endl;
-    result->flags |= 32;
+    result->flags = 0x0021;
     return true;
 }
 

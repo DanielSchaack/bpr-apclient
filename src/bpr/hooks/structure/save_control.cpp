@@ -2,6 +2,8 @@
 #include "MinHook.h"
 #include <iostream>
 #include <windows.h>
+#include <filesystem>
+#include <fstream>
 #include "../../app/app.hpp"
 
 
@@ -12,7 +14,7 @@ namespace RedirectSave
     static void* Original = nullptr;
 
     using FunctionType = void(__thiscall*)(char* outputbuffer, const char* suffix);
-
+    static std::string path;
     extern "C" const char* __cdecl GetSuffix(const char* suffix)
     {
         if (suffix != nullptr &&
@@ -22,12 +24,116 @@ namespace RedirectSave
                 std::cout << "Loading with no connection to AP" << std::endl;
                 return suffix;
             }
-            return "Save\\";
+            path = std::format("AP_Save_{}_{}_\\", App::Instance->State().GetSeed(), App::Instance->State().GetSlot());
+            return path.c_str();
         }
 
         return suffix;
     }
 
+
+    extern "C" void __cdecl WriteOwnFile(const char* directory)
+    {
+        if (!directory)
+            return;
+
+        auto& state = App::Instance->State();
+
+        const std::string filename = std::format(
+            "apsave.json",
+            state.GetSeed(),
+            state.GetSlot()
+        );
+        const std::string expectedFolder = std::format("AP_Save_{}_{}_\\", App::Instance->State().GetSeed(), App::Instance->State().GetSlot());
+
+        const std::filesystem::path dirPath(directory);
+
+        if (dirPath.filename() != expectedFolder)
+        {
+            return;
+        }
+
+        const std::filesystem::path filePath = std::filesystem::path(directory) / filename;
+
+        const bool file_exists = std::filesystem::exists(filePath);
+        if (!state.HasApSaveData()){
+
+            if(!file_exists){
+                state.MarkSaveAsInitialized();
+                std::cout << "Creating new AP save: "  << filePath << '\n';
+                return;
+            }
+
+            std::ifstream file(filePath);
+
+            if (!file)
+            {
+                std::cerr  << "Failed to open AP save for reading: " << filePath << '\n';
+                return;
+            }
+
+            try
+            {
+                nlohmann::json json;
+                file >> json;
+
+                auto& data = state.GetSaveData();
+
+                data = json.get<bpr::SaveData>();
+
+                state.MarkSaveAsInitialized();
+
+                std::cout << "Loaded AP save: " << filePath << '\n';
+            }
+            catch (const nlohmann::json::exception& e)
+            {
+                std::cerr
+                    << "Failed to parse AP save "
+                    << filePath
+                    << ": "
+                    << e.what()
+                    << '\n';
+            }
+
+            return;
+        }
+
+         const auto& data = state.GetSaveData();
+
+        std::ofstream file(
+            filePath,
+            std::ios::trunc
+        );
+
+        if (!file)
+        {
+            std::cerr << "Failed to open AP save for writing: " << filePath << '\n';
+            return;
+        }
+
+        try
+        {
+            nlohmann::json json = data;
+
+            file << json.dump(4);
+
+            if (!file)
+            {
+                std::cerr << "Failed to write AP save: " << filePath << '\n';
+                return;
+            }
+
+            std::cout << "Saved AP save: " << filePath << '\n';
+        }
+        catch (const nlohmann::json::exception& e)
+        {
+            std::cerr
+                << "Failed to serialize AP save: "
+                << e.what()
+                << '\n';
+        }
+    }
+    
     __declspec(naked) void Detour()
     {
         __asm
@@ -63,6 +169,10 @@ namespace RedirectSave
             call dword ptr [Original]
 
             // Original uses plain RET, so our pushed suffix remains.
+            add esp, 4
+
+            push dword ptr [esp + 4]   // saved outputBuffer
+            call WriteOwnFile
             add esp, 4
 
             // Remove saved original suffix + ECX.

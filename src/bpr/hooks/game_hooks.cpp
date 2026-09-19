@@ -13,12 +13,12 @@ void GameHooks::Init(){
     RedirectSave::Install();
     WaitForConnection::Install();
 
-    // logEvent::Install();
+    
     DisableTrigger::Install();
     DisableEventStart::Install();
     DetectBreakable::Install();
     
-    // CarUnlockControl::Install();
+    CarUnlockControl::Install();
     
     EventWinLog::Install();
     LicenseUpgradeLog::Install();

@@ -18,7 +18,8 @@ namespace DetectBreakable
     LogBreakable(std::uint32_t type, std::uint32_t id, std::uint32_t area) noexcept
     {
         std::cout << "Type: " << type << "Id: " << id << "Area: " << area <<std::endl;
-        //App::Instance->State().
+        int64_t loc_id = 10000 + (1000 * area) + (100 * type);
+        App::Instance->State().CacheBreakable(loc_id, area);
     }
 
     __declspec(naked) void Detour()

@@ -53,21 +53,15 @@ namespace CarUnlockControl
     static CarData* __stdcall MakeSuppressedCar(
         void* manager, std::uint64_t vehicleId, std::uint32_t unlockType)
     {
-        try{
-            App::Instance->State().SendLocation(vehicleId);
-            auto* profile = reinterpret_cast<std::uint8_t*>(manager) + 0x170;
-            const auto* existing = FindCar(profile, vehicleId);
-            if (existing)
-                suppressedCar = *existing;
-            else
-                suppressedCar = {vehicleId, 0xFF, 0xFF, 1, 2, 0.0f, unlockType, 0};
+        App::Instance->State().SendLocation(vehicleId >> 12);
+        auto* profile = reinterpret_cast<std::uint8_t*>(manager) + 0x170;
+        const auto* existing = FindCar(profile, vehicleId);
+        if (existing)
+            suppressedCar = *existing;
+        else
+            suppressedCar = {vehicleId, 0xFF, 0xFF, 1, 2, 0.0f, unlockType, 0};
 
-            return &suppressedCar;
-        }
-        catch (const std::exception& e){
-            std::cerr << "Caught exception: " << e.what() << std::endl;
-            return nullptr;
-        }
+        return &suppressedCar;
     }
 
     __declspec(naked) void BlockAddCar()

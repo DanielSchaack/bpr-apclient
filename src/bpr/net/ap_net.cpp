@@ -30,7 +30,7 @@ void ArchepelagoNet::Run() {
 
                     if constexpr (std::is_same_v<T, NetCommands::SendLocation>)
                     {
-                        if (client_)
+                        if (client_ && client_->get_missing_locations().contains(cmd.location_id))
                             client_->LocationChecks({cmd.location_id});
                     }
                     else if constexpr (std::is_same_v<T, NetCommands::SendDeathLink>)
