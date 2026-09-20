@@ -33,16 +33,16 @@ jobs:
         shell: cmd
         run: external\vcpkg\bootstrap-vcpkg.bat -disableMetrics
       - name: Configure
-        run: cmake --preset clang-cl-x86-release
+        run: cmake --preset windows-x86-release
       - name: Build
-        run: cmake --build --preset clang-cl-x86-release
+        run: cmake --build --preset windows-x86-release
       - name: Read version
         id: version
         shell: bash
-        run: echo "version=$(cat build/clang-cl-x86-release/version.txt)" >> "$GITHUB_OUTPUT"
+        run: echo "version=$(cat build/windows-x86-release/version.txt)" >> "$GITHUB_OUTPUT"
       - name: Upload mod drop-in (Windows)
         uses: actions/upload-artifact@v7
         with:
           name: mod-windows-${{ steps.version.outputs.version }}
-          path: build/clang-cl-x86-release/mods/
+          path: build/windows-x86-release/mods/
           if-no-files-found: error
