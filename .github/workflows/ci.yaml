@@ -1,0 +1,48 @@
+name: ci
+
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  VCPKG_BINARY_SOURCES: "clear;files,${{ github.workspace }}/.vcpkg-cache,readwrite"
+
+
+jobs:
+  build-windows:
+    name: Build mod (Windows clang-cl x86)
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v7
+        with: { submodules: recursive, fetch-depth: 0 }
+      - name: Set up MSVC environment (x86)
+        uses: TheMrMilchmann/setup-msvc-dev@v4.1.0
+        with:
+          arch: x86
+      - name: Cache vcpkg binaries
+        uses: actions/cache@v6
+        with:
+          path: .vcpkg-cache
+          key: vcpkg-winclangcl-${{ runner.os }}-${{ hashFiles('vcpkg.json') }}-${{ github.run_id }}
+          restore-keys: |
+            vcpkg-winclangcl-${{ runner.os }}-${{ hashFiles('vcpkg.json') }}-
+      - name: Bootstrap vcpkg
+        shell: cmd
+        run: external\vcpkg\bootstrap-vcpkg.bat -disableMetrics
+      - name: Configure
+        run: cmake --preset clang-cl-x86-release
+      - name: Build
+        run: cmake --build --preset clang-cl-x86-release
+      - name: Read version
+        id: version
+        shell: bash
+        run: echo "version=$(cat build/clang-cl-x86-release/version.txt)" >> "$GITHUB_OUTPUT"
+      - name: Upload mod drop-in (Windows)
+        uses: actions/upload-artifact@v7
+        with:
+          name: mod-windows-${{ steps.version.outputs.version }}
+          path: build/clang-cl-x86-release/mods/
+          if-no-files-found: error

@@ -98,7 +98,7 @@ namespace RedirectSave
             return;
         }
 
-         const auto& data = state.GetSaveData();
+        const auto& data = state.GetSaveData();
 
         std::ofstream file(
             filePath,
