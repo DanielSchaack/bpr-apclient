@@ -36,13 +36,9 @@ jobs:
         run: cmake --preset windows-x86-release
       - name: Build
         run: cmake --build --preset windows-x86-release
-      - name: Read version
-        id: version
-        shell: bash
-        run: echo "version=$(cat build/windows-x86-release/version.txt)" >> "$GITHUB_OUTPUT"
       - name: Upload mod drop-in (Windows)
         uses: actions/upload-artifact@v7
         with:
-          name: mod-windows-${{ steps.version.outputs.version }}
-          path: build/windows-x86-release/mods/
+          name: mod-windows
+          path: build/src/bpr/bpr_apclient.dll
           if-no-files-found: error
