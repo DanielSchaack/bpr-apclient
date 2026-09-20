@@ -40,5 +40,5 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: mod-windows
-          path: build/src/bpr/bpr_apclient.dll
+          path: src/bpr/bpr_apclient.dll
           if-no-files-found: error
