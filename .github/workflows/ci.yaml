@@ -26,9 +26,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: .vcpkg-cache
-          key: vcpkg-winclangcl-${{ runner.os }}-${{ hashFiles('vcpkg.json') }}-${{ github.run_id }}
-          restore-keys: |
-            vcpkg-winclangcl-${{ runner.os }}-${{ hashFiles('vcpkg.json') }}-
+          key: vcpkg-winclangcl-x86-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
       - name: Bootstrap vcpkg
         shell: cmd
         run: external\vcpkg\bootstrap-vcpkg.bat -disableMetrics
@@ -40,5 +38,5 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: mod-windows
-          path: src/bpr/bpr_apclient.dll
+          path: build/windows-x86-release/src/bpr/bpr_apclient.dll
           if-no-files-found: error
