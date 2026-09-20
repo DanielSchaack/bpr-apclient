@@ -36,7 +36,7 @@ void ApState::Update(){
                 else if constexpr (std::is_same_v<T, NetEvents::ItemReceived>)
                 {
                     std::cout << "Recieved: " << e.item_id << std::endl;
-                    ProcessItem(e.item_id, e.index);
+                    QueueItem(e);
                 }
                 else if constexpr (std::is_same_v<T, NetEvents::DeathLinkReceived>)
                 {
@@ -46,7 +46,7 @@ void ApState::Update(){
             *event
         );
     }
-
+    std::cout << GameHooks::GetCurrentGameStateFlag() << std::endl;
     if (GameHooks::GetCurrentGameStateFlag() == 6){
         while (auto item = PopItem()){
             ProcessItem(item->item_id, item->index);
@@ -80,7 +80,6 @@ void ApState::SendBreakableLocation(std::uint32_t type, std::uint32_t id, std::u
 }
 
 void ApState::ProcessItem(int64_t item_id, int index){
-
     if (index < save_data_.lastIndex_){
         return;
     }

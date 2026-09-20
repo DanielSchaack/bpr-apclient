@@ -11,6 +11,7 @@ namespace GameHooks
     constexpr uintptr_t StateManagerOffset = 0xB6D478;
     constexpr uintptr_t EventSaveManagerOffset = 0xcb80;
     constexpr uintptr_t GameStateOffset = 0x69B000;
+    constexpr uintptr_t GameStateFlagOffset = 0xB6D4C8;
 
     inline std::uintptr_t GetGameModule() noexcept
     {
@@ -56,8 +57,8 @@ namespace GameHooks
 
     inline uint32_t GetCurrentGameStateFlag() noexcept {
         const auto gameModule = GetGameModule();
-        return reinterpret_cast<uint32_t>(
-            gameModule + StateManagerOffset
+        return *reinterpret_cast<uint32_t*>(
+            gameModule + GameStateFlagOffset
         );
     }
 };

@@ -45,14 +45,31 @@ namespace CarUnlockControl
     static const auto GetVehicleData = reinterpret_cast<VehicleDataFn>(0x004B7080);
     static const auto ProfileAddCar = reinterpret_cast<ProfileAddCarFn>(0x00A0A3E0);
     static const auto RefreshCarCount = reinterpret_cast<RefreshFn>(0x00A0FF10);
+    
+    using AddCarFn = CarData* (__thiscall*)(
+        void* manager,
+        std::uint64_t vehicleId,
+        std::uint32_t unlockType
+    );
+
+    static AddCarFn OriginalAddCar = nullptr;
 
     // The game writes through the returned pointer in several award callers.
     // Give those writes temporary storage, never an actual profile record.
     static thread_local CarData suppressedCar{};
-
+    
     static CarData* __stdcall MakeSuppressedCar(
         void* manager, std::uint64_t vehicleId, std::uint32_t unlockType)
     {
+        if (vehicleId == 0xA7E60F1A3A360000){
+            return OriginalAddCar(
+                manager,
+                vehicleId,
+                unlockType
+            );
+        }
+        
+
         App::Instance->State().SendLocation(vehicleId >> 12);
         auto* profile = reinterpret_cast<std::uint8_t*>(manager) + 0x170;
         const auto* existing = FindCar(profile, vehicleId);
@@ -161,7 +178,7 @@ namespace CarUnlockControl
     {
         auto* add = reinterpret_cast<void*>(AddCarAddress);
         auto* derived = reinterpret_cast<void*>(DerivedCarsAddress);
-        auto status = MH_CreateHook(add, reinterpret_cast<void*>(&BlockAddCar), nullptr);
+        auto status = MH_CreateHook(add, reinterpret_cast<void*>(&BlockAddCar), reinterpret_cast<void**>(&OriginalAddCar));
         if (status != MH_OK)
             return status;
 
