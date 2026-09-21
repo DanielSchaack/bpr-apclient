@@ -123,7 +123,7 @@ void ApState::ProcessItem(int64_t item_id, int index, void* gameActionQueue){
 }
 
 void ApState::CacheBreakable(int64_t loc_id, uint32_t area_id){
-    if (std::ranges::find(save_data_.owned_areas, area_id) != save_data_.owned_areas.end()) {
+    if (!slot_data_.lockBreakables || std::ranges::find(save_data_.owned_areas, area_id) != save_data_.owned_areas.end()) {
         SendLocation(loc_id + save_data_.breakable_counts[area_id]);
         save_data_.breakable_counts[area_id]++;
         std::cout << "Send Breakable" << std::endl;
