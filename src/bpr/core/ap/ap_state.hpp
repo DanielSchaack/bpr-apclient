@@ -21,9 +21,10 @@ class ApState
         void SendBreakableLocation(std::uint32_t type, std::uint32_t id, std::uint32_t area);
         void Connect(const std::string &server, const std::string &slot, const std::string &password);
         void Disconnect();
-        void Update();
-        void ProcessItem(int64_t item_id, int index);
+        void Update(void* gameActionQueue);
+        void ProcessItem(int64_t item_id, int index, void* gameActionQueue);
         void CacheBreakable(int64_t loc_id, uint32_t area_id);
+        void SendGoal();
 
         [[nodiscard]] bool HasApSaveData() const{
             return save_data_initialized;
@@ -37,6 +38,12 @@ class ApState
         {
             return save_data_;
         }
+
+        [[nodiscard]] bpr::SlotData& GetSlotData() noexcept
+        {
+            return slot_data_;
+        }
+
 
         [[nodiscard]] std::string GetSeed() const noexcept
         {

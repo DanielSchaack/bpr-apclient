@@ -8,24 +8,43 @@
 
 namespace GameLoop
 {
-    constexpr uintptr_t Address = 0x070533c0;
+    constexpr uintptr_t GamePreworldUpdateAddress = 0x00A253F0;
 
-    using FunctionType = void(__fastcall*)(int self);
+    using FunctionType = void(__thiscall*)(
+        void* self,
+        void* gameEventQueue,
+        void* gameActionQueue,
+        void* arg3,
+        void* arg4
+    );
 
-    FunctionType Original = nullptr;
+    static FunctionType Original = nullptr;
 
-    void __fastcall Detour(int self)
+    void __fastcall Detour(
+        void* self,
+        void* /* edx */,
+        void* gameEventQueue,
+        void* gameActionQueue,
+        void* arg3,
+        void* arg4)
     {
-        App::GameThread();
-        Original(self);
-        //Code runs after origional
+        App::GameThread(gameActionQueue);
+
+        Original(
+            self,
+            gameEventQueue,
+            gameActionQueue,
+            arg3,
+            arg4
+        );
     }
     MH_STATUS Install()
     {
-        return MH_CreateHook(
-            reinterpret_cast<void*>(Address),
+        MH_STATUS status = MH_CreateHook(
+            reinterpret_cast<void*>(GamePreworldUpdateAddress),
             reinterpret_cast<void*>(&Detour),
             reinterpret_cast<void**>(&Original)
         );
+        return status;
     }
 }

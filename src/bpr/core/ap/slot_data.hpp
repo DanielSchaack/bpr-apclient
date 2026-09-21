@@ -11,15 +11,16 @@ namespace bpr
 
     struct SlotData
     {
-        int licenseLevel;
-        int CarGoalAmount;
-
-        int superJumpAmount;
-        int smashAmount;
-        int billboardAmount;
-
+        int goalConfig;
+        int licenseGoal;
+        bool lockBreakables;
+        std::map<int, int> superJumpAmounts;
+        std::map<int, int> smashAmounts;
+        std::map<int, int> billboardAmounts;
         bool deathlink;
     };
+
+    int AreaNameToIndex(const std::string& area);
 
     [[nodiscard]] SlotData parse_slot_data(const nlohmann::json &data);
 }

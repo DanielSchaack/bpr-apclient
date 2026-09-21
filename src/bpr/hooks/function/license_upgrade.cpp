@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <intrin.h>
 #include <iostream>
+#include "../../app/app.hpp"
 
 namespace LicenseUpgradeLog
 {
@@ -24,7 +25,13 @@ namespace LicenseUpgradeLog
         //const auto* event = EventWinLog::CurrentWin;
         if (after > before)// && event && event->manager == manager)
         {
-            std::cout << "Rank up to: " << after << std::endl; 
+            App::Instance->State().SendLocation(1000+after);
+            if (
+                App::Instance->State().GetSlotData().goalConfig == 0 &&
+                after >= App::Instance->State().GetSlotData().licenseGoal
+            ){
+                App::Instance->State().SendGoal();
+            }
         }
     }
 

@@ -65,7 +65,18 @@ namespace GameHooks
 
     bool isInGame() noexcept;
 
-    
+    inline int32_t GetPlayerCarIndex(){
+        const auto gameModule = GetGameModule();
+
+        if (!gameModule)
+            return 0;
+
+        return *reinterpret_cast<std::int32_t*>(
+                gameModule + 0x40C28
+            );
+
+    }
+
     inline void PrintCurrentDeformation()
     {
 

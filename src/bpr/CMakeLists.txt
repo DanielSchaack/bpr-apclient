@@ -36,6 +36,7 @@ add_library(bprap SHARED
     hooks/structure/game_loop.cpp
     hooks/structure/save_control.cpp
     hooks/structure/connection_wait.cpp
+    hooks/structure/game_action_queue.cpp
 )
 
 target_include_directories(bprap PUBLIC "${CMAKE_SOURCE_DIR}/src")

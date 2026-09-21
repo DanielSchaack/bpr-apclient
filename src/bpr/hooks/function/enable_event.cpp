@@ -26,7 +26,7 @@ bool EnableEvent::EnableEvent(uint32_t  event_id) noexcept {
     }
 
     std::cout << "Event: " << result->eventId << " Flags: " << result->flags << std::endl;
-    result->flags = 0x0021;
+    result->flags = 0x0001;
     return true;
 }
 
@@ -35,7 +35,8 @@ bool EnableEvent::IsEventEnabled(uint32_t  event_id) noexcept {
     if (result == nullptr){
         return false;
     }
-    return (result->flags & 32) != 0;
+    std::cout<< "flags: " << result->flags << std::endl;
+    return (result->flags & 1) != 0;
 }
 
 

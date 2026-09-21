@@ -7,11 +7,12 @@
 #include <ostream>
 #include "../../app/app.hpp"
 #include "../../hooks/game_hooks.hpp"
+#include "../../hooks/structure/detours.hpp"
 
 ApState::ApState(NetworkBridge& bridge) : bridge_(bridge){
 }
 
-void ApState::Update(){
+void ApState::Update(void* gameActionQueue){
     //handle every single event
     while (auto event = bridge_.PopGameEvent())
     {
@@ -56,7 +57,7 @@ void ApState::Update(){
     
     if (GameHooks::GetCurrentGameStateFlag() == 6 && GameHooks::isInGame()){
         while (auto item = PopItem()){
-            ProcessItem(item->item_id, item->index);
+            ProcessItem(item->item_id, item->index, gameActionQueue);
         }
     }
 }
@@ -86,7 +87,7 @@ void ApState::SendBreakableLocation(std::uint32_t type, std::uint32_t id, std::u
     
 }
 
-void ApState::ProcessItem(int64_t item_id, int index){
+void ApState::ProcessItem(int64_t item_id, int index, void* gameActionQueue){
     if (index < save_data_.lastIndex_){
         return;
     }
@@ -112,6 +113,13 @@ void ApState::ProcessItem(int64_t item_id, int index){
     if (item_id > (uint64_t(0xA) << 48)){
         CarUnlockControl::AddCar(item_id << 12);
     }
+    if ( item_id == 100){
+        GameActions::GameAction_SetBoost set_boost{};
+        set_boost.Flags.BoostAmount = true;
+        set_boost.BoostAmount = 1.0f;
+        set_boost.ActiveRaceVehicleIndex = GameHooks::GetPlayerCarIndex();
+        GameActions::AddGameAction(gameActionQueue, &set_boost, set_boost.ID, sizeof(set_boost));
+    }
 }
 
 void ApState::CacheBreakable(int64_t loc_id, uint32_t area_id){
@@ -123,4 +131,11 @@ void ApState::CacheBreakable(int64_t loc_id, uint32_t area_id){
     }
     std::cout << "Defer Breakable" << std::endl;
     save_data_.defered_breakables[area_id].insert(save_data_.defered_breakables[area_id].end(), loc_id);
+}
+
+void ApState::SendGoal(){
+    std::cout << "Send Goal: " << std::endl;
+    if (phase_ == ConnectionPhase::Connected){
+        bridge_.SendToNetwork(NetCommands::SendGoal{});
+    }
 }

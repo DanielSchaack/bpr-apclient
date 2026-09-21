@@ -1,6 +1,6 @@
  #include "detours.hpp"
 namespace GameActions{
-    bool GameActionQueue_AddGameAction(void* gameActionQueue, const void* gameAction, int32_t gameActionID, int32_t gameActionSize)
+    bool AddGameAction(void* gameActionQueue, const void* gameAction, int32_t gameActionID, int32_t gameActionSize)
     {
         bool result = false;
 

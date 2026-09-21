@@ -30,7 +30,7 @@ class App
         
         static bool WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
         static void Render();
-        static void GameThread();
+        static void GameThread(void* gameActionQueue);
     private:
         NetworkBridge bridge_;
         ApState state_;
