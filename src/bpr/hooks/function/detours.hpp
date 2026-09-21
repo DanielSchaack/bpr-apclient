@@ -70,4 +70,5 @@ namespace EnableEvent
 {
     bool EnableEvent(uint32_t event_id) noexcept;
     bool IsEventEnabled(uint32_t  event_id) noexcept; 
+    bool IsValidEvent(uint32_t  event_id) noexcept; 
 }

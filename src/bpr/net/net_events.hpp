@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <string>
 #include <variant>
+#include "../core/broadcast.hpp"
 
 namespace NetEvents{
     struct Connected
@@ -32,6 +33,11 @@ namespace NetEvents{
         std::string source;
         std::string cause;
     };
+
+    struct ApPrintBroadcast
+{
+    std::vector<bpr::BannerSegment> segments;
+};
 }
 
 using NetworkEvent = std::variant<
@@ -39,5 +45,6 @@ using NetworkEvent = std::variant<
         NetEvents::Disconnected,
         NetEvents::ItemReceived,
         NetEvents::DeathLinkReceived,
-        NetEvents::ApConnectionRefused
+        NetEvents::ApConnectionRefused,
+        NetEvents::ApPrintBroadcast
     >;

@@ -15,6 +15,7 @@ bool is_ws = false;
 constexpr int kItemHandling = 0b111;   
 
 ArchepelagoNet::ArchepelagoNet(NetworkBridge& bridge) : bridge_(bridge) {
+    
 }
 ArchepelagoNet::~ArchepelagoNet() = default;
 
@@ -160,7 +161,33 @@ void ArchepelagoNet::do_connect(const std::string &server, const std::string &sl
     client_->set_print_json_handler(
         [this](const APClient::PrintJSONArgs &args)
         {
-            return;
+            const auto opt = [](const int *p) { return p ? std::optional<int>(*p) : std::nullopt; };
+            // args.item->player is the finder: relevant when we sent the check (item destined for another slot).
+            const std::optional<int> item_player = args.item ? std::optional<int>(args.item->player) : std::nullopt;
+            if (!bpr::broadcast_relevant(args.type, client_->get_team_number(), client_->get_player_number(), opt(args.team), opt(args.slot),
+                                         opt(args.receiving), item_player))
+                return;
+
+            std::vector<bpr::BannerSegment> segments;
+            for (const auto &node : args.data)
+            {
+                std::string text = client_->render_json(std::list<APClient::TextNode>{node}, APClient::RenderFormat::TEXT);
+                if (text.empty())
+                    continue;
+                bool is_self = false;
+                if (node.type == "player_id")
+                    try
+                    {
+                        is_self = std::stoi(node.text) == client_->get_player_number();
+                    }
+                    catch (const std::exception &)
+                    {
+                    }
+                segments.push_back(bpr::BannerSegment{std::move(text), bpr::banner_color(node.type, node.color, node.flags, node.hintStatus, is_self)});
+            }
+            if (segments.empty())
+                return;
+            bridge_.SendToGame( NetEvents::ApPrintBroadcast{std::move(segments)});
         });
 }
 
@@ -169,4 +196,5 @@ void ArchepelagoNet::do_disconnect()
     if (!client_)
         return;
     client_.reset();
+    bridge_.SendToGame(NetEvents::Disconnected{});
 }

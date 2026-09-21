@@ -1,6 +1,7 @@
 #pragma once
 
 #include "bpr/ui/login_window.hpp"
+#include "broadcast_banner.hpp"
 #include "login_window.hpp"
 #include "window.hpp"
 #include <memory>
@@ -10,12 +11,13 @@
 class GUI
 {
     public:
-        GUI();
+        GUI(bpr::BannerQueue &banner_queue);
         ~GUI();
         bool WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
         void Render();
         void Initialize();
         LoginWindow* login_window;
+        bpr::BroadcastBanner banner_;
     private:
         std::vector<std::unique_ptr<Window>> windows;
         HWND windowHandle;

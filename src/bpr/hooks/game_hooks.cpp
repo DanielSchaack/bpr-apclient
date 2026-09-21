@@ -25,3 +25,7 @@ void GameHooks::Init(){
     
     MH_EnableHook(MH_ALL_HOOKS);
 }
+
+bool GameHooks::isInGame() noexcept{
+    return EnableEvent::IsValidEvent(481382);
+}

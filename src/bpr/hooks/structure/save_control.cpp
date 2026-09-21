@@ -44,12 +44,13 @@ namespace RedirectSave
             state.GetSeed(),
             state.GetSlot()
         );
-        const std::string expectedFolder = std::format("AP_Save_{}_{}_\\", App::Instance->State().GetSeed(), App::Instance->State().GetSlot());
+        const std::string expectedFolder = std::format("AP_Save_{}_{}_", App::Instance->State().GetSeed(), App::Instance->State().GetSlot());
 
         const std::filesystem::path dirPath(directory);
 
-        if (dirPath.filename() != expectedFolder)
+        if (dirPath.parent_path().filename() != expectedFolder)
         {
+            std::cout << "filename: " << dirPath.parent_path().filename() << " expected: " << expectedFolder << std::endl;
             return;
         }
 

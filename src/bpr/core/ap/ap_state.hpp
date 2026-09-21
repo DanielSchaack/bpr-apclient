@@ -14,7 +14,7 @@ class ApState
         Error
     };
     public:
-        explicit ApState(NetworkBridge& bridge) : bridge_(bridge){}
+        ApState(NetworkBridge& bridge);
 
 
         void SendLocation(int64_t location_id);

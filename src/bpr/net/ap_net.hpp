@@ -3,6 +3,8 @@
 #include "net_bridge.hpp"
 #include <string>
 
+#include "../core/broadcast.hpp"
+
 //#define CERT_STORE "cacert.pem"
 //#define UUID_FILE "uuid" // TODO: place in %appdata%
 
@@ -34,7 +36,6 @@ public:
 	std::string uuid;
 	bool polling;
 
-	
 private:
 	NetworkBridge& bridge_;
 	std::unique_ptr<APClient> client_;

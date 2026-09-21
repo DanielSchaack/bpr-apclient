@@ -18,6 +18,7 @@ namespace GameLoop
     {
         App::GameThread();
         Original(self);
+        //Code runs after origional
     }
     MH_STATUS Install()
     {

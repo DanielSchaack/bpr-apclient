@@ -4,12 +4,13 @@
 #include <d3d11.h>
 #include "bpr/app/app.hpp"
 #include "bpr/hooks/game_hooks.hpp"
+#include "broadcast_banner.hpp"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
 #include "login_window.hpp"
 #include "bpr/hooks/function/detours.hpp"
 
-GUI::GUI()
+GUI::GUI(bpr::BannerQueue &banner_queue):banner_( banner_queue)
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -51,8 +52,8 @@ bool GUI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
     if (msg == WM_KEYDOWN && wParam == VK_F3)
     {
-        EnableEvent::EnableEvent(481094);
-        std::cout << "Saves: " << GameHooks::GetEventSaveManager() << std::endl;
+        GameHooks::PrintCurrentBoostLevel();
+        GameHooks::PrintCurrentDeformation();
         return false;
     }
 
@@ -106,7 +107,7 @@ void GUI::Render(){
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
-
+    banner_.draw();
     for (auto& window : windows) { window.get()->Draw(windowWidth, windowHeight, uiScale); }
 
 

@@ -4,7 +4,7 @@ App* App::Instance = nullptr;
 
 App::App(): state_(bridge_),
           network_(bridge_),
-          gui_(){
+          gui_(bridge_.getBannerQueue()){
     Instance = this;
     
     network_thread_ = std::thread([this]()

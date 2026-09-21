@@ -8,6 +8,9 @@
 #include "../../app/app.hpp"
 #include "../../hooks/game_hooks.hpp"
 
+ApState::ApState(NetworkBridge& bridge) : bridge_(bridge){
+}
+
 void ApState::Update(){
     //handle every single event
     while (auto event = bridge_.PopGameEvent())
@@ -30,8 +33,8 @@ void ApState::Update(){
                 }
                 else if constexpr (std::is_same_v<T, NetEvents::Disconnected>)
                 {
-                    App::Instance->Gui().login_window->SetMessage("Disconnected");
                     phase_.store(ConnectionPhase::Disconnected);
+                    App::Instance->Gui().login_window->SetMessage("Disconnected");
                 }
                 else if constexpr (std::is_same_v<T, NetEvents::ItemReceived>)
                 {
@@ -42,12 +45,16 @@ void ApState::Update(){
                 {
                     DeathLink::KillPlayer();
                 }
+                else if constexpr (std::is_same_v<T, NetEvents::ApPrintBroadcast>)
+                {
+                    bridge_.broadcast(e.segments);
+                }
             },
             *event
         );
     }
-    std::cout << GameHooks::GetCurrentGameStateFlag() << std::endl;
-    if (GameHooks::GetCurrentGameStateFlag() == 6){
+    
+    if (GameHooks::GetCurrentGameStateFlag() == 6 && GameHooks::isInGame()){
         while (auto item = PopItem()){
             ProcessItem(item->item_id, item->index);
         }

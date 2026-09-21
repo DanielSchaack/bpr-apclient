@@ -14,14 +14,12 @@ using FindEventInSaveDataFn = EventSave* (__thiscall*)(
     std::uint32_t value
 );
 
-constexpr std::uintptr_t FindEventInSaveDataAddress = 0x06e5d2a0;
-
-auto FindSomething =  reinterpret_cast<FindEventInSaveDataFn>(FindEventInSaveDataAddress);
+auto FindEventSave =  reinterpret_cast<FindEventInSaveDataFn>(0x06e5d2a0);
 
 
 bool EnableEvent::EnableEvent(uint32_t  event_id) noexcept {
     std::cout << event_id << std::endl;
-    EventSave* result = FindSomething( GameHooks::GetEventSaveManager(), event_id);
+    EventSave* result = FindEventSave( GameHooks::GetEventSaveManager(), event_id);
     if (result == nullptr){
         std::cout << "event not found" << std::endl;
         return false;
@@ -33,9 +31,15 @@ bool EnableEvent::EnableEvent(uint32_t  event_id) noexcept {
 }
 
 bool EnableEvent::IsEventEnabled(uint32_t  event_id) noexcept {
-    EventSave* result = FindSomething( GameHooks::GetEventSaveManager(), event_id);
+    EventSave* result = FindEventSave( GameHooks::GetEventSaveManager(), event_id);
     if (result == nullptr){
         return false;
     }
     return (result->flags & 32) != 0;
+}
+
+
+bool EnableEvent::IsValidEvent(uint32_t  event_id) noexcept {
+    EventSave* result = FindEventSave( GameHooks::GetEventSaveManager(), event_id);
+    return result != nullptr;
 }

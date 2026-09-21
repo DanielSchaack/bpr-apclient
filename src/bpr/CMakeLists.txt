@@ -10,12 +10,14 @@ add_library(bprap SHARED
 
     core/ap/ap_state.cpp
     core/ap/slot_data.cpp
+    core/broadcast.cpp
 
     net/ap_net.cpp
     net/deathlink.cpp
 
     ui/gui.cpp
     ui/login_window.cpp
+    ui/broadcast_banner.cpp
 
     hooks/game_hooks.cpp
 

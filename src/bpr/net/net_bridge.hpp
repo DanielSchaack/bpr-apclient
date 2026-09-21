@@ -4,10 +4,26 @@
 #include <mutex>
 #include <optional>
 #include <queue>
+#include "../core/broadcast.hpp"
 
 class NetworkBridge
 {
+    
+    
     public:
+
+        NetworkBridge() = default;
+        ~NetworkBridge() = default;
+        
+        bpr::BannerQueue& getBannerQueue()
+        {
+            return banner_queue_;
+        }
+
+        void broadcast(std::vector<bpr::BannerSegment> &segs){
+            banner_queue_.push(segs);
+        }
+
         void SendToNetwork(NetworkCommand command)
         {
             std::scoped_lock lock(network_mutex_);
@@ -53,4 +69,6 @@ class NetworkBridge
 
         std::mutex game_mutex_;
         std::queue<NetworkEvent> game_events_;
+
+        bpr::BannerQueue banner_queue_;
 };
