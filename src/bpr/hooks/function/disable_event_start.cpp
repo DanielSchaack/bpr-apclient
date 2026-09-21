@@ -16,8 +16,6 @@ namespace DisableEventStart {
     extern "C" __declspec(noinline) bool __stdcall
     StreetlightEvent_IsAllowed(std::uint32_t eventId) noexcept
     {
-        
-        std::cout << "Trigger Start Id" <<eventId << std::endl;
         return EnableEvent::IsEventEnabled(eventId);
     }
 

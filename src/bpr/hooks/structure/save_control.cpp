@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <fstream>
 #include "../../app/app.hpp"
+#include "bpr/core/logger.hpp"
 
 
 namespace RedirectSave
@@ -21,7 +22,7 @@ namespace RedirectSave
             std::strcmp(suffix, "Save\\") == 0)
         {
             if (App::Instance->State().isDisconnected()){
-                std::cout << "Loading with no connection to AP" << std::endl;
+                Logger::Log(std::format("Loading Save with no connection to AP"));
                 return suffix;
             }
             path = std::format("AP_Save_{}_{}_\\", App::Instance->State().GetSeed(), App::Instance->State().GetSlot());
@@ -50,7 +51,6 @@ namespace RedirectSave
 
         if (dirPath.parent_path().filename() != expectedFolder)
         {
-            std::cout << "filename: " << dirPath.parent_path().filename() << " expected: " << expectedFolder << std::endl;
             return;
         }
 
@@ -61,7 +61,7 @@ namespace RedirectSave
 
             if(!file_exists){
                 state.MarkSaveAsInitialized();
-                std::cout << "Creating new AP save: "  << filePath << '\n';
+                Logger::Log(std::format("Creating new AP save at: {}", expectedFolder));
                 return;
             }
 
@@ -69,7 +69,7 @@ namespace RedirectSave
 
             if (!file)
             {
-                std::cerr  << "Failed to open AP save for reading: " << filePath << '\n';
+                Logger::Log(std::format("Failed To Open AP Save"));
                 return;
             }
 
@@ -84,16 +84,11 @@ namespace RedirectSave
 
                 state.MarkSaveAsInitialized();
 
-                std::cout << "Loaded AP save: " << filePath << '\n';
+                Logger::Log(std::format("Loaded AP save at: {}", expectedFolder));
             }
             catch (const nlohmann::json::exception& e)
             {
-                std::cerr
-                    << "Failed to parse AP save "
-                    << filePath
-                    << ": "
-                    << e.what()
-                    << '\n';
+                Logger::Log(std::format("Failed to parse AP save {} {}", filePath.string(), e.what()));
             }
 
             return;
@@ -108,7 +103,7 @@ namespace RedirectSave
 
         if (!file)
         {
-            std::cerr << "Failed to open AP save for writing: " << filePath << '\n';
+            Logger::Log(std::format("Failed to Write AP save {}", filePath.string()));
             return;
         }
 
@@ -120,11 +115,11 @@ namespace RedirectSave
 
             if (!file)
             {
-                std::cerr << "Failed to write AP save: " << filePath << '\n';
+                Logger::Log(std::format("Failed to Write Json AP save {}", filePath.string()));
                 return;
             }
 
-            std::cout << "Saved AP save: " << filePath << '\n';
+            Logger::Log(std::format("Saved AP Save to {}",expectedFolder));
         }
         catch (const nlohmann::json::exception& e)
         {

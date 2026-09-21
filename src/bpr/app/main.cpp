@@ -2,6 +2,7 @@
 #include <iostream>
 #include "../hooks/game_hooks.hpp"
 #include "app.hpp"
+#include "bpr/core/logger.hpp"
 
 DWORD WINAPI InitializeThread(LPVOID)
 {
@@ -10,7 +11,7 @@ DWORD WINAPI InitializeThread(LPVOID)
     freopen_s(&file, "CONOUT$", "w", stdout);
     HWND hwndConsole = GetConsoleWindow();
     ShowWindow(hwndConsole, SW_SHOW);
-    std::cout << "DLL Loaded Successfully! WOOOOOOO" << std::endl;
+    Logger::Log("DLL Loaded Successfully! WOOOOOOO");
 
     while (true)
     {
@@ -23,7 +24,7 @@ DWORD WINAPI InitializeThread(LPVOID)
         }
         Sleep(1000);
     }
-    std::cout << "Game initialized. Initializing AP mod" << std::endl;
+    Logger::Log("Game initialized. Initializing AP mod");
     GameHooks::Init();
 
     new App();
@@ -64,7 +65,6 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 
         case DLL_PROCESS_DETACH:
             // Code here runs when the DLL is unloaded from memory
-            std::cout << "DLL Unloaded!\n";
             FreeConsole();
             break;
     }

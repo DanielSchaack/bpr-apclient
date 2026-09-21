@@ -8,6 +8,7 @@
 #include "../../app/app.hpp"
 #include "../../hooks/game_hooks.hpp"
 #include "../../hooks/structure/detours.hpp"
+#include "bpr/core/logger.hpp"
 
 ApState::ApState(NetworkBridge& bridge) : bridge_(bridge){
 }
@@ -36,11 +37,12 @@ void ApState::Update(void* gameActionQueue){
                 {
                     phase_.store(ConnectionPhase::Disconnected);
                     App::Instance->Gui().login_window->SetMessage("Disconnected");
+                    Logger::Log("AP Diconnect");
                 }
                 else if constexpr (std::is_same_v<T, NetEvents::ItemReceived>)
                 {
-                    std::cout << "Recieved: " << e.item_id << std::endl;
                     QueueItem(e);
+                    Logger::Log(std::format("Received: {}", e.item_id));
                 }
                 else if constexpr (std::is_same_v<T, NetEvents::DeathLinkReceived>)
                 {
@@ -77,7 +79,7 @@ void ApState::Disconnect(){
 }
 
 void ApState::SendLocation(int64_t location_id){
-    std::cout << "Try Check: " << location_id << std::endl;
+    Logger::Log(std::format("Try Send Lockation: {}", location_id));
     if (phase_ == ConnectionPhase::Connected){
         bridge_.SendToNetwork(NetCommands::SendLocation{location_id});
     }
@@ -92,8 +94,6 @@ void ApState::ProcessItem(int64_t item_id, int index, void* gameActionQueue){
         return;
     }
     save_data_.lastIndex_++;
-    
-    std::cout << "Process: " << item_id << std::endl;
 
     if (item_id >= 1000 && item_id < 2000){
         auto area_id = item_id-1000;
@@ -126,15 +126,13 @@ void ApState::CacheBreakable(int64_t loc_id, uint32_t area_id){
     if (!slot_data_.lockBreakables || std::ranges::find(save_data_.owned_areas, area_id) != save_data_.owned_areas.end()) {
         SendLocation(loc_id + save_data_.breakable_counts[area_id]);
         save_data_.breakable_counts[area_id]++;
-        std::cout << "Send Breakable" << std::endl;
         return;
     }
-    std::cout << "Defer Breakable" << std::endl;
     save_data_.defered_breakables[area_id].insert(save_data_.defered_breakables[area_id].end(), loc_id);
 }
 
 void ApState::SendGoal(){
-    std::cout << "Send Goal: " << std::endl;
+    Logger::Log("Send Goal");
     if (phase_ == ConnectionPhase::Connected){
         bridge_.SendToNetwork(NetCommands::SendGoal{});
     }

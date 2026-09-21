@@ -36,8 +36,6 @@ GUI::~GUI()
     ImGui_ImplWin32_Shutdown();
 
     ImGui::DestroyContext();
-
-    std::cout << "Unloaded ImGui manager.";
 }
 
 

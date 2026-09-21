@@ -17,7 +17,7 @@ namespace DetectBreakable
     extern "C" __declspec(noinline) void __stdcall
     LogBreakable(std::uint32_t type, std::uint32_t id, std::uint32_t area) noexcept
     {
-        std::cout << "Type: " << type << "Id: " << id << "Area: " << area <<std::endl;
+        // std::cout << "Type: " << type << "Id: " << id << "Area: " << area <<std::endl;
         int64_t loc_id = 10000 + (1000 * area) + (100 * type);
         App::Instance->State().CacheBreakable(loc_id, area);
     }

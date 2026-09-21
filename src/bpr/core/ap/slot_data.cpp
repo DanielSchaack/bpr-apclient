@@ -20,8 +20,8 @@ bpr::SlotData bpr::parse_slot_data(const nlohmann::json &data){
     const bool obj = data.is_object();
     slot_data.goalConfig = obj ? data.value("goal_config", 0) : 0;
     slot_data.licenseGoal = (obj ? data.value("license_goal", 1) : 1) + 2;
-    slot_data.deathlink = obj ? data.value("death_link", false) : false;
-    slot_data.lockBreakables = obj ? data.value("breakable_locks", false) : false;
+    slot_data.deathlink = obj ? data.value("death_link", 0) : 0;
+    slot_data.lockBreakables = obj ? data.value("breakable_locks", 0) : 0;
 
     if (obj && data.contains("smash_sanity"))
     {

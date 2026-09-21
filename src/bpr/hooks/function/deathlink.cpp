@@ -57,7 +57,7 @@ namespace DeathLink
 
         if (local && !wasCrashing && At<Byte>(car, 0x1170))
         {
-            std::cout << "[PlayerCrash] Local player entered crash state (kind=%u).\n" << static_cast<unsigned>(At<Byte>(car, 0x1171)) << std::endl;
+            //std::cout << "[PlayerCrash] Local player entered crash state (kind=%u).\n" << static_cast<unsigned>(At<Byte>(car, 0x1171)) << std::endl;
         }
     }
 

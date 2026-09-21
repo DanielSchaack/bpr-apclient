@@ -1,6 +1,6 @@
 #include "bpr/hooks/game_hooks.hpp"
 #include "detours.hpp"
-#include <exception>
+#include "bpr/core//logger.hpp"
 #include <iostream>
 
 struct EventSave{
@@ -18,14 +18,13 @@ auto FindEventSave =  reinterpret_cast<FindEventInSaveDataFn>(0x06e5d2a0);
 
 
 bool EnableEvent::EnableEvent(uint32_t  event_id) noexcept {
-    std::cout << event_id << std::endl;
     EventSave* result = FindEventSave( GameHooks::GetEventSaveManager(), event_id);
     if (result == nullptr){
-        std::cout << "event not found" << std::endl;
+        Logger::Log(std::format("Event {} not found", event_id));
         return false;
     }
 
-    std::cout << "Event: " << result->eventId << " Flags: " << result->flags << std::endl;
+    Logger::Log(std::format("Enabled Event {} with flags {}", result->eventId, result->flags));
     result->flags = 0x0001;
     return true;
 }
@@ -35,7 +34,7 @@ bool EnableEvent::IsEventEnabled(uint32_t  event_id) noexcept {
     if (result == nullptr){
         return false;
     }
-    std::cout<< "flags: " << result->flags << std::endl;
+    Logger::Log(std::format("Check Event {} with flags {}", result->eventId, result->flags));
     return (result->flags & 1) != 0;
 }
 

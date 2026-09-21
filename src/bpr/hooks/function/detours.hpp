@@ -18,11 +18,6 @@ namespace Helper
     inline uintptr_t gameStateModule = *reinterpret_cast<uintptr_t*>(gameModule) + 0x69B000;
 }
 
-namespace logEvent
-{
-    MH_STATUS Install();
-}
-
 namespace DisableTrigger
 {
 

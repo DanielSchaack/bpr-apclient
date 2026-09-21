@@ -22,7 +22,6 @@ namespace EventWinLog
         if (position == 1)
         {
             App::Instance->State().SendLocation(eventId);
-            std::cout << "Event Win: " << eventId << std::endl;
         }
     }
 

@@ -21,7 +21,6 @@ add_library(bprap SHARED
 
     hooks/game_hooks.cpp
 
-    hooks/function/log_event.cpp
     hooks/function/disable_trigger.cpp
     hooks/function/disable_event_start.cpp
     hooks/function/detect_breakable.cpp
@@ -37,6 +36,7 @@ add_library(bprap SHARED
     hooks/structure/save_control.cpp
     hooks/structure/connection_wait.cpp
     hooks/structure/game_action_queue.cpp
+    core/logger.cpp
 )
 
 target_include_directories(bprap PUBLIC "${CMAKE_SOURCE_DIR}/src")

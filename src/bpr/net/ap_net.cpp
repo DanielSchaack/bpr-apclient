@@ -73,7 +73,6 @@ void ArchepelagoNet::do_connect(const std::string &server, const std::string &sl
         is_ws ? server.substr(5) :
         is_wss ? server.substr(6) :
         server);
-    std::cout << GAME_NAME << std::endl;
     client_ = std::make_unique<APClient>(uuid, GAME_NAME, server);
 
     client_->set_slot_connected_handler([this,slot, password](const nlohmann::json& data) {

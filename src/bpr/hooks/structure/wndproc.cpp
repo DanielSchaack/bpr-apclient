@@ -82,11 +82,6 @@ namespace WndProc
             nullptr
         );
 
-        if (status != MH_OK)
-        {
-            std::cout << "Hook WndProc Failed" << std::endl;
-        }
-
         return status;
 
     }

@@ -104,7 +104,7 @@ namespace GameHooks
                 activeRaceVehicle + 0x8AC
             );
 
-        std::cout << "Deformation: " << deformation << " ptr: " << carptr << std::endl;
+        //std::cout << "Deformation: " << deformation << " ptr: " << carptr << std::endl;
     }
 
     inline void PrintCurrentBoostLevel()
@@ -120,6 +120,6 @@ namespace GameHooks
         const std::int32_t boostLevel =
             *reinterpret_cast<std::int32_t*>(gameModule + 0x40754);
 
-        std::cout << "Boost Level: " << boostLevel << '\n';
+        //std::cout << "Boost Level: " << boostLevel << '\n';
     }
 };
