@@ -79,7 +79,7 @@ void ApState::Disconnect(){
 }
 
 void ApState::SendLocation(int64_t location_id){
-    Logger::Log(std::format("Try Send Lockation: {}", location_id));
+    Logger::Log(std::format("Try Send Location: {}", location_id));
     if (phase_ == ConnectionPhase::Connected){
         bridge_.SendToNetwork(NetCommands::SendLocation{location_id});
     }

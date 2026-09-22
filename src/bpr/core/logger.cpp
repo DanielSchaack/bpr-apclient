@@ -137,7 +137,6 @@ namespace Logger
             << GetLogTimestamp()
             << "] "
             << message
-            << '\n'
             << std::endl;
     }
 }

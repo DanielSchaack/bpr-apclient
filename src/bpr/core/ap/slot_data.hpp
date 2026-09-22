@@ -11,6 +11,7 @@ namespace bpr
 
     struct SlotData
     {
+        std::string semver;
         int goalConfig;
         int licenseGoal;
         bool lockBreakables;

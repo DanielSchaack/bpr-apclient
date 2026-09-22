@@ -1,5 +1,6 @@
 #include "ap_net.hpp"
 #include "bpr/core/ap/slot_data.hpp"
+#include "bpr/core/logger.hpp"
 #include "deathlink.hpp"
 #include "net_events.hpp"
 
@@ -64,6 +65,20 @@ void ArchepelagoNet::Stop()
     running_ = false;
 }
 
+
+std::pair<int, int> GetMajorMinor(const std::string& version)
+{
+    std::stringstream ss(version);
+
+    int major = 0;
+    int minor = 0;
+    char dot = '\0';
+
+    ss >> major >> dot >> minor;
+
+    return {major, minor};
+}
+
 void ArchepelagoNet::do_connect(const std::string &server, const std::string &slot, const std::string &password)
 {
     do_disconnect();
@@ -78,6 +93,18 @@ void ArchepelagoNet::do_connect(const std::string &server, const std::string &sl
     client_->set_slot_connected_handler([this,slot, password](const nlohmann::json& data) {
         slotname = slot;
         bpr::SlotData slot_data = bpr::parse_slot_data(data);
+
+        const auto [slotMajor, slotMinor] = GetMajorMinor(slot_data.semver);
+
+        const auto [clientMajor, clientMinor] = GetMajorMinor(BPRAP_RELEASE_VERSION);
+
+        if (slotMajor > clientMajor || slotMinor > clientMinor)
+        {
+            Logger::Log("Please update your mod. The AP world is incompatible.");
+            do_disconnect();
+            bridge_.SendToGame(NetEvents::Disconnected{});
+        }
+
         deathlink_allowed_.store(slot_data.deathlink);
 
         std::list<std::string> tags;
@@ -197,3 +224,4 @@ void ArchepelagoNet::do_disconnect()
     client_.reset();
     bridge_.SendToGame(NetEvents::Disconnected{});
 }
+
