@@ -3,6 +3,7 @@
 #include "bpr/net/net_bridge.hpp"
 #include "slot_data.hpp"
 #include "../save/save_data.hpp"
+#include <chrono>
 
 class ApState
 {
@@ -25,6 +26,8 @@ class ApState
         void ProcessItem(int64_t item_id, int index, void* gameActionQueue);
         void CacheBreakable(int64_t loc_id, uint32_t area_id);
         void SendGoal();
+        void SendDeathLink();
+        bool InDeathTimeout();
 
         [[nodiscard]] bool HasApSaveData() const{
             return save_data_initialized;
@@ -98,4 +101,7 @@ class ApState
 
         std::mutex item_mutex_;
         std::queue<NetEvents::ItemReceived> queued_items_;
+
+        const std::chrono::seconds death_delay = std::chrono::seconds(6);
+        std::chrono::time_point<std::chrono::steady_clock> death_link_time;
 }; 

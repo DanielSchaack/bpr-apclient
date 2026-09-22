@@ -50,8 +50,14 @@ bool GUI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
     if (msg == WM_KEYDOWN && wParam == VK_F3)
     {
-        GameHooks::PrintCurrentBoostLevel();
-        GameHooks::PrintCurrentDeformation();
+        DeathLink::KillPlayer();
+        return false;
+    }
+
+    if (msg == WM_KEYDOWN && wParam == VK_F4)
+    {
+        App::Instance->State().SendDeathLink();
+        DeathLink::KillPlayer();
         return false;
     }
 

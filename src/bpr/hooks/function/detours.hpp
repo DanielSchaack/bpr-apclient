@@ -52,12 +52,8 @@ namespace EventWinLog
 
 namespace DeathLink
 {
-    // Call after MH_Initialize(), during mod startup.
     MH_STATUS Install();
 
-    // Queue one crash for the next vehicle physics update.
-    // True means queued, not that a crash/cutscene has already happened.
-    // Repeated requests before that update are coalesced.
     bool KillPlayer() noexcept;
 }
 
@@ -66,4 +62,8 @@ namespace EnableEvent
     bool EnableEvent(uint32_t event_id) noexcept;
     bool IsEventEnabled(uint32_t  event_id) noexcept; 
     bool IsValidEvent(uint32_t  event_id) noexcept; 
+}
+
+namespace AlwaysWrecked {
+    MH_STATUS Install();
 }

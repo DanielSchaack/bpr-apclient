@@ -46,6 +46,7 @@ void ApState::Update(void* gameActionQueue){
                 }
                 else if constexpr (std::is_same_v<T, NetEvents::DeathLinkReceived>)
                 {
+                    death_link_time = std::chrono::steady_clock::now();
                     DeathLink::KillPlayer();
                 }
                 else if constexpr (std::is_same_v<T, NetEvents::ApPrintBroadcast>)
@@ -82,6 +83,14 @@ void ApState::SendLocation(int64_t location_id){
     Logger::Log(std::format("Try Send Location: {}", location_id));
     if (phase_ == ConnectionPhase::Connected){
         bridge_.SendToNetwork(NetCommands::SendLocation{location_id});
+    }
+}
+
+void ApState::SendDeathLink(){
+    Logger::Log(std::format("Try Send Death"));
+    if (phase_ == ConnectionPhase::Connected){
+        death_link_time = std::chrono::steady_clock::now();
+        bridge_.SendToNetwork(NetCommands::SendDeathLink{});
     }
 }
 
@@ -136,4 +145,9 @@ void ApState::SendGoal(){
     if (phase_ == ConnectionPhase::Connected){
         bridge_.SendToNetwork(NetCommands::SendGoal{});
     }
+}
+
+bool ApState::InDeathTimeout(){
+    auto current_time = std::chrono::steady_clock::now();
+    return current_time - death_link_time < death_delay;
 }
