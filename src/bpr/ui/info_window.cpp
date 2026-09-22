@@ -21,7 +21,7 @@ void InfoWindow::Draw(int outerWidth, int outerHeight, float uiScale) {
     ImGui::TextUnformatted("AP Client Temp Logger. Press F3 to toggle");
     ImGui::TextUnformatted("");
     for (const auto& msg : logMessages) {
-        ImGui::InputText("", (char*)msg.c_str(), msg.length(), ImGuiInputTextFlags_ReadOnly);
+        ImGui::InputText("##Text", (char*)msg.c_str(), msg.length(), ImGuiInputTextFlags_ReadOnly);
     }
 
     ImGui::End();
