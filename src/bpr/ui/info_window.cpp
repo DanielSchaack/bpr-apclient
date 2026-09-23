@@ -18,7 +18,7 @@ void InfoWindow::Draw(int outerWidth, int outerHeight, float uiScale) {
         return;
 
     ImGui::Begin("Log", &isVisible, ImGuiWindowFlags_AlwaysAutoResize);
-    ImGui::TextUnformatted("AP Client Temp Logger. Press F3 to toggle");
+    ImGui::TextUnformatted("AP Client Temp Logger. Press F3 to toggle                            ");
     ImGui::TextUnformatted("");
     for (const auto& msg : logMessages) {
         ImGui::SetNextItemWidth(-1.0f); 
