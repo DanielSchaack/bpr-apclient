@@ -37,8 +37,7 @@ namespace DetectBreakable
     {
         App::Instance->Gui().info_window->AddLogMessage(std::format("{} {} ID: {}", areaIndex[area], typeIndex[type], id));
         Logger::Log(std::format("{} {} ID: {}", areaIndex[area], typeIndex[type], id));
-        int64_t loc_id = 10000 + (1000 * area) + (100 * type);
-        App::Instance->State().CacheBreakable(loc_id, area);
+        App::Instance->State().CacheBreakable(area, type);
     }
 
     __declspec(naked) void Detour()

@@ -24,7 +24,7 @@ class ApState
         void Disconnect();
         void Update(void* gameActionQueue);
         void ProcessItem(int64_t item_id, int index, void* gameActionQueue);
-        void CacheBreakable(int64_t loc_id, uint32_t area_id);
+        void CacheBreakable(uint32_t area_id, int type_id);
         void SendGoal();
         void SendDeathLink();
         bool InDeathTimeout();

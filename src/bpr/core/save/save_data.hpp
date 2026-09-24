@@ -12,11 +12,9 @@ namespace bpr
         std::string seed_;
         int slot_;
         int lastIndex_;
-        std::array<int, 6> breakable_counts = {
-            0,0,0,0,0,0
-        };
+        std::array<std::array<int, 3>, 6> breakable_counts{};
         std::list<int> owned_areas = {};
-        std::map<int, std::list<int64_t>> defered_breakables = {};
+        std::map<int, std::list<std::pair<int,int64_t>>> deferred_breakables = {};
     };
 
     inline void to_json(nlohmann::json& j, const SaveData& data)
@@ -27,7 +25,7 @@ namespace bpr
             {"lastIndex", data.lastIndex_},
             {"breakable_counts", data.breakable_counts},
             {"owned_areas", data.owned_areas},
-            {"defered_breakables", data.defered_breakables}
+            {"defered_breakables", data.deferred_breakables}
         };
     }
 
@@ -38,6 +36,6 @@ namespace bpr
         j.at("lastIndex").get_to(data.lastIndex_);
         j.at("breakable_counts").get_to(data.breakable_counts);
         j.at("owned_areas").get_to(data.owned_areas);
-        j.at("defered_breakables").get_to(data.defered_breakables);
+        j.at("defered_breakables").get_to(data.deferred_breakables);
     }
 }
