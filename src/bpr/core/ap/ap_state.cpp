@@ -107,12 +107,16 @@ void ApState::ProcessItem(int64_t item_id, int index, void* gameActionQueue){
     if (item_id >= 1000 && item_id < 2000){
         auto area_id = item_id-1000;
         save_data_.owned_areas.insert(save_data_.owned_areas.end(), area_id);
-        std::ranges::for_each(save_data_.defered_breakables[area_id], 
-            [&](int64_t location_id)
+        for (const auto& [type_id, location_id] : save_data_.deferred_breakables[area_id])
         {
-            SendLocation(location_id + save_data_.breakable_counts[area_id]);
-            save_data_.breakable_counts[area_id]++;
-        });
+            SendLocation(
+                location_id +
+                save_data_.breakable_counts[area_id][type_id]
+            );
+
+            save_data_.breakable_counts[area_id][type_id]++;
+        }
+        save_data_.deferred_breakables[area_id].clear();
     }
 
     if (item_id > 400000 && item_id < 600000){
@@ -131,13 +135,14 @@ void ApState::ProcessItem(int64_t item_id, int index, void* gameActionQueue){
     }
 }
 
-void ApState::CacheBreakable(int64_t loc_id, uint32_t area_id){
+void ApState::CacheBreakable(uint32_t area_id, int type_id){
+    int64_t loc_id = 10000 + (1000 * area_id) + (100 * type_id);
     if (!slot_data_.lockBreakables || std::ranges::find(save_data_.owned_areas, area_id) != save_data_.owned_areas.end()) {
-        SendLocation(loc_id + save_data_.breakable_counts[area_id]);
-        save_data_.breakable_counts[area_id]++;
+        SendLocation(loc_id + save_data_.breakable_counts[area_id][type_id]);
+        save_data_.breakable_counts[area_id][type_id]++;
         return;
     }
-    save_data_.defered_breakables[area_id].insert(save_data_.defered_breakables[area_id].end(), loc_id);
+    save_data_.deferred_breakables[area_id].emplace_back(type_id, loc_id);
 }
 
 void ApState::SendGoal(){

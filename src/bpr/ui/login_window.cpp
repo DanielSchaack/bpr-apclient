@@ -41,7 +41,8 @@ void LoginWindow::Draw(int outerWidth, int outerHeight, float uiScale) {
 
 
     ImGui::TextWrapped("%s", message.c_str());
-
+    ImGui::TextWrapped("%s","Press F1 To toggle Imgui Input.");
+    ImGui::TextWrapped("%s","Press F2 to Toggle visibility.");
     ImGui::End();
 }
 

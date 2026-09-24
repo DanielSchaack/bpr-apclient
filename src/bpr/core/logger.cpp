@@ -18,103 +18,101 @@
 
 namespace Logger
 {
-    namespace
+    std::ofstream logFile;
+    std::mutex logMutex;
+    bool initialized = false;
+
+    std::string GetDateTimeString()
     {
-        std::ofstream logFile;
-        std::mutex logMutex;
-        bool initialized = false;
+        const auto now = std::chrono::system_clock::now();
+        const std::time_t nowTime =
+            std::chrono::system_clock::to_time_t(now);
 
-        std::string GetDateTimeString()
-        {
-            const auto now = std::chrono::system_clock::now();
-            const std::time_t nowTime =
-                std::chrono::system_clock::to_time_t(now);
+        std::tm localTime{};
 
-            std::tm localTime{};
+        localtime_s(&localTime, &nowTime);
 
-            localtime_s(&localTime, &nowTime);
+        std::ostringstream stream;
 
-            std::ostringstream stream;
+        stream << std::put_time(
+            &localTime,
+            "%Y-%m-%d_%H-%M-%S"
+        );
 
-            stream << std::put_time(
-                &localTime,
-                "%Y-%m-%d_%H-%M-%S"
-            );
-
-            return stream.str();
-        }
-
-        std::string GetLogTimestamp()
-        {
-            const auto now = std::chrono::system_clock::now();
-            const std::time_t nowTime =
-                std::chrono::system_clock::to_time_t(now);
-
-            std::tm localTime{};
-
-            localtime_s(&localTime, &nowTime);
-
-            std::ostringstream stream;
-
-            stream << std::put_time(
-                &localTime,
-                "%Y-%m-%d %H:%M:%S"
-            );
-
-            return stream.str();
-        }
-
-        bool Initialize()
-        {
-            if (initialized)
-                return logFile.is_open();
-
-            initialized = true;
-
-            PWSTR localAppDataPath = nullptr;
-
-            const HRESULT result = SHGetKnownFolderPath(
-                FOLDERID_LocalAppData,
-                0,
-                nullptr,
-                &localAppDataPath
-            );
-
-            if (FAILED(result) || localAppDataPath == nullptr)
-                return false;
-
-            const std::filesystem::path logDirectory =
-                std::filesystem::path(localAppDataPath)
-                / L"bpr-apclient";
-
-            CoTaskMemFree(localAppDataPath);
-
-            std::error_code error;
-
-            std::filesystem::create_directories(
-                logDirectory,
-                error
-            );
-
-            if (error)
-                return false;
-
-            const std::string filename =
-                "bprap_" +
-                GetDateTimeString() +
-                ".log";
-
-            const std::filesystem::path logPath =
-                logDirectory / filename;
-
-            logFile.open(
-                logPath,
-                std::ios::out | std::ios::app
-            );
-
-            return logFile.is_open();
-        }
+        return stream.str();
     }
+
+    std::string GetLogTimestamp()
+    {
+        const auto now = std::chrono::system_clock::now();
+        const std::time_t nowTime =
+            std::chrono::system_clock::to_time_t(now);
+
+        std::tm localTime{};
+
+        localtime_s(&localTime, &nowTime);
+
+        std::ostringstream stream;
+
+        stream << std::put_time(
+            &localTime,
+            "%Y-%m-%d %H:%M:%S"
+        );
+
+        return stream.str();
+    }
+
+    bool Initialize()
+    {
+        if (initialized)
+            return logFile.is_open();
+
+        initialized = true;
+
+        PWSTR localAppDataPath = nullptr;
+
+        const HRESULT result = SHGetKnownFolderPath(
+            FOLDERID_LocalAppData,
+            0,
+            nullptr,
+            &localAppDataPath
+        );
+
+        if (FAILED(result) || localAppDataPath == nullptr)
+            return false;
+
+        const std::filesystem::path logDirectory =
+            std::filesystem::path(localAppDataPath)
+            / L"bpr-apclient";
+
+        CoTaskMemFree(localAppDataPath);
+
+        std::error_code error;
+
+        std::filesystem::create_directories(
+            logDirectory,
+            error
+        );
+
+        if (error)
+            return false;
+
+        const std::string filename =
+            "bprap_" +
+            GetDateTimeString() +
+            ".log";
+
+        const std::filesystem::path logPath =
+            logDirectory / filename;
+
+        logFile.open(
+            logPath,
+            std::ios::out | std::ios::app
+        );
+
+        return logFile.is_open();
+    }
+
 
     void Log(const std::string& message)
     {

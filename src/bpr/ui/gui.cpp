@@ -7,6 +7,7 @@
 #include "broadcast_banner.hpp"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
+#include "info_window.hpp"
 #include "login_window.hpp"
 #include "bpr/hooks/function/detours.hpp"
 
@@ -26,8 +27,11 @@ GUI::GUI(bpr::BannerQueue &banner_queue):banner_( banner_queue)
     // SetClassLongPtrA(GUI::windowHandle, GCLP_HCURSOR, NULL);
 
     auto login = std::make_unique<LoginWindow>();
+    auto info = std::make_unique<InfoWindow>();
     login_window = login.get();
+    info_window = info.get();
     windows.push_back(std::move(login));
+    windows.push_back(std::move(info));
 } 
 
 GUI::~GUI()
@@ -48,16 +52,15 @@ bool GUI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
         return false;
     }
 
-    if (msg == WM_KEYDOWN && wParam == VK_F3)
+    if (msg == WM_KEYDOWN && wParam == VK_F2)
     {
-        DeathLink::KillPlayer();
+        App::Instance->Gui().login_window->ToggleVisibility();
         return false;
     }
 
-    if (msg == WM_KEYDOWN && wParam == VK_F4)
+    if (msg == WM_KEYDOWN && wParam == VK_F3)
     {
-        App::Instance->State().SendDeathLink();
-        DeathLink::KillPlayer();
+        App::Instance->Gui().info_window->ToggleVisibility();
         return false;
     }
 
