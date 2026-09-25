@@ -3,7 +3,8 @@
 #include "bpr/net/ap_net.hpp"
 #include "bpr/core/ap/ap_state.hpp"
 #include "bpr/ui/gui.hpp"
-#include <Windows.h>
+#include <windows.h>
+#include <thread>
 
 class App
 {

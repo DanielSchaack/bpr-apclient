@@ -1,5 +1,5 @@
 #include "detours.hpp"
-#include <Windows.h>
+#include <windows.h>
 #include <intrin.h>
 #include <iostream>
 #include "../../app/app.hpp"

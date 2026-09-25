@@ -1,5 +1,5 @@
 #include "detours.hpp"
-#include <Windows.h>
+#include <windows.h>
 #include <atomic>
 #include <cstdint>
 #include <intrin.h>

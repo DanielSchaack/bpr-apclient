@@ -11,8 +11,8 @@
 #include <ctime>
 #include <system_error>
 
-#include <Windows.h>
-#include <ShlObj.h>
+#include <windows.h>
+#include <shlobj.h>
 
 
 
