@@ -8,13 +8,11 @@
 
 class NetworkBridge
 {
-    
-    
     public:
 
         NetworkBridge() = default;
         ~NetworkBridge() = default;
-        
+
         bpr::BannerQueue& getBannerQueue()
         {
             return banner_queue_;

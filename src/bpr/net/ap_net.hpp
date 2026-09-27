@@ -46,7 +46,7 @@ private:
 	std::atomic<bool> connected{false};
 	std::atomic<bool> deathlink_allowed_{false};
 	std::string seed;
-	int session_slot{-1};   
+	int session_slot{-1};
 	std::string slotname;
-	int last_item_index_{-1}; 	
+	int last_item_index_{-1};
 };
