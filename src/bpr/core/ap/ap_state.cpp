@@ -3,12 +3,11 @@
 #include "bpr/net/net_bridge.hpp"
 #include <algorithm>
 #include <cstdint>
-#include <iostream>
-#include <ostream>
 #include "../../app/app.hpp"
 #include "../../hooks/game_hooks.hpp"
 #include "../../hooks/structure/detours.hpp"
 #include "bpr/core/logger.hpp"
+#include "bpr/hooks/function/detect_breakable.hpp"
 
 ApState::ApState(NetworkBridge& bridge) : bridge_(bridge){
 }
@@ -42,7 +41,7 @@ void ApState::Update(void* gameActionQueue){
                 else if constexpr (std::is_same_v<T, NetEvents::ItemReceived>)
                 {
                     QueueItem(e);
-                    Logger::Log(std::format("Received: {}", e.item_id));
+                    Logger::Log(std::format("Received: {}, index: {}", e.item_id, e.index));
                 }
                 else if constexpr (std::is_same_v<T, NetEvents::DeathLinkReceived>)
                 {
@@ -57,7 +56,7 @@ void ApState::Update(void* gameActionQueue){
             *event
         );
     }
-    
+
     if (GameHooks::GetCurrentGameStateFlag() == 6 && GameHooks::isInGame()){
         while (auto item = PopItem()){
             ProcessItem(item->item_id, item->index, gameActionQueue);
@@ -95,7 +94,7 @@ void ApState::SendDeathLink(){
 }
 
 void ApState::SendBreakableLocation(std::uint32_t type, std::uint32_t id, std::uint32_t area){
-    
+
 }
 
 void ApState::ProcessItem(int64_t item_id, int index, void* gameActionQueue){
@@ -103,20 +102,34 @@ void ApState::ProcessItem(int64_t item_id, int index, void* gameActionQueue){
         return;
     }
     save_data_.lastIndex_++;
+    Logger::Log(std::format("Processing item with id {} at index {}, last index is now at {}", item_id, index, save_data_.lastIndex_));
 
-    if (item_id >= 1000 && item_id < 2000){
-        auto area_id = item_id-1000;
-        save_data_.owned_areas.insert(save_data_.owned_areas.end(), area_id);
-        for (const auto& [type_id, location_id] : save_data_.deferred_breakables[area_id])
-        {
-            SendLocation(
-                location_id +
-                save_data_.breakable_counts[area_id][type_id]
-            );
+    // Area Breakables
+    if (item_id >= 1000 && item_id < 1010){
+        auto area_id = item_id - 1000;
+        Logger::Log(std::format("Received {} Breakables - area_id: {}", DetectBreakable::areaIndex[area_id], area_id));
+        for (int i = 0; i < 3; ++i) {
+            save_data_.breakable_owned[area_id][i] = true;
+            for (const int &location_id : save_data_.deferred_breakables[area_id][i]) {
+                SendLocation(location_id + save_data_.breakable_counts[area_id][i]);
+                save_data_.breakable_counts[area_id][i]++;
+            }
+            save_data_.deferred_breakables[area_id][i].clear();
+        }
+    }
 
+    // Area Breakables per type
+    if (item_id >= 1010 && item_id < 2000){
+        auto area_id = ((item_id - 1010) / 10) % 10; // ((1051-1010)/10) % 10 = (41/10) & 10 = 4 % 10 = 4 -> Downtown
+        int type_id = item_id % 10; // single digits match type_id
+        Logger::Log(std::format("Received {} {} - area_id: {}, type_id: {}", DetectBreakable::areaIndex[area_id], DetectBreakable::typeIndex[type_id], area_id, type_id));
+
+        save_data_.breakable_owned[area_id][type_id] = true;
+        for (const int &location_id : save_data_.deferred_breakables[area_id][type_id]) {
+            SendLocation(location_id + save_data_.breakable_counts[area_id][type_id]);
             save_data_.breakable_counts[area_id][type_id]++;
         }
-        save_data_.deferred_breakables[area_id].clear();
+        save_data_.deferred_breakables[area_id][type_id].clear();
     }
 
     if (item_id > 400000 && item_id < 600000){
@@ -137,12 +150,12 @@ void ApState::ProcessItem(int64_t item_id, int index, void* gameActionQueue){
 
 void ApState::CacheBreakable(uint32_t area_id, int type_id){
     int64_t loc_id = 10000 + (1000 * area_id) + (100 * type_id);
-    if (!slot_data_.lockBreakables || std::ranges::find(save_data_.owned_areas, area_id) != save_data_.owned_areas.end()) {
+    if (!slot_data_.lockBreakables || save_data_.breakable_owned[area_id][type_id]) {
         SendLocation(loc_id + save_data_.breakable_counts[area_id][type_id]);
         save_data_.breakable_counts[area_id][type_id]++;
         return;
     }
-    save_data_.deferred_breakables[area_id].emplace_back(type_id, loc_id);
+    save_data_.deferred_breakables[area_id][type_id].push_back(loc_id);
 }
 
 void ApState::SendGoal(){

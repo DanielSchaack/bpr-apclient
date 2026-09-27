@@ -13,10 +13,10 @@
 
 bool is_wss = false;
 bool is_ws = false;
-constexpr int kItemHandling = 0b111;   
+constexpr int kItemHandling = 0b111;
 
 ArchepelagoNet::ArchepelagoNet(NetworkBridge& bridge) : bridge_(bridge) {
-    
+
 }
 ArchepelagoNet::~ArchepelagoNet() = default;
 

@@ -11,9 +11,9 @@ class App
     public:
         App();
         ~App();
-        
+
         static App* Instance;
-   
+
         GUI& Gui()
         {
             return gui_;
@@ -28,7 +28,7 @@ class App
         {
             return network_;
         }
-        
+
         static bool WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
         static void Render();
         static void GameThread(void* gameActionQueue);

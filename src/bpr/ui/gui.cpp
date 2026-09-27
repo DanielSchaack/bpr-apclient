@@ -1,15 +1,12 @@
 #include "gui.hpp"
 #include <imgui.h>
-#include <iostream>
 #include <d3d11.h>
 #include "bpr/app/app.hpp"
-#include "bpr/hooks/game_hooks.hpp"
 #include "broadcast_banner.hpp"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
 #include "info_window.hpp"
 #include "login_window.hpp"
-#include "bpr/hooks/function/detours.hpp"
 
 GUI::GUI(bpr::BannerQueue &banner_queue):banner_( banner_queue)
 {
@@ -32,7 +29,7 @@ GUI::GUI(bpr::BannerQueue &banner_queue):banner_( banner_queue)
     info_window = info.get();
     windows.push_back(std::move(login));
     windows.push_back(std::move(info));
-} 
+}
 
 GUI::~GUI()
 {
@@ -66,7 +63,7 @@ bool GUI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
     if (!imguiInputMode)
         return true;
-    
+
     ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam);
     const ImGuiIO& io = ImGui::GetIO();
     if (io.WantCaptureMouse)

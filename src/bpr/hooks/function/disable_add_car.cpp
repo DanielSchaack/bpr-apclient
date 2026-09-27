@@ -6,7 +6,6 @@
 #include "MinHook.h"
 #include <cstdint>
 #include <cstddef>
-#include <iostream>
 #include "../../app/app.hpp"
 
 namespace CarUnlockControl

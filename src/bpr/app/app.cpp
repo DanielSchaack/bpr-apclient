@@ -6,13 +6,12 @@ App::App(): state_(bridge_),
           network_(bridge_),
           gui_(bridge_.getBannerQueue()){
     Instance = this;
-    
+
     network_thread_ = std::thread([this]()
     {
         network_.Run();
     });
 
-    
 }
 
 App::~App()

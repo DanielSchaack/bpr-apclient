@@ -17,7 +17,6 @@ class ApState
     public:
         ApState(NetworkBridge& bridge);
 
-
         void SendLocation(int64_t location_id);
         void SendBreakableLocation(std::uint32_t type, std::uint32_t id, std::uint32_t area);
         void Connect(const std::string &server, const std::string &slot, const std::string &password);
@@ -76,7 +75,7 @@ class ApState
             queued_items_.push(std::move(item));
         }
 
-        
+ 
         [[nodiscard]] std::optional<NetEvents::ItemReceived> PopItem()
         {
             std::scoped_lock lock(item_mutex_);
@@ -90,8 +89,6 @@ class ApState
             return item;
         }
 
-        
-
     private:
         NetworkBridge& bridge_;
         std::atomic<ConnectionPhase> phase_{ConnectionPhase::Disconnected};
@@ -104,4 +101,4 @@ class ApState
 
         const std::chrono::seconds death_delay = std::chrono::seconds(6);
         std::chrono::time_point<std::chrono::steady_clock> death_link_time;
-}; 
+};

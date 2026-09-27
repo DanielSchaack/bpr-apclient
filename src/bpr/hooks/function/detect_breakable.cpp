@@ -2,10 +2,9 @@
 #include "detours.hpp"
 #include "MinHook.h"
 #include <format>
-#include <iostream>
-#include <string>
 #include <windows.h>
 #include "../../app/app.hpp"
+#include "detect_breakable.hpp"
 
 
 
@@ -16,21 +15,6 @@ namespace DetectBreakable
     constexpr uintptr_t jumpAddress = 0x03214a0c;
 
     static void* OriginalTrampoline = nullptr;
-
-    const std::vector<std::string> areaIndex = {
-        "Palm Bay Heights",
-        "Silver Lake",
-        "Harbor Town",
-        "White Mountain",
-        "Downtown Paradise",
-        "Big Surf Island"
-    };
-
-    const std::vector<std::string> typeIndex = {
-        "Super Jump",
-        "Smash",
-        "Billboard"
-    };
 
     extern "C" __declspec(noinline) void __stdcall
     LogBreakable(std::uint32_t type, std::uint32_t id, std::uint32_t area) noexcept

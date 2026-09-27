@@ -127,7 +127,7 @@ namespace Logger
             << "] "
             << message
             << '\n';
-        
+
         // Make sure the log survives a game crash.
         logFile.flush();
         //log to console
