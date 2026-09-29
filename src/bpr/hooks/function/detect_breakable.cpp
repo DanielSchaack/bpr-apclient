@@ -33,11 +33,11 @@ namespace DetectBreakable
             push dword ptr [ebp+0x0C]
             push dword ptr [ebp+0x08]
             call DetectBreakable::LogBreakable
-            
+
             popad
             cmp ebx, 0x5
             jne skip
-            
+
             jmp ReturnAddress
         skip:
             jmp jumpAddress

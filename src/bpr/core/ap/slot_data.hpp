@@ -14,7 +14,7 @@ namespace bpr
         std::string semver;
         int goalConfig;
         int licenseGoal;
-        bool lockBreakables;
+        int lockBreakables;
         std::map<int, int> superJumpAmounts;
         std::map<int, int> smashAmounts;
         std::map<int, int> billboardAmounts;

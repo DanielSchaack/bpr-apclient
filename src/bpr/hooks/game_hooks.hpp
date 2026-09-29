@@ -2,12 +2,11 @@
 
 
 #include <cstdint>
-#include <iostream>
 namespace GameHooks
 {
 
     void Init();
-    
+
     constexpr uintptr_t GameModuleAddress  = 0x013FC8E0;
     constexpr uintptr_t StateManagerOffset = 0xB6D478;
     constexpr uintptr_t EventSaveManagerOffset = 0xcb80;
@@ -95,7 +94,7 @@ namespace GameHooks
             gameModule
             + 0x12980
             + playerVehicleIndex * 0x4180;
-        
+
         uintptr_t carptr = gameModule
             + 0x12980
             + playerVehicleIndex * 0x4180;

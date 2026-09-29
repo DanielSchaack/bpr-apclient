@@ -105,10 +105,10 @@ void ApState::ProcessItem(int64_t item_id, int index, void* gameActionQueue){
     Logger::Log(std::format("Processing item with id {} at index {}, last index is now at {}", item_id, index, save_data_.lastIndex_));
 
     // Area Breakables
-    if (item_id >= 1000 && item_id < 1010){
+    if (slot_data_.lockBreakables == 1 && item_id >= 1000 && item_id < 1010){
         auto area_id = item_id - 1000;
         Logger::Log(std::format("Received {} Breakables - area_id: {}", DetectBreakable::areaIndex[area_id], area_id));
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < DetectBreakable::typeIndex.size(); ++i) {
             save_data_.breakable_owned[area_id][i] = true;
             for (const int &location_id : save_data_.deferred_breakables[area_id][i]) {
                 SendLocation(location_id + save_data_.breakable_counts[area_id][i]);
@@ -119,8 +119,8 @@ void ApState::ProcessItem(int64_t item_id, int index, void* gameActionQueue){
     }
 
     // Area Breakables per type
-    if (item_id >= 1010 && item_id < 2000){
-        auto area_id = ((item_id - 1010) / 10) % 10; // ((1051-1010)/10) % 10 = (41/10) & 10 = 4 % 10 = 4 -> Downtown
+    if (slot_data_.lockBreakables == 2 && item_id >= 1010 && item_id < 1100){
+        auto area_id = (item_id - 1010) / 10; // (1050-1010)/10 = (41/10) = 4 -> Downtown
         int type_id = item_id % 10; // single digits match type_id
         Logger::Log(std::format("Received {} {} - area_id: {}, type_id: {}", DetectBreakable::areaIndex[area_id], DetectBreakable::typeIndex[type_id], area_id, type_id));
 
@@ -155,6 +155,8 @@ void ApState::CacheBreakable(uint32_t area_id, int type_id){
         save_data_.breakable_counts[area_id][type_id]++;
         return;
     }
+
+    Logger::Log(std::format("Caching {} for area {}", DetectBreakable::typeIndex[type_id], DetectBreakable::areaIndex[area_id]));
     save_data_.deferred_breakables[area_id][type_id].push_back(loc_id);
 }
 

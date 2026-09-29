@@ -1,5 +1,4 @@
 #include <windows.h>
-#include <iostream>
 #include "../hooks/game_hooks.hpp"
 #include "app.hpp"
 #include "bpr/core/logger.hpp"

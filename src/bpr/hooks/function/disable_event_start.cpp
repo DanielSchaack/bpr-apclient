@@ -1,8 +1,6 @@
 #include "detours.hpp"
 #include "MinHook.h"
 #include <cstdint>
-#include <iostream>
-#include <ostream>
 #include <windows.h>
 
 namespace DisableEventStart {
@@ -20,7 +18,7 @@ namespace DisableEventStart {
     }
 
 
-   
+
     __declspec(naked) void Detour()
     {
         __asm
@@ -43,7 +41,7 @@ namespace DisableEventStart {
             mov esp, ebx
             popad
             popfd
-    
+
             mov dword ptr [ebp-30h], eax
             mov eax, dword ptr [eax+38h]
             jmp dword ptr [ContinueAddress]

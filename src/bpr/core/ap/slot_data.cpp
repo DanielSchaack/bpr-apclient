@@ -29,6 +29,7 @@ bpr::SlotData bpr::parse_slot_data(const nlohmann::json &data){
     Logger::Log(std::format("{}",slot_data.deathlink));
     slot_data.lockBreakables = obj ? data.value("breakable_locks", 0) : 0;
     Logger::Log(std::format("{}",slot_data.lockBreakables));
+
     if (obj && data.contains("smash_sanity"))
     {
         for (const auto& [areaName, amount] : data.at("smash_sanity").items())

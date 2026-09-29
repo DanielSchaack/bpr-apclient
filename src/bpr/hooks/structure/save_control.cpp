@@ -129,7 +129,7 @@ namespace RedirectSave
                 << '\n';
         }
     }
-    
+
     __declspec(naked) void Detour()
     {
         __asm

@@ -9,22 +9,22 @@ void GameHooks::Init(){
     WndProc::Install();
     Render::Install();
     GameLoop::Install();
-    
+
     RedirectSave::Install();
     WaitForConnection::Install();
 
     DeathLink::Install();
     AlwaysWrecked::Install();
-    
+
     DisableTrigger::Install();
     DisableEventStart::Install();
     DetectBreakable::Install();
-    
+
     CarUnlockControl::Install();
-    
+
     EventWinLog::Install();
     LicenseUpgradeLog::Install();
-    
+
     MH_EnableHook(MH_ALL_HOOKS);
 }
 

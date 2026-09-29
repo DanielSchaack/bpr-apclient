@@ -1,7 +1,6 @@
 #include "detours.hpp"
 #include <windows.h>
 #include <intrin.h>
-#include <iostream>
 #include "../../app/app.hpp"
 
 namespace AlwaysWrecked
