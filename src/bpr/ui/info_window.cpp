@@ -1,4 +1,5 @@
 #include "info_window.hpp"
+#include <algorithm>
 #include <format>
 #include <imgui.h>
 #include "bpr/core/logger.hpp"

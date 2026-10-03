@@ -2,8 +2,7 @@
 #include <filesystem>
 #include <fstream>
 #include <format>
-#include <libloaderapi.h>
-#include <minwindef.h>
+#include <windows.h>
 #include "bpr/core/logger.hpp"
 
 
