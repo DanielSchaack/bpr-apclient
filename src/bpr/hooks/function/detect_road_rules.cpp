@@ -8,7 +8,7 @@
 
 namespace DetectRoadRules
 {
-    constexpr std::uintptr_t RebuildAddress = 0x070296B0;   // FUN_070296b0
+    constexpr std::uintptr_t RebuildAddress = 0x070296B0;
     constexpr std::uintptr_t PrimaryBase    = 0x37E4 * 8;   // masks for bits 0..63
 
     using RebuildFn = void(__fastcall*)(void*, void*, const std::uint32_t*, int, int);
@@ -24,6 +24,7 @@ namespace DetectRoadRules
         return (std::uint64_t(p[1]) << 32) | p[0];
     }
 
+    // Is called on saves/loads and rebuilds the buffers for set road rules, using diffs to check which road has been ruled by the player
     static void __fastcall RebuildHook(void* self, void*, const std::uint32_t* src, int row, int col)
     {
         Original(self, nullptr, src, row, col);

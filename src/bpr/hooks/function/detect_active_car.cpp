@@ -1,7 +1,7 @@
 #include "MinHook.h"
 #include "bpr/core/logger.hpp"
 #include "bpr/hooks/function/detours.hpp"
-#include "bpr/hooks/game_hooks.hpp"      // GameHooks::GetProfile(); adjust to your header's path
+#include "bpr/hooks/game_hooks.hpp"
 #include <atomic>
 #include <format>
 
@@ -9,10 +9,10 @@ namespace DetectActiveCar
 {
     namespace
     {
-        constexpr std::uintptr_t HookAddress = 0x00A10333;   // mov [esi+ecx*8+0x1C0], ebx
-        constexpr std::uintptr_t ResumeAddress = 0x00A10341; // right after the second mov (7 + 7 bytes)
+        constexpr std::uintptr_t HookAddress = 0x00A10333;
+        constexpr std::uintptr_t ResumeAddress = 0x00A10341;
 
-        void* g_unusedTrampoline = nullptr;                  // never called, the detour replays the originals
+        void* g_unusedTrampoline = nullptr;
         std::atomic<std::int32_t> g_activeSlot{-1};
     }
 

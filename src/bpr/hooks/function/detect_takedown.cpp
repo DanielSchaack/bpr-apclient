@@ -27,10 +27,10 @@ namespace DetectTakedown
     {
         const std::int32_t before = Total(mgr);
 
-        Original(mgr, a2, type, a4, a5, flagA, flagB);     // game behaviour unchanged
+        Original(mgr, a2, type, a4, a5, flagA, flagB);
 
         const std::int32_t after = Total(mgr);
-        if (after > before && type >= 0 && type < 13)       // counted by the profile
+        if (after > before && type >= 0 && type < 13)
         {
             Logger::Log(std::format("Takedown: type {} | total {} | count of this type {}", type, after, PerType(mgr, type)));
             App::Instance->Gui().info_window->AddLogMessage(std::format("Takedown: type {} | total {} | count of this type {}", type, after, PerType(mgr, type)));

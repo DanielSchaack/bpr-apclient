@@ -112,18 +112,16 @@ namespace CrashLog
 
 namespace DetectActiveCar
 {
-    constexpr std::uintptr_t SpawnCarIdOffset  = 0x50;   // slot 0: last/current car,  8 bytes
-    constexpr std::uintptr_t SpawnBikeIdOffset = 0x58;   // slot 1: last/current bike, 8 bytes
+    constexpr std::uintptr_t SpawnCarIdOffset  = 0x50;
+    constexpr std::uintptr_t SpawnBikeIdOffset = 0x58;
 
     enum class Slot : std::int32_t { Unknown = -1, Car = 0, Bike = 1 };
 
-    MH_STATUS Install();                                  // creates the hook; enable it like your others
+    MH_STATUS Install();
 
-    Slot          GetActiveSlot() noexcept;               // slot the game wrote last, Unknown until the first write
+    Slot          GetActiveSlot() noexcept;
     bool          IsBikeActive() noexcept;
-    std::uint64_t GetSlotId(Slot slot) noexcept;          // raw ID stored in a slot, 0 if the profile isn't live
-    std::uint64_t GetActiveVehicleId() noexcept;          // active slot's ID; falls back to the car slot
-    const VehicleInfo* GetActiveVehicle() noexcept;       // table entry (ID or livery ID), nullptr if unknown
-
-    void Reset() noexcept;                                // forget the active slot, e.g. on a new session
+    std::uint64_t GetSlotId(Slot slot) noexcept;
+    std::uint64_t GetActiveVehicleId() noexcept;
+    const VehicleInfo* GetActiveVehicle() noexcept;
 }

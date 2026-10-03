@@ -21,15 +21,9 @@ namespace GameHooks
     constexpr uintptr_t DeformationOffset = 0x8AC;
     constexpr uintptr_t BoostLevelOffset  = 0x40754;
 
-    // ---- profile (manager + 0x170) ----
     constexpr uintptr_t ProgressionManagerOffset = 0x6A7A10;
     constexpr uintptr_t ProfileOffset            = ProgressionManagerOffset + 0x170;   // 0x6A7B80
-    constexpr uintptr_t GameStateReadyOffset     = 0xB6D464;                            // == 1 when the profile is live
-    constexpr uintptr_t SpawnCarIdOffset         = 0x50;     // mSpawnCarId, 8 bytes
-    constexpr uintptr_t CarCountOffset           = 0x2A0;
-    constexpr uintptr_t CarArrayOffset           = 0x2B8;    // maCars, from the save loader
-    constexpr uintptr_t CarRecordSize            = 0x18;
-    constexpr int       MaxGarageCars            = 512;
+    constexpr uintptr_t GameStateReadyOffset     = 0xB6D464;                           // == 1 when the profile is live
 
     inline std::uintptr_t GetGameModule() noexcept
     {

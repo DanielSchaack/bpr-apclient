@@ -239,7 +239,6 @@ namespace CarUnlockControl
 
         // What the game itself put into the record when ProfileAddCar created it
         const std::uint8_t  gameCategory   = car->category;
-        const std::uint32_t gameUnlockType = car->unlockType;
 
         Logger::Log(std::format("Before normalizing car unlockType={}, category={}, unlockShown={}, deformation={}",
                                 car->unlockType, car->category, car->unlockShown, car->deformation));
@@ -334,6 +333,7 @@ namespace CarUnlockControl
         {
             std::memmove(car, car + 1, (count - 1 - index) * sizeof(CarData));
         }
+
         // car to remove is in last index, removing it by resetting to 0
         std::memset(&carsArray[count - 1], 0, sizeof(CarData));
         count--;

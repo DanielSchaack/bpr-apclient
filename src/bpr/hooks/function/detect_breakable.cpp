@@ -22,12 +22,12 @@ namespace DetectBreakable
         App::Instance->State().CacheBreakable(area, type);
     }
 
-    constexpr std::uintptr_t RegisterAddress = 0x03214990;   // FUN_03214990
-    constexpr std::uintptr_t CollectAddress  = 0x00A14930;   // FUN_00a14930
+    constexpr std::uintptr_t RegisterAddress = 0x03214990;
+    constexpr std::uintptr_t CollectAddress  = 0x00A14930;
 
-    inline std::atomic<bool> g_allowCollection{true};        // false = collecting is not counted or saved
+    inline std::atomic<bool> g_allowCollection{true};        // false = collecting is not counted or saved, TODO: Config
 
-    static int CountyOf(std::uint32_t area)                  // mirrors FUN_00bda4a0
+    static int CountyOf(std::uint32_t area)                  // mirrors internal FUN_00bda4a0
     {
         if (area > 0x16)  return 6;
         if (area <= 3)    return 0;
@@ -40,16 +40,16 @@ namespace DetectBreakable
 
     static std::set<std::pair<std::int32_t, std::uint64_t>> g_reported;
 
-    // ---- Register: permanent progress ----
     using RegisterFn = std::uint32_t (__thiscall*)(void*, std::int32_t, std::uint32_t, std::int32_t, std::int32_t);
     static RegisterFn OriginalRegister = nullptr;
 
+    // Triggers on the specific Breakable
     static std::uint32_t __fastcall HkRegister(void* profile, void*, std::int32_t type,
                                                std::uint32_t idLo, std::int32_t idHi, std::int32_t area)
     {
         const std::uint64_t id = (static_cast<std::uint64_t>(static_cast<std::uint32_t>(idHi)) << 32) | idLo;
 
-        if (g_reported.insert({type, id}).second)
+        if (g_reported.insert({type, id}).second) // TODO: User save data
         {
             const int county = CountyOf(area);
             Logger::Log(std::format("{} {} ID: {}", county < 6 ? Map::areaIndex[county] : "?", Map::typeIndex[type], id));
@@ -61,7 +61,7 @@ namespace DetectBreakable
         return OriginalRegister(profile, type, idLo, idHi, area);
     }
 
-    // ---- Collect: also undo the hit-prop bit it sets inline ----
+    // Triggers on any object of a Breakable, controls the flow
     using CollectFn = void (__thiscall*)(void*, std::uint32_t, std::uint32_t, std::uint32_t, std::uint32_t);
     static CollectFn OriginalCollect = nullptr;
 
