@@ -1,7 +1,9 @@
+#include "bpr/app/app.hpp"
 #include "bpr/hooks/game_hooks.hpp"
 #include "detours.hpp"
-#include "bpr/core//logger.hpp"
-#include <iostream>
+#include "bpr/core/logger.hpp"
+#include <cstdint>
+#include <format>
 
 struct EventSave{
     uint32_t eventId;
@@ -25,16 +27,26 @@ bool EnableEvent::EnableEvent(uint32_t  event_id) noexcept {
     }
 
     Logger::Log(std::format("Enabled Event {} with flags {}", result->eventId, result->flags));
-    result->flags = 0x0001;
+    result->flags |= 0x0001;
     return true;
 }
 
+uint32_t current_event = 0;
 bool EnableEvent::IsEventEnabled(uint32_t  event_id) noexcept {
     EventSave* result = FindEventSave( GameHooks::GetEventSaveManager(), event_id);
     if (result == nullptr){
         return false;
     }
-    Logger::Log(std::format("Check Event {} with flags {}", result->eventId, result->flags));
+
+    if(result->eventId != current_event)
+    {
+        Logger::Log(std::format("Check Event {} with flags {}", result->eventId, result->flags));
+        current_event = result->eventId;
+
+
+        if (DetectActiveCar::IsBikeActive())
+            App::Instance->Gui().info_window->AddLogMessage(std::format("Bike Event ID: {}", current_event));
+    }
     return (result->flags & 1) != 0;
 }
 

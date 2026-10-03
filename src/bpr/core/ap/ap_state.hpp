@@ -5,6 +5,9 @@
 #include "../save/save_data.hpp"
 #include <chrono>
 
+inline bool g_ProcessingDeathlink = false;
+inline int g_CrashType = 0; // Only send death link when player crashes
+
 class ApState
 {
     enum class ConnectionPhase
@@ -16,6 +19,7 @@ class ApState
     };
     public:
         ApState(NetworkBridge& bridge);
+
 
         void SendLocation(int64_t location_id);
         void SendBreakableLocation(std::uint32_t type, std::uint32_t id, std::uint32_t area);
@@ -99,6 +103,6 @@ class ApState
         std::mutex item_mutex_;
         std::queue<NetEvents::ItemReceived> queued_items_;
 
-        const std::chrono::seconds death_delay = std::chrono::seconds(6);
+        const std::chrono::seconds death_delay = std::chrono::seconds(15);
         std::chrono::time_point<std::chrono::steady_clock> death_link_time;
 };

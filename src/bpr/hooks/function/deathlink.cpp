@@ -1,9 +1,12 @@
+#include "../../app/app.hpp"
+#include "bpr/core/ap/ap_state.hpp"
+#include "bpr/core/logger.hpp"
 #include "detours.hpp"
+#include <format>
 #include <windows.h>
 #include <atomic>
 #include <cstdint>
 #include <intrin.h>
-#include <iostream>
 
 namespace DeathLink
 {
@@ -48,18 +51,24 @@ namespace DeathLink
         return At<void*>(manager, 0x17E20 + index * 4);
     }
 
-    // static void __fastcall CrashDetour(void* car, void*, const float* scale, Word kind)
-    // {
-    //     const bool local = car == GetPlayerCar(GetManager());
-    //     const bool wasCrashing = At<Byte>(car, 0x1170) != 0;
+    static void __fastcall CrashDetour(void* car, void*, const float* scale, Word kind)
+    {
+        const bool local = car == GetPlayerCar(GetManager());
+        const bool wasCrashing = At<Byte>(car, 0x1170) != 0;
 
-    //     OriginalCrash(car, scale, kind);
+        OriginalCrash(car, scale, kind);
 
-    //     if (local && !wasCrashing && At<Byte>(car, 0x1170))
-    //     {
-    //         //std::cout << "[PlayerCrash] Local player entered crash state (kind=%u).\n" << static_cast<unsigned>(At<Byte>(car, 0x1171)) << std::endl;
-    //     }
-    // }
+        if (local && !wasCrashing && At<Byte>(car, 0x1170))
+        {
+            auto crashtype = static_cast<unsigned>(At<Byte>(car, 0x1171));
+            Logger::Log(std::format("[PlayerCrash] Local player entered crash state (kind={})", crashtype));
+            if (crashtype != 5 && !App::Instance->State().InDeathTimeout()) // Showtime
+            {
+                App::Instance->State().SendDeathLink();
+                g_CrashType = crashtype;
+            }
+        }
+    }
 
     static void TryCrash(void* manager, Word managerOutput, Word vehicleOutput, Word worldEntity)
     {
@@ -81,8 +90,7 @@ namespace DeathLink
 
         reinterpret_cast<ForceFn>(ForceAddress)(manager,
             nullptr, reinterpret_cast<void*>(managerOutput),
-            reinterpret_cast<void*>(vehicleOutput), nullptr,
-            index, worldEntity, 5); // Kind 1: used by the normal wall-impact path.
+            reinterpret_cast<void*>(vehicleOutput), nullptr, index, worldEntity, 5); // Kind 1: used by the normal wall-impact path.
 
         invulnerable = oldInvulnerable;
         stopCrashing = oldStop;
@@ -107,19 +115,23 @@ namespace DeathLink
 
     MH_STATUS Install()
     {
-        // auto* crash = reinterpret_cast<void*>(CrashAddress);
+        auto* crash = reinterpret_cast<void*>(CrashAddress);
+        auto crash_status = MH_CreateHook(crash, reinterpret_cast<void*>(&CrashDetour),
+                                   reinterpret_cast<void**>(&OriginalCrash));
+        if (crash_status != MH_OK)
+        {
+            MH_RemoveHook(crash);
+            return crash_status;
+        }
+
         auto* update = reinterpret_cast<void*>(UpdateAddress);
-        // auto status = MH_CreateHook(crash, reinterpret_cast<void*>(&CrashDetour),
-        //                            reinterpret_cast<void**>(&OriginalCrash));
-        // if (status != MH_OK)
-        //     return status;
         auto status = MH_CreateHook(update, reinterpret_cast<void*>(&UpdateDetour),
                                reinterpret_cast<void**>(&OriginalUpdate));
-        // if (status != MH_OK)
-        // {
-        //     MH_RemoveHook(crash);
-        //     return status;
-        // }
+        if (status != MH_OK)
+        {
+            MH_RemoveHook(update);
+            return status;
+        }
         return status;
     }
 }

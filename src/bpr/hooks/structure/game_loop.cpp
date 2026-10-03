@@ -1,7 +1,6 @@
 #include "detours.hpp"
 #include "MinHook.h"
 #include <cstdint>
-#include <iostream>
 #include <windows.h>
 #include "../../app/app.hpp"
 

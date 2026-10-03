@@ -17,8 +17,6 @@ namespace DisableEventStart {
         return EnableEvent::IsEventEnabled(eventId);
     }
 
-
-
     __declspec(naked) void Detour()
     {
         __asm
@@ -54,8 +52,6 @@ namespace DisableEventStart {
             jmp dword ptr [SkipAddress]
         }
     }
-
-
 
     MH_STATUS Install()
     {

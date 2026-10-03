@@ -24,5 +24,6 @@ class GUI
         std::vector<std::unique_ptr<Window>> windows;
         HWND windowHandle;
         void SetInputMode(bool enabled);
-        bool imguiInputMode = false;
+        void UpdateInputMode();
+        bool imguiInputMode = true;
 };

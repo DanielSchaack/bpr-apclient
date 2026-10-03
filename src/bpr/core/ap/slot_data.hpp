@@ -19,9 +19,9 @@ namespace bpr
         std::map<int, int> smashAmounts;
         std::map<int, int> billboardAmounts;
         bool deathlink;
+        int deathlinkAmnesty;
+        bool addedLiveryItems;
     };
-
-    int AreaNameToIndex(const std::string& area);
 
     [[nodiscard]] SlotData parse_slot_data(const nlohmann::json &data);
 }

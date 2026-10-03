@@ -3,8 +3,6 @@
 #include "net_bridge.hpp"
 #include <string>
 
-#include "../core/broadcast.hpp"
-
 //#define CERT_STORE "cacert.pem"
 //#define UUID_FILE "uuid" // TODO: place in %appdata%
 
@@ -14,13 +12,13 @@
 
 static constexpr const char* GAME_NAME = BPRAP_GAME_NAME;
 
-class APClient; 
+class APClient;
 
-class ArchepelagoNet
+class ArchipelagoNet
 {
 public:
-	ArchepelagoNet(NetworkBridge& bridge);
-	 ~ArchepelagoNet();
+	ArchipelagoNet(NetworkBridge& bridge);
+	 ~ArchipelagoNet();
 	 
 	void Run();
 	void Stop();

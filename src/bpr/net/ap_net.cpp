@@ -1,26 +1,32 @@
+#include <apclient.hpp>
 #include "ap_net.hpp"
+#include "bpr/app/app.hpp"
 #include "bpr/core/ap/slot_data.hpp"
+#include "bpr/core/broadcast.hpp"
 #include "bpr/core/logger.hpp"
 #include "deathlink.hpp"
 #include "net_events.hpp"
 
-#include <apclient.hpp>
+#include <format>
 #include <iostream>
 #include <variant>
 #include <apuuid.hpp>
 
 #define UUID_FILE "uuid" // TODO: place in %appdata%
 
+using std::vector;
+
 bool is_wss = false;
 bool is_ws = false;
+int death_counter = 0;
 constexpr int kItemHandling = 0b111;
 
-ArchepelagoNet::ArchepelagoNet(NetworkBridge& bridge) : bridge_(bridge) {
+ArchipelagoNet::ArchipelagoNet(NetworkBridge& bridge) : bridge_(bridge) {
 
 }
-ArchepelagoNet::~ArchepelagoNet() = default;
+ArchipelagoNet::~ArchipelagoNet() = default;
 
-void ArchepelagoNet::Run() {
+void ArchipelagoNet::Run() {
     running_ = true;
 	while (running_) {
         //handle every single command
@@ -37,7 +43,35 @@ void ArchepelagoNet::Run() {
                     }
                     else if constexpr (std::is_same_v<T, NetCommands::SendDeathLink>)
                     {
-                        // send deathlink
+                        if (!client_ || !App::Instance->State().GetSlotData().deathlink)
+                            return;
+
+                        death_counter++;
+                        std::vector<bpr::BannerSegment> segments;
+                        if (App::Instance->State().GetSlotData().deathlinkAmnesty > death_counter)
+                        {
+                            std::string msg = std::format("You are at {} out of {} deaths", death_counter, App::Instance->State().GetSlotData().deathlinkAmnesty);
+                            segments.push_back(bpr::BannerSegment(msg, 0xFFFFFFFF));
+                            bridge_.broadcast(segments);
+                            Logger::Log(msg);
+
+                            return;
+                        }
+
+                        Logger::Log("Sending deathlink");
+
+                        std::string cause = std::format("{} crashed out in Paradise City", client_->get_slot());
+                        nlohmann::json data{
+                            {"time", client_->get_server_time()},
+                            {"cause", cause},
+                            {"source", client_->get_slot()},
+                        };
+                        client_->Bounce(data, {}, {}, { "DeathLink" });
+
+                        segments.push_back(bpr::BannerSegment(std::format("Sent deathlink: {}", cause), 0xFFFFFFFF));
+                        bridge_.broadcast(segments);
+                        Logger::Log(std::format("Sent deathlink: {}", cause));
+                        death_counter = 0;
                     }
                     else if constexpr (std::is_same_v<T, NetCommands::SendGoal>)
                     {
@@ -60,7 +94,7 @@ void ArchepelagoNet::Run() {
 	}
 }
 
-void ArchepelagoNet::Stop()
+void ArchipelagoNet::Stop()
 {
     running_ = false;
 }
@@ -79,7 +113,7 @@ std::pair<int, int> GetMajorMinor(const std::string& version)
     return {major, minor};
 }
 
-void ArchepelagoNet::do_connect(const std::string &server, const std::string &slot, const std::string &password)
+void ArchipelagoNet::do_connect(const std::string &server, const std::string &slot, const std::string &password)
 {
     do_disconnect();
     polling = true;
@@ -177,9 +211,8 @@ void ArchepelagoNet::do_connect(const std::string &server, const std::string &sl
             // optional in the parse, so guard on a non-empty slot name, or a sourceless bounce from someone else
             // gets swallowed as our echo.
             if (dl && !slotname.empty() && dl->source == slotname)
-            {
                 return;
-            }
+
             std::string source = dl ? std::move(dl->source) : std::string{};
             std::string cause = dl ? std::move(dl->cause) : std::string{};
             bridge_.SendToGame(NetEvents::DeathLinkReceived{.source = std::move(source), .cause = std::move(cause)});
@@ -217,7 +250,7 @@ void ArchepelagoNet::do_connect(const std::string &server, const std::string &sl
         });
 }
 
-void ArchepelagoNet::do_disconnect()
+void ArchipelagoNet::do_disconnect()
 {
     if (!client_)
         return;

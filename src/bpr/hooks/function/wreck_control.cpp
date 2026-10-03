@@ -1,4 +1,7 @@
+#include "bpr/core/ap/ap_state.hpp"
+#include "bpr/core/logger.hpp"
 #include "detours.hpp"
+#include <format>
 #include <windows.h>
 #include <intrin.h>
 #include "../../app/app.hpp"
@@ -10,13 +13,22 @@ namespace AlwaysWrecked
 
     bool ShouldWreck(bool wrecked) noexcept
     {
-        if( App::Instance->State().InDeathTimeout()){
+        if(App::Instance->State().InDeathTimeout()){
             return true;
         }
 
-        if(wrecked){
+        if(wrecked && !g_ProcessingDeathlink && g_CrashType){
+            Logger::Log(std::format("Not in timeout while wrecked, try sending deathlink"));
             App::Instance->State().SendDeathLink();
+            g_CrashType = 0;
         }
+
+        if(!wrecked && g_ProcessingDeathlink)
+        {
+            Logger::Log(std::format("No longer wrecked, resetting processing deathlink state"));
+            g_ProcessingDeathlink = false;
+        }
+
         return false;
     }
 

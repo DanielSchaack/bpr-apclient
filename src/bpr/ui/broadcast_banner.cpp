@@ -1,9 +1,7 @@
 #include "broadcast_banner.hpp"
-
 #include <cfloat>
-
 #include <imgui.h>
-
+#include "bpr/core/mod_config.hpp"
 #include "bpr/core/broadcast.hpp"
 
 namespace bpr
@@ -31,10 +29,16 @@ void BroadcastBanner::draw()
     const float right = vp->WorkPos.x + vp->WorkSize.x - margin;
     ImDrawList *dl = ImGui::GetForegroundDrawList();
 
-    // Stack top-to-bottom, oldest first.
-    float top = vp->WorkPos.y + margin;
-    for (const BannerFrame &frame : frames)
+    const float box_h = text_h + 2.0f * pad_y;
+    const bool bottomUp = ModConfig::Get().bannerBottomUp;
+    // Cursor for the next banner's edge: top edge when stacking down, bottom edge when stacking up.
+    float cursor = bottomUp
+        ? vp->WorkPos.y + vp->WorkSize.y - margin
+        : vp->WorkPos.y + margin;
+
+    for (size_t n = 0; n < frames.size(); ++n)
     {
+        const BannerFrame &frame = frames[bottomUp ? frames.size() - 1 - n : n]; // if feed at bottom, newest should be the lowest one
         const float a = frame.alpha;
         const auto fade = [a](int v) { return static_cast<int>(static_cast<float>(v) * a); };
 
@@ -42,8 +46,9 @@ void BroadcastBanner::draw()
         for (const BannerSegment &seg : frame.segments)
             text_w += seg_width(seg);
 
-        const ImVec2 box_min(right - text_w - 2.0f * pad_x, top);
-        const ImVec2 box_max(right, top + text_h + 2.0f * pad_y);
+        const float box_top = bottomUp ? cursor - box_h : cursor;
+        const ImVec2 box_min(right - text_w - 2.0f * pad_x, box_top);
+        const ImVec2 box_max(right, box_top + box_h);
 
         dl->AddRectFilled(box_min, box_max, IM_COL32(20, 20, 26, fade(205)), 5.0f);
         dl->AddRect(box_min, box_max, IM_COL32(255, 255, 255, fade(45)), 5.0f);
@@ -57,7 +62,7 @@ void BroadcastBanner::draw()
             pos.x += seg_width(seg);
         }
 
-        top = box_max.y + gap;
+        cursor = bottomUp ? box_min.y - gap : box_max.y + gap;
     }
 }
 
