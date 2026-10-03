@@ -237,9 +237,6 @@ namespace CarUnlockControl
         if (!car && !TryAddCar(profile, vehicleList, vehicleId, car))
             return false;
 
-        // What the game itself put into the record when ProfileAddCar created it
-        const std::uint8_t  gameCategory   = car->category;
-
         Logger::Log(std::format("Before normalizing car unlockType={}, category={}, unlockShown={}, deformation={}",
                                 car->unlockType, car->category, car->unlockShown, car->deformation));
 
@@ -256,7 +253,6 @@ namespace CarUnlockControl
             else
             {
                 car->unlockType = static_cast<uint32_t>(v_info->unlock_type);
-                car->category = gameCategory;
             }
         }
 

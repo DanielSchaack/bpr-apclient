@@ -152,7 +152,7 @@ void ApState::ProcessItem(int64_t item_id, int index, void* gameActionQueue){
         const VehicleInfo* info = FindVehicleByArchipelagoCarID(item_id);
         Logger::Log(std::format("Received Car '{}' - unlock type {}, category {}", info->proper_name, static_cast<int>(info->unlock_type), static_cast<int>(info->category)));
         CarUnlockControl::AddCar(item_id << 12);
-        save_data_.AddCar(item_id);
+        save_data_.AddCar(item_id << 12);
     }
 
     // Do not reprocess filler
