@@ -21,11 +21,11 @@ namespace bpr
         bool HasCar(uint64_t carId) const noexcept
         {
             for (uint64_t id : obtained_cars)
-            {
-                if (id == carId) return true;
-                const VehicleInfo* info = FindVehicleByLiveryID(carId);
-                if (info) return HasLivery(info->archipelago_livery_id);
-            }
+                if (id == carId)
+                    return true;
+
+            if (const VehicleInfo* info = FindVehicleByLiveryID(carId))
+                return HasLivery(info->archipelago_livery_id);
             return false;
         }
 
