@@ -9,9 +9,10 @@ static constexpr const char* VERSION = BPRAP_RELEASE_VERSION;
 
 class LoginWindow : public Window {
 public:
-    LoginWindow() : Window(std::string("Login v") + VERSION) {
-        isVisible = true;
-    };
+    LoginWindow();
+    // LoginWindow() : Window(std::string("Login v") + VERSION) {
+    //     isVisible = true;
+    // };
     void ToggleVisibility() override;
     void Draw(int outerWidth, int outerHeight, float uiScale) override;
     void SetMessage(std::string);
@@ -24,5 +25,8 @@ public:
 private:
     std::string message;
     std::string mPointer;
+
+    bool positionApplied = false;
+    void SaveConfig();
 };
 

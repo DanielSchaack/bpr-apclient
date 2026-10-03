@@ -1,7 +1,6 @@
 #include "detours.hpp"
 #include "MinHook.h"
 #include <cstdint>
-#include <iostream>
 #include "../../app/app.hpp"
 
 namespace WaitForConnection
@@ -46,7 +45,7 @@ namespace WaitForConnection
             ret
         }
     }
-    
+
 
     MH_STATUS Install()
     {

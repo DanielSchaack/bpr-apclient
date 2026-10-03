@@ -29,6 +29,9 @@ GUI::GUI(bpr::BannerQueue &banner_queue):banner_( banner_queue)
     info_window = info.get();
     windows.push_back(std::move(login));
     windows.push_back(std::move(info));
+
+    imguiInputMode = false;
+    UpdateInputMode();
 }
 
 GUI::~GUI()
@@ -43,21 +46,18 @@ GUI::~GUI()
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 bool GUI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-    if (msg == WM_KEYDOWN && wParam == VK_F1)
-    {
-        SetInputMode(!imguiInputMode);
-        return false;
-    }
 
     if (msg == WM_KEYDOWN && wParam == VK_F2)
     {
         App::Instance->Gui().login_window->ToggleVisibility();
+        App::Instance->Gui().UpdateInputMode();
         return false;
     }
 
     if (msg == WM_KEYDOWN && wParam == VK_F3)
     {
         App::Instance->Gui().info_window->ToggleVisibility();
+        App::Instance->Gui().UpdateInputMode();
         return false;
     }
 
@@ -95,6 +95,7 @@ bool GUI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 }
 
 void GUI::Render(){
+    UpdateInputMode();
     RECT rect;
     if (!GetClientRect(GUI::windowHandle, &rect)) {
         return;
@@ -117,6 +118,16 @@ void GUI::Render(){
 
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+}
+
+void GUI::UpdateInputMode()
+{
+    bool anyVisible = false;
+    for (const auto& window : windows)
+        if (window->isVisible) { anyVisible = true; break; }
+
+    if (anyVisible != imguiInputMode)
+        SetInputMode(anyVisible);
 }
 
 void GUI::SetInputMode(bool enabled)

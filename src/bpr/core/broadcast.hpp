@@ -52,15 +52,10 @@ struct BannerFrame
 class BannerQueue
 {
   public:
-    static constexpr double kHoldSeconds = 5.0;            // fully opaque
-    static constexpr double kFadeSeconds = 1.0;            // then fades to gone
-    static constexpr double kPromoteIntervalSeconds = 1.0; // spacing between two messages appearing
-    static constexpr int kMaxVisible = 5;                  // messages shown stacked at once
-
     void push(std::vector<BannerSegment> segments);
 
     // Advances the queue against `now` and returns the active messages to draw (oldest first), each with its
-    // own alpha. Empty when idle. The renderer stacks them top-to-bottom.
+    // own alpha. Empty when idle.
     [[nodiscard]] std::vector<BannerFrame> update(double now);
 
   private:

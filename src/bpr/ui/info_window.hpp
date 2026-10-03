@@ -14,4 +14,6 @@ public:
 private:
 	std::deque<std::string> logMessages;
 	const int maxLogMessages = 20;
+
+    bool positionApplied = false;
 };

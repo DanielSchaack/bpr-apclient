@@ -1,5 +1,5 @@
 #include "broadcast.hpp"
-
+#include "bpr/core/mod_config.hpp"
 #include <algorithm>
 
 namespace bpr
@@ -108,6 +108,12 @@ void BannerQueue::push(std::vector<BannerSegment> segments)
 
 std::vector<BannerFrame> BannerQueue::update(double now)
 {
+    const ModConfig &cfg = ModConfig::Get();
+    const double kHoldSeconds    = cfg.bannerHoldSeconds;                    // fully opaque
+    const double kFadeSeconds    = cfg.bannerFadeSeconds;                    // then fades to gone
+    const double kPromoteIntervalSeconds = cfg.bannerPromoteIntervalSeconds; // spacing between two messages appearing
+    const int kMaxVisible = cfg.bannerMaxVisible;                            // messages shown stacked at once
+
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Retire any faded-out banners. All share the same lifetime and start in arrival order, so the oldest

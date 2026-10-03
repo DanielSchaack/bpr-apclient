@@ -19,6 +19,10 @@ void GameHooks::Init(){
     DisableTrigger::Install();
     DisableEventStart::Install();
     DetectBreakable::Install();
+    DetectRoadRules::Install();
+    DetectTakedown::Install();
+    DetectDriveThru::Install();
+    DetectActiveCar::Install();
 
     CarUnlockControl::Install();
 

@@ -1,7 +1,7 @@
+#include "bpr/hooks/game_hooks.hpp"
 #include "detours.hpp"
 #include <windows.h>
 #include <intrin.h>
-#include <iostream>
 #include "../../app/app.hpp"
 
 namespace EventWinLog
@@ -21,14 +21,16 @@ namespace EventWinLog
         Original(manager, actionQueue, eventId, results, mode);
         if (position == 1)
         {
+            App::Instance->State().GetSaveData().completed_events.push_back(eventId);
             App::Instance->State().SendLocation(eventId);
+            GameHooks::PrintCurrentCarInformation();
         }
     }
 
     MH_STATUS Install()
     {
         return MH_CreateHook(
-            reinterpret_cast<void*>(Address), 
+            reinterpret_cast<void*>(Address),
             reinterpret_cast<void*>(&Detour),
             reinterpret_cast<void**>(&Original)
         );

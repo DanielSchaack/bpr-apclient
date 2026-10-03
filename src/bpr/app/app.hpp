@@ -24,7 +24,7 @@ class App
             return state_;
         }
 
-        ArchepelagoNet& Network()
+        ArchipelagoNet& Network()
         {
             return network_;
         }
@@ -35,7 +35,7 @@ class App
     private:
         NetworkBridge bridge_;
         ApState state_;
-        ArchepelagoNet network_;
+        ArchipelagoNet network_;
         GUI gui_;
         std::thread network_thread_;
 };

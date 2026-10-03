@@ -114,6 +114,7 @@ namespace Logger
     }
 
 
+    std::string lastLogEntry_;
     void Log(const std::string& message)
     {
         std::lock_guard lock(logMutex);
@@ -121,20 +122,16 @@ namespace Logger
         if (!Initialize())
             return;
 
-        logFile
-            << "["
-            << GetLogTimestamp()
-            << "] "
-            << message
-            << '\n';
+        const std::string ts = GetLogTimestamp();
+        const std::string entry = ts + " " + message;
 
-        // Make sure the log survives a game crash.
-        logFile.flush();
-        //log to console
-        std::cout << "["
-            << GetLogTimestamp()
-            << "] "
-            << message
-            << std::endl;
+        if (entry != lastLogEntry_) {
+            lastLogEntry_ = entry;
+
+            logFile << '[' << ts << "] " << message << '\n';
+            logFile.flush();
+
+            std::cout << '[' << ts << "] " << message << std::endl;
+        }
     }
 }

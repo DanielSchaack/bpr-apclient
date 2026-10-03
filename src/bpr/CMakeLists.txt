@@ -24,6 +24,10 @@ add_library(bprap SHARED
     hooks/function/disable_trigger.cpp
     hooks/function/disable_event_start.cpp
     hooks/function/detect_breakable.cpp
+    hooks/function/detect_road_rules.cpp
+    hooks/function/detect_drivethru.cpp
+    hooks/function/detect_takedown.cpp
+    hooks/function/detect_active_car.cpp
     hooks/function/disable_add_car.cpp
     hooks/function/event_win.cpp
     hooks/function/license_upgrade.cpp
@@ -37,6 +41,7 @@ add_library(bprap SHARED
     hooks/structure/connection_wait.cpp
     hooks/structure/game_action_queue.cpp
     core/logger.cpp
+    core/mod_config.cpp
     hooks/function/wreck_control.cpp
     ui/info_window.cpp
 )
@@ -66,6 +71,22 @@ target_compile_definitions(bprap PUBLIC
     WSWRAP_ASYNC_CLEANUP
 )
 
+set(DEFAULT_PROFILE  ${CMAKE_SOURCE_DIR}/assets/Profile.BurnoutParadiseSave)
+set(DEFAULT_PROFILE_CPP ${CMAKE_CURRENT_BINARY_DIR}/generated/default_profile.cpp)
+
+add_custom_command(
+  OUTPUT  ${DEFAULT_PROFILE_CPP}
+  COMMAND ${CMAKE_COMMAND}
+          -DINPUT=${DEFAULT_PROFILE}
+          -DOUTPUT=${DEFAULT_PROFILE_CPP}
+          -DSYMBOL=DefaultProfile
+          -P ${CMAKE_SOURCE_DIR}/cmake/EmbedFile.cmake
+  DEPENDS ${DEFAULT_PROFILE} ${CMAKE_SOURCE_DIR}/cmake/EmbedFile.cmake
+  COMMENT "Embedding default profile"
+  VERBATIM
+)
+
+target_sources(bprap PRIVATE ${DEFAULT_PROFILE_CPP})
 
 target_compile_definitions(bprap PRIVATE
     BPRAP_RELEASE_VERSION=\"${BPRAP_RELEASE_VERSION}\"

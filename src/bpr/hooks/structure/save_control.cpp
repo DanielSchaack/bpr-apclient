@@ -7,6 +7,11 @@
 #include "../../app/app.hpp"
 #include "bpr/core/logger.hpp"
 
+namespace Embedded
+{
+    extern const unsigned char DefaultProfile[];
+    extern const std::size_t DefaultProfileSize;
+}
 
 namespace RedirectSave
 {
@@ -32,6 +37,35 @@ namespace RedirectSave
         return suffix;
     }
 
+
+    static void WriteDefaultProfile(const std::filesystem::path& dir)
+    {
+        const auto profilePath = dir / "Profile.BurnoutParadiseSave";
+
+        std::error_code ec;
+        if (std::filesystem::exists(profilePath, ec))
+            return; // never overwrite a real profile
+
+        std::filesystem::create_directories(dir, ec);
+
+        std::ofstream out(profilePath, std::ios::binary | std::ios::trunc);
+        if (!out)
+        {
+            Logger::Log(std::format("Failed to create default profile at {}", profilePath.string()));
+            return;
+        }
+
+        out.write(reinterpret_cast<const char*>(Embedded::DefaultProfile),
+                static_cast<std::streamsize>(Embedded::DefaultProfileSize));
+
+        if (!out)
+        {
+            Logger::Log(std::format("Failed to write default profile at {}", profilePath.string()));
+            return;
+        }
+
+        Logger::Log("Wrote default profile for new AP save");
+    }
 
     extern "C" void __cdecl WriteOwnFile(const char* directory)
     {
@@ -61,6 +95,7 @@ namespace RedirectSave
 
             if(!file_exists){
                 state.MarkSaveAsInitialized();
+                WriteDefaultProfile(dirPath);
                 Logger::Log(std::format("Creating new AP save at: {}", expectedFolder));
                 return;
             }
