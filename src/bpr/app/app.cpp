@@ -38,8 +38,8 @@ void App::Render(){
     }
 }
 
-void App::GameThread(void* gameActionQueue){
+void App::GameThread(void* gameActionQueue, void* gameEventQueue){
     if (App::Instance != nullptr){
-        App::Instance->State().Update(gameActionQueue);
+        App::Instance->State().Update(gameActionQueue, gameEventQueue);
     }
 }

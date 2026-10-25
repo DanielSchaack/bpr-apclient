@@ -5,7 +5,7 @@
 
 class InfoWindow : public Window {
 public:
-	InfoWindow() : Window("GetObject") {
+	InfoWindow() : Window("Info") {
 		isVisible = false;
 	};
 	void ToggleVisibility() override;

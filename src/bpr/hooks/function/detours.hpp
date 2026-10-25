@@ -3,6 +3,7 @@
 #include "MinHook.h"
 #include "bpr/core/vehicles.hpp"
 #include <cstdint>
+#include <map>
 #include <windows.h>
 
 namespace Helper
@@ -63,6 +64,7 @@ namespace LicenseUpgradeLog
 
 namespace EventWinLog
 {
+    void ApplyBaseDifficulty(const std::map<int, int>& base);
     MH_STATUS Install();
 }
 
@@ -76,8 +78,11 @@ namespace DeathLink
 namespace EnableEvent
 {
     bool EnableEvent(uint32_t event_id) noexcept;
-    bool IsEventEnabled(uint32_t  event_id) noexcept; 
-    bool IsValidEvent(uint32_t  event_id) noexcept; 
+    bool IsEventEnabled(uint32_t  event_id) noexcept;
+    bool IsValidEvent(uint32_t  event_id) noexcept;
+
+    bool MarkEventCompleted(uint32_t event_id) noexcept;
+    int RestoreCompletedEvents() noexcept;
 }
 
 namespace AlwaysWrecked
@@ -95,6 +100,11 @@ namespace DetectRoadRules
     MH_STATUS Install();
 }
 
+namespace DetectIslandRoadRules
+{
+    MH_STATUS Install();
+}
+
 namespace DetectTakedown
 {
     MH_STATUS Install();
@@ -103,6 +113,8 @@ namespace DetectTakedown
 namespace DetectDriveThru
 {
     MH_STATUS Install();
+    bool GrantDiscovery(std::uint64_t id);
+    bool RevokeDiscovery(std::uint64_t id);
 }
 
 namespace CrashLog
@@ -114,8 +126,10 @@ namespace DetectActiveCar
 {
     constexpr std::uintptr_t SpawnCarIdOffset  = 0x50;
     constexpr std::uintptr_t SpawnBikeIdOffset = 0x58;
+    constexpr std::uintptr_t CurrentCarTypeOffset = 0x26B90;
 
     enum class Slot : std::int32_t { Unknown = -1, Car = 0, Bike = 1 };
+
 
     MH_STATUS Install();
 
@@ -123,5 +137,11 @@ namespace DetectActiveCar
     bool          IsBikeActive() noexcept;
     std::uint64_t GetSlotId(Slot slot) noexcept;
     std::uint64_t GetActiveVehicleId() noexcept;
-    const VehicleInfo* GetActiveVehicle() noexcept;
+    const Vehicle::VehicleInfo* GetActiveVehicle() noexcept;
+    Vehicle::BoostType GetCurrentCarType() noexcept;
+}
+
+namespace DetectBikeEvent
+{
+    MH_STATUS Install();
 }

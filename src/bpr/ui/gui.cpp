@@ -5,8 +5,9 @@
 #include "broadcast_banner.hpp"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
-#include "info_window.hpp"
 #include "login_window.hpp"
+#include "config_window.hpp"
+#include "info_window.hpp"
 
 GUI::GUI(bpr::BannerQueue &banner_queue):banner_( banner_queue)
 {
@@ -23,11 +24,20 @@ GUI::GUI(bpr::BannerQueue &banner_queue):banner_( banner_queue)
 
     // SetClassLongPtrA(GUI::windowHandle, GCLP_HCURSOR, NULL);
 
+    auto tracker = std::make_unique<TrackerWindow>();
     auto login = std::make_unique<LoginWindow>();
+    auto config = std::make_unique<ConfigWindow>();
+    auto quicktravel = std::make_unique<QuickTravelWindow>();
     auto info = std::make_unique<InfoWindow>();
+    tracker_window = tracker.get();
     login_window = login.get();
+    config_window = config.get();
+    quicktravel_window = quicktravel.get();
     info_window = info.get();
+    windows.push_back(std::move(tracker));
     windows.push_back(std::move(login));
+    windows.push_back(std::move(config));
+    windows.push_back(std::move(quicktravel));
     windows.push_back(std::move(info));
 
     imguiInputMode = false;
@@ -47,6 +57,13 @@ GUI::~GUI()
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 bool GUI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
+    if (msg == WM_KEYDOWN && wParam == VK_F1)
+    {
+        App::Instance->Gui().tracker_window->ToggleVisibility();
+        App::Instance->Gui().UpdateInputMode();
+        return false;
+    }
+
     if (msg == WM_KEYDOWN && wParam == VK_F2)
     {
         App::Instance->Gui().login_window->ToggleVisibility();
@@ -55,6 +72,20 @@ bool GUI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     }
 
     if (msg == WM_KEYDOWN && wParam == VK_F3)
+    {
+        App::Instance->Gui().config_window->ToggleVisibility();
+        App::Instance->Gui().UpdateInputMode();
+        return false;
+    }
+
+    if (msg == WM_KEYDOWN && wParam == VK_F4)
+    {
+        App::Instance->Gui().quicktravel_window->ToggleVisibility();
+        App::Instance->Gui().UpdateInputMode();
+        return false;
+    }
+
+    if (msg == WM_KEYDOWN && wParam == VK_F5)
     {
         App::Instance->Gui().info_window->ToggleVisibility();
         App::Instance->Gui().UpdateInputMode();

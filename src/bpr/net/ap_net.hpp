@@ -23,6 +23,8 @@ public:
 	void Run();
 	void Stop();
 	std::atomic_bool running_{false};
+    void ToggleDeathlink(bool enabled);
+    void DisplayItemReceived(int64_t itemId, int64_t locationId, int player, unsigned flags);
 
 	//static std::string GetSaveIdentifier();
 	//static std::string GetItemDesc(int player);

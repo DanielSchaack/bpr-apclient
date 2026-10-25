@@ -17,7 +17,12 @@ add_library(bprap SHARED
 
     ui/gui.cpp
     ui/login_window.cpp
+    ui/config_window.cpp
+    ui/quicktravel_window.cpp
+    ui/info_window.cpp
     ui/broadcast_banner.cpp
+    ui/tracker_window.cpp
+    ui/tracker.cpp
 
     hooks/game_hooks.cpp
 
@@ -25,9 +30,11 @@ add_library(bprap SHARED
     hooks/function/disable_event_start.cpp
     hooks/function/detect_breakable.cpp
     hooks/function/detect_road_rules.cpp
+    hooks/function/detect_bsi_road_rules.cpp
     hooks/function/detect_drivethru.cpp
     hooks/function/detect_takedown.cpp
     hooks/function/detect_active_car.cpp
+    hooks/function/detect_bike_event.cpp
     hooks/function/disable_add_car.cpp
     hooks/function/event_win.cpp
     hooks/function/license_upgrade.cpp
@@ -40,10 +47,11 @@ add_library(bprap SHARED
     hooks/structure/save_control.cpp
     hooks/structure/connection_wait.cpp
     hooks/structure/game_action_queue.cpp
+    hooks/structure/filler.cpp
+    hooks/structure/hud_notify.cpp
     core/logger.cpp
     core/mod_config.cpp
     hooks/function/wreck_control.cpp
-    ui/info_window.cpp
 )
 
 target_include_directories(bprap PUBLIC "${CMAKE_SOURCE_DIR}/src")
@@ -91,6 +99,8 @@ target_sources(bprap PRIVATE ${DEFAULT_PROFILE_CPP})
 target_compile_definitions(bprap PRIVATE
     BPRAP_RELEASE_VERSION=\"${BPRAP_RELEASE_VERSION}\"
     BPRAP_GAME_NAME=\"${BPRAP_GAME_NAME}\"
+    NOMINMAX
+    WIN32_LEAN_AND_MEAN
 )
 
 set(_bprap_mod_name "bpr_apclient.dll")

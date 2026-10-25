@@ -14,8 +14,8 @@
 
 namespace CarUnlockControl
 {
-    static_assert(sizeof(CarData) == 0x18);
-    static_assert(offsetof(CarData, unlockType) == 0x10);
+    static_assert(sizeof(Vehicle::CarData) == 0x18);
+    static_assert(offsetof(Vehicle::CarData, unlockType) == 0x10);
 
     template<class T>
     static T& At(void* object, std::uintptr_t offset)
@@ -23,9 +23,9 @@ namespace CarUnlockControl
         return *reinterpret_cast<T*>(reinterpret_cast<std::uintptr_t>(object) + offset);
     }
 
-    using FindCarFn = CarData* (__thiscall*)(void*, std::uint64_t);
+    using FindCarFn = Vehicle::CarData* (__thiscall*)(void*, std::uint64_t);
     using VehicleDataFn = void* (__thiscall*)(void*, std::uint64_t);
-    using ProfileAddCarFn = CarData* (__thiscall*)(
+    using ProfileAddCarFn = Vehicle::CarData* (__thiscall*)(
         void*, std::uint64_t, std::uint32_t, std::uint32_t, void*);
     using RefreshFn = void (__thiscall*)(void*);
 
@@ -34,7 +34,7 @@ namespace CarUnlockControl
     static const auto ProfileAddCar = reinterpret_cast<ProfileAddCarFn>(0x00A0A3E0);
     static const auto RefreshCarCount = reinterpret_cast<RefreshFn>(0x00A0FF10);
 
-    using AddCarFn = CarData* (__thiscall*)(
+    using AddCarFn = Vehicle::CarData* (__thiscall*)(
         void* manager,
         std::uint64_t vehicleId,
         std::uint32_t unlockType
@@ -46,7 +46,7 @@ namespace CarUnlockControl
         const auto count = At<std::int32_t>(profile, 0x2A0);
         if (count <= 0 || count > 512) return;
 
-        auto* cars = reinterpret_cast<CarData*>(profile + 0x2B8);   // maCars, from the save loader
+        auto* cars = reinterpret_cast<Vehicle::CarData*>(profile + 0x2B8);   // maCars, from the save loader
         for (int i = 0; i < count; ++i)
             if (cars[i].category == 2) return;
 
@@ -56,9 +56,9 @@ namespace CarUnlockControl
 
     // The game writes through the returned pointer in several award callers.
     // Give those writes temporary storage, never an actual profile record.
-    static thread_local CarData suppressedCar{};
+    static thread_local Vehicle::CarData suppressedCar{};
 
-    static CarData* __stdcall MakeSuppressedCar(void* manager, std::uint64_t vehicleId, std::uint32_t unlockType)
+    static Vehicle::CarData* __stdcall MakeSuppressedCar(void* manager, std::uint64_t vehicleId, std::uint32_t unlockType)
     {
         auto* profile = reinterpret_cast<std::uint8_t*>(manager) + 0x170;
 
@@ -67,10 +67,10 @@ namespace CarUnlockControl
             CarUnlockControl::RemoveCar(vehicleId);
 
         // Car unlocked, grant location
-        if (unlockType == static_cast<uint32_t>(UnlockType::Gift) ||
-            unlockType == static_cast<uint32_t>(UnlockType::ShutdownRival) ||
-            unlockType == static_cast<uint32_t>(UnlockType::Sponsor) ||
-            unlockType == static_cast<uint32_t>(UnlockType::IslandGift))
+        if (unlockType == static_cast<uint32_t>(Vehicle::UnlockType::Gift) ||
+            unlockType == static_cast<uint32_t>(Vehicle::UnlockType::ShutdownRival) ||
+            unlockType == static_cast<uint32_t>(Vehicle::UnlockType::Sponsor) ||
+            unlockType == static_cast<uint32_t>(Vehicle::UnlockType::IslandGift))
           App::Instance->State().SendLocation(vehicleId >> 12);
 
         const auto* existing = FindCar(profile, vehicleId);
@@ -112,9 +112,9 @@ namespace CarUnlockControl
         }
     }
 
-    bool TryAddCar( void* profile, void* vehicleList, uint64_t vehicleId, CarData*& outCar)
+    bool TryAddCar( void* profile, void* vehicleList, uint64_t vehicleId, Vehicle::CarData*& outCar)
     {
-        CarData* car = FindCar(profile, vehicleId);
+        Vehicle::CarData* car = FindCar(profile, vehicleId);
 
         if (!car)
         {
@@ -145,19 +145,19 @@ namespace CarUnlockControl
         return true;
     }
 
-    void AddLiveries(uint8_t* profile, void* vehicleList, const VehicleInfo* v_info)
+    void AddLiveries(uint8_t* profile, void* vehicleList, const Vehicle::VehicleInfo* v_info)
     {
         size_t adjacentCount = 0;
-        for (int i = 0; i < max_livery_amount; ++i)
+        for (int i = 0; i < Vehicle::max_livery_amount; ++i)
             if (v_info->adjacent_ids[i] != 0)
                 ++adjacentCount;
 
-        for (int i = 0; i < max_livery_amount; i++) {
+        for (int i = 0; i < Vehicle::max_livery_amount; i++) {
             uint64_t id = v_info->adjacent_ids[i];
             if (id == 0)
                 continue;
 
-            CarData *adjacent_car = nullptr;
+            Vehicle::CarData *adjacent_car = nullptr;
             if (!TryAddCar(profile, vehicleList, id, adjacent_car))
                 continue;
             adjacent_car->category = static_cast<uint32_t>(v_info->category);
@@ -182,7 +182,7 @@ namespace CarUnlockControl
             return false;
         }
 
-        const VehicleInfo* v_info = FindVehicleByArchipelagoLiveryID(archipelagoLiveryId);
+        const Vehicle::VehicleInfo* v_info = Vehicle::FindVehicleByArchipelagoLiveryID(archipelagoLiveryId);
         if(!v_info)
             return false;
 
@@ -240,7 +240,10 @@ namespace CarUnlockControl
         Logger::Log(std::format("Before normalizing car unlockType={}, category={}, unlockShown={}, deformation={}",
                                 car->unlockType, car->category, car->unlockShown, car->deformation));
 
-        const VehicleInfo *v_info = FindVehicleByID(vehicleId);
+        car->deformation = 0.0f;
+        car->unlockShown = 1;
+
+        const Vehicle::VehicleInfo *v_info = Vehicle::FindVehicleByID(vehicleId);
         if (v_info) {
             car->category = static_cast<uint32_t>(v_info->category);
 
@@ -254,10 +257,17 @@ namespace CarUnlockControl
             {
                 car->unlockType = static_cast<uint32_t>(v_info->unlock_type);
             }
-        }
 
-        car->unlockShown = 1;
-        car->deformation = 0.0f;
+            // Guide players to repair the car to unlock their Burning Routes, like base game
+            if ((static_cast<uint32_t>(v_info->unlock_type) == 3 ||
+                 static_cast<uint32_t>(v_info->unlock_type) == 5 ||
+                 v_info->id == 0xA7E60F1A3A360000) &&
+                    !App::Instance->State().GetSaveData().HasCarWon(
+                        v_info->id) ||
+                (App::Instance->State().GetSlotData().uniqueCarWins &&
+                 !App::Instance->State().GetSaveData().HasCarWon(v_info->id)))
+              car->deformation = 0.1f;
+        }
 
         Logger::Log(std::format("After normalized car: unlockType={}, category={}, unlockShown={}, deformation={}",
                                 car->unlockType, car->category, car->unlockShown, car->deformation));
@@ -302,16 +312,16 @@ namespace CarUnlockControl
         std::uintptr_t carAddr = reinterpret_cast<std::uintptr_t>(car);
         std::uintptr_t profileAddr = reinterpret_cast<std::uintptr_t>(profile);
 
-        CarData* carsArray = nullptr;
+        Vehicle::CarData* carsArray = nullptr;
         std::ptrdiff_t index = -1;
 
         // step through cars in profile to find index of car that should be removed
         for (std::uintptr_t base = profileAddr + 0x2A4; base <= carAddr; ++base)
         {
-            if ((carAddr - base) % sizeof(CarData) == 0)
+            if ((carAddr - base) % sizeof(Vehicle::CarData) == 0)
             {
-                carsArray = reinterpret_cast<CarData*>(base);
-                index = (carAddr - base) / sizeof(CarData);
+                carsArray = reinterpret_cast<Vehicle::CarData*>(base);
+                index = (carAddr - base) / sizeof(Vehicle::CarData);
                 break;
             }
         }
@@ -327,11 +337,11 @@ namespace CarUnlockControl
         // if not last index, shift all following car entries one spot earlier
         if (index < count - 1)
         {
-            std::memmove(car, car + 1, (count - 1 - index) * sizeof(CarData));
+            std::memmove(car, car + 1, (count - 1 - index) * sizeof(Vehicle::CarData));
         }
 
         // car to remove is in last index, removing it by resetting to 0
-        std::memset(&carsArray[count - 1], 0, sizeof(CarData));
+        std::memset(&carsArray[count - 1], 0, sizeof(Vehicle::CarData));
         count--;
         EnsureBaseCar(profile);
 
@@ -353,6 +363,37 @@ namespace CarUnlockControl
         __asm { ret 4 }
     }
 
+    // UnlockCarFromTrophy: FindCar -> AddCar(id, 2) -> queue a "CarAward" HUD record
+    constexpr std::uintptr_t TrophyUnlockAddress = 0x06E72D50;
+
+    // __thiscall(manager, idLo, idHi, extra) -> bool, returns false and queues nothing
+    __declspec(naked) bool BlockTrophyUnlock()
+    {
+        __asm
+        {
+            xor eax, eax
+            ret 12
+        }
+    }
+
+    // IslandGift: FindCar -> AddCar(id, 10) -> queue id at manager+0x2C3B8 (count at +0x2C3F8)
+    constexpr std::uintptr_t IslandGiftAddress = 0x06E74BD0;
+    using IslandGiftFn = void (__thiscall*)(void*, std::uint32_t, std::uint32_t, std::uint32_t);
+    static IslandGiftFn OriginalIslandGift = nullptr;
+
+    // AddCar still runs (location gets sent), but the notification queue entry is rolled back
+    void __fastcall IslandGiftDetour(void* manager, void*, std::uint32_t idLo, std::uint32_t idHi, std::uint32_t extra)
+    {
+        auto* count = reinterpret_cast<std::int32_t*>(static_cast<std::uint8_t*>(manager) + 0x2C3F8);
+        const std::int32_t before = *count;
+        OriginalIslandGift(manager, idLo, idHi, extra);
+        if (*count > before)
+        {
+            *count = before;
+            Logger::Log("CarUnlockControl: dropped island gift notification");
+        }
+    }
+
     MH_STATUS Install()
     {
         ProfileDiff::Start();
@@ -369,6 +410,25 @@ namespace CarUnlockControl
             return status;
         }
 
+        status = MH_CreateHook(reinterpret_cast<void*>(TrophyUnlockAddress),
+                  reinterpret_cast<void*>(&BlockTrophyUnlock), nullptr);
+        if (status != MH_OK)
+        {
+            MH_RemoveHook(reinterpret_cast<void*>(DerivedCarsAddress));
+            MH_RemoveHook(reinterpret_cast<void*>(AddCarAddress));
+            return status;
+        }
+
+        status = MH_CreateHook(reinterpret_cast<void*>(IslandGiftAddress),
+                       reinterpret_cast<void*>(&IslandGiftDetour),
+                       reinterpret_cast<void**>(&OriginalIslandGift));
+        if (status != MH_OK)
+        {
+            MH_RemoveHook(reinterpret_cast<void*>(TrophyUnlockAddress));
+            MH_RemoveHook(reinterpret_cast<void*>(DerivedCarsAddress));
+            MH_RemoveHook(reinterpret_cast<void*>(AddCarAddress));
+            return status;
+        }
         return status;
     }
 }

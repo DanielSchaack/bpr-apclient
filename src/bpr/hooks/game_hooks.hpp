@@ -114,7 +114,7 @@ namespace GameHooks
         const std::uint64_t id = DetectActiveCar::GetActiveVehicleId();
         Logger::Log(std::format("active slot {} | vehicle id {:#018x}", static_cast<int>(slot), id));
 
-        if (const VehicleInfo* v = DetectActiveCar::GetActiveVehicle())
+        if (const Vehicle::VehicleInfo* v = DetectActiveCar::GetActiveVehicle())
             Logger::Log(std::format("table: '{}' category {} unlock {}", v->name,
                                     static_cast<int>(v->category), static_cast<int>(v->unlock_type)));
         else

@@ -1,18 +1,15 @@
 #include "bpr/core/logger.hpp"
+#include "bpr/core/map.hpp"
 #include "detours.hpp"
 #include "MinHook.h"
 #include <format>
-#include <set>
 #include <windows.h>
 #include "../../app/app.hpp"
 
 namespace DetectBreakable
 {
-    constexpr uintptr_t Address = 0x032149a3;
-    constexpr uintptr_t ReturnAddress = 0x032149a8;
-    constexpr uintptr_t jumpAddress = 0x03214a0c;
-
-    static void* OriginalTrampoline = nullptr;
+    using AreaOfFn = std::uint32_t (__thiscall*)(void* self, void* obj);
+    static const auto AreaOfObject = reinterpret_cast<AreaOfFn>(0x03242F20);
 
     extern "C" __declspec(noinline) void __stdcall
     LogBreakable(std::uint32_t type, std::uint32_t id, std::uint32_t area) noexcept
@@ -25,9 +22,7 @@ namespace DetectBreakable
     constexpr std::uintptr_t RegisterAddress = 0x03214990;
     constexpr std::uintptr_t CollectAddress  = 0x00A14930;
 
-    inline std::atomic<bool> g_allowCollection{true};        // false = collecting is not counted or saved, TODO: Config
-
-    static int CountyOf(std::uint32_t area)                  // mirrors internal FUN_00bda4a0
+    static int CountyOf(std::uint32_t area)                  // mirrors AreaOfFn
     {
         if (area > 0x16)  return 6;
         if (area <= 3)    return 0;
@@ -38,8 +33,6 @@ namespace DetectBreakable
         return 5;
     }
 
-    static std::set<std::pair<std::int32_t, std::uint64_t>> g_reported;
-
     using RegisterFn = std::uint32_t (__thiscall*)(void*, std::int32_t, std::uint32_t, std::int32_t, std::int32_t);
     static RegisterFn OriginalRegister = nullptr;
 
@@ -49,15 +42,11 @@ namespace DetectBreakable
     {
         const std::uint64_t id = (static_cast<std::uint64_t>(static_cast<std::uint32_t>(idHi)) << 32) | idLo;
 
-        if (g_reported.insert({type, id}).second) // TODO: User save data
-        {
-            const int county = CountyOf(area);
-            Logger::Log(std::format("{} {} ID: {}", county < 6 ? Map::areaIndex[county] : "?", Map::typeIndex[type], id));
-            App::Instance->Gui().info_window->AddLogMessage(std::format("{} {} ID: {}", county < 6 ? Map::areaIndex[county] : "?", Map::typeIndex[type], id));
-            App::Instance->State().CacheBreakable(county, type);
-        }
+        const int county = CountyOf(area);
+        Logger::Log(std::format("{} {} ID: {}", county < 6 ? Map::areaIndex[county] : "?", Map::typeIndex[type], id));
+        App::Instance->Gui().info_window->AddLogMessage(std::format("{} {} ID: {}", county < 6 ? Map::areaIndex[county] : "?", Map::typeIndex[type], id));
+        App::Instance->State().CacheBreakable(county, type);
 
-        if (!g_allowCollection.load()) return 0;
         return OriginalRegister(profile, type, idLo, idHi, area);
     }
 
@@ -89,20 +78,25 @@ namespace DetectBreakable
         const bool track = manager && !isJump && bit < 300000;
         auto* qwords = track ? reinterpret_cast<std::uint64_t*>(manager + 0xEF78) : nullptr;   // profile + 0xEE08
 
+        // Same condition as ApState::CacheBreakable: only the owned/unlocked case may collect.
+        const int area = CountyOf(AreaOfObject(self, obj));
+        if ((!App::Instance->State().GetSlotData().cacheBreakables && App::Instance->State().GetSlotData().lockBreakables && !App::Instance->State().GetSaveData().breakable_owned[area][type]))
+        {
+            if(type != 0)
+            {
+                qwords[bit >> 6] &= ~(1ULL << (bit & 63));              // undo only a bit this call set
+                Logger::Log("  -> bit cleared (collection blocked)");
+            }
+            return;                                          // not owned yet: no bit, no popup, no registration
+        }
+
         const bool before = track && ((qwords[bit >> 6] >> (bit & 63)) & 1);
         OriginalCollect(self, a2, a3, a4, a5);
         const bool after = track && ((qwords[bit >> 6] >> (bit & 63)) & 1);
 
         Logger::Log(std::format(
-            "Collect: type={} id={} jump={} flagB={} unit={} prop={} bit={} before={} after={} allow={}",
-            type, id, isJump, flagB, unit, prop, bit, before, after, g_allowCollection.load()));
-
-
-        if (track && !g_allowCollection.load() && !before && after)
-        {
-            qwords[bit >> 6] &= ~(1ULL << (bit & 63));              // undo only a bit this call set
-            Logger::Log("  -> bit cleared (collection blocked)");
-        }
+            "Collect: type={} id={} jump={} flagB={} unit={} prop={} bit={} before={} after={}",
+            type, id, isJump, flagB, unit, prop, bit, before, after));
     }
 
     MH_STATUS Install()
