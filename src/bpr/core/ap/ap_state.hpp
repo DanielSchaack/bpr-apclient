@@ -33,6 +33,7 @@ class ApState
         void SendGoal();
         void SendDeathLink();
         bool InDeathTimeout();
+        bool MarkRoadRuled(int type, uint64_t roadId);
 
         [[nodiscard]] bool HasApSaveData() const{
             return save_data_initialized;
