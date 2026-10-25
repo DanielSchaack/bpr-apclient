@@ -99,6 +99,8 @@ target_sources(bprap PRIVATE ${DEFAULT_PROFILE_CPP})
 target_compile_definitions(bprap PRIVATE
     BPRAP_RELEASE_VERSION=\"${BPRAP_RELEASE_VERSION}\"
     BPRAP_GAME_NAME=\"${BPRAP_GAME_NAME}\"
+    NOMINMAX
+    WIN32_LEAN_AND_MEAN
 )
 
 set(_bprap_mod_name "bpr_apclient.dll")
