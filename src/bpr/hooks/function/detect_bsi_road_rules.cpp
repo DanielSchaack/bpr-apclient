@@ -28,13 +28,17 @@ namespace DetectIslandRoadRules
 
     static void Report(int mode, int slot, int type, std::int32_t score, std::uint64_t car)
     {
+        const uint64_t id = 64 + slot;
+        const int ruledType = mode ? mode + 1 : type;   // 0 time, 1 showtime, 2 bike day, 3 bike night
+        if (!App::Instance->State().MarkRoadRuled(ruledType, id))
+            return;   // already reported
+ 
         static constexpr const char* kTable[] = {"car", "bike day", "bike night"};
         const std::string msg = std::format("Island road rule record: {} slot {}{} - {} ms",
                                             kTable[mode], slot,
                                             mode == 0 ? (type ? " (showtime)" : " (time)") : "", score);
         Logger::Log(std::format("{} | car {}", msg, car));
         App::Instance->Gui().info_window->AddLogMessage(msg);
-        uint64_t id = 64 + slot;
         if(const Map::RoadInfo* info = Map::FindRoadInfoByID(id))
         {
             if (!mode)

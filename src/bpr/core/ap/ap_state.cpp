@@ -307,3 +307,8 @@ bool ApState::InDeathTimeout(){
     auto current_time = std::chrono::steady_clock::now();
     return current_time - death_link_time < death_delay;
 }
+
+bool ApState::MarkRoadRuled(int type, uint64_t roadId)
+{
+    return save_data_.AddRuledRoad(type, roadId);
+}

@@ -31,6 +31,10 @@ namespace DetectRoadRules
 
     static void ReportRoadRuled(const char* world, int row, int col, int id)
     {
+        const int type = (row ? 2 : 0) + col;
+        if (!App::Instance->State().MarkRoadRuled(type, static_cast<uint64_t>(id)))
+            return;   // already reported
+ 
         const std::string msg = std::format("Road Ruled - {} {} - Type {} ({}) - ID={}", world, row, col, col ? "Showtime" : "Time", id);
         Logger::Log(msg);
         App::Instance->Gui().info_window->AddLogMessage(msg);

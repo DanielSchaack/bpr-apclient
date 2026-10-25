@@ -35,11 +35,11 @@ namespace {
 
     // Met = done, Achievable = enough events unlocked to get there, NotMet = not yet
     GoalStatus Classify(int done, int required, int available) {
-      if (done >= required)
-        return GoalStatus::Met;
-      if (available >= required)
-        return GoalStatus::Achievable;
-      return GoalStatus::NotMet;
+        if (done >= required)
+            return GoalStatus::Met;
+        if (available >= required)
+            return GoalStatus::Achievable;
+        return GoalStatus::NotMet;
     }
 
     template <class Pred>
@@ -132,33 +132,35 @@ std::vector<GoalSection> BuildGoalSections() {
 
     // Cars
     GoalSection carSection{"Collected Cars", {}};
-    auto addRow = [&](const char* label, int received, int required) {
-        carSection.rows.push_back({label, std::to_string(received), std::move(std::to_string(required)), na, received >= required ? GoalStatus::Met : GoalStatus::NotAGoal});
+    auto addRow = [&](const char* label, int received, int available) {
+        carSection.rows.push_back({label, std::to_string(received), na, std::move(std::to_string(available)), received >= available ? GoalStatus::Met : GoalStatus::NotAGoal});
     };
 
-    const int cars = static_cast<int>(save.obtained_paradise_cars.size());
-    carSection.rows.push_back(
-        {"Total Paradise Cars", std::to_string(cars),
-         std::to_string(slot.carGoalCount), na,
-         cars >= slot.carGoalCount ? GoalStatus::Met : GoalStatus::NotMet});
+    const int receivedCars = static_cast<int>(save.obtained_paradise_cars.size());
+    const int brCars = slot.amountAddedEvents.at(Event::AddedEventNameToIndex("Burning Route Event")) + 1; // + 1 for starter car
+    const int brrCars = slot.addBurningRouteRewardCars;
+    const int carbonCars = slot.addCarbonCars;
 
-    addRow("Burning Route Cars", CountBurningRoutes(save),
-           slot.amountAddedEvents.at(
-               Event::AddedEventNameToIndex("Burning Route Event")));
+    carSection.rows.push_back(
+        {"Total Paradise Cars Required", std::to_string(receivedCars),
+         std::to_string(slot.carGoalCount), std::to_string(brCars + brrCars + carbonCars),
+         receivedCars >= slot.carGoalCount ? GoalStatus::Met : GoalStatus::NotMet});
+
+    addRow("Burning Route Cars", CountBurningRoutes(save), brCars);
 
     addRow("Burning Route Reward Cars",
            CountCars(save.obtained_cars,
                      [](const Vehicle::VehicleInfo &v) {
                        return v.unlock_type == Vehicle::UnlockType::Gift;
                      }),
-           slot.addBurningRouteRewardCars);
+           brrCars);
 
     addRow("Carbon Cars",
            CountCars(save.obtained_cars,
                      [](const Vehicle::VehicleInfo &v) {
                        return v.unlock_type == Vehicle::UnlockType::Trophy;
                      }),
-           slot.addCarbonCars);
+           carbonCars);
 
     struct CategoryRow { const char* label; int addedCount; Vehicle::VehicleCategory category; };
     const CategoryRow categories[] = {
@@ -253,8 +255,8 @@ std::vector<TrackerSection> BuildTrackerSections() {
     for (int i = 0; i < 8; ++i) {
         const auto type = static_cast<Event::EventType>(i);
         const int done  = save.GetEventWins(type);
-        events.rows.push_back(MakeRow(std::string(Event::to_string(type)), done,
-                                      unlocked[i], Lookup(slot.amountAddedEvents, i)));
+        const int total = Lookup(slot.amountAddedEvents, i) + (type == Event::EventType::BURNING_ROUTE ? 1 : 0); // +1 for starter car
+        events.rows.push_back(MakeRow(std::string(Event::to_string(type)), done, unlocked[i], total));
     }
     sections.push_back(std::move(events));
 

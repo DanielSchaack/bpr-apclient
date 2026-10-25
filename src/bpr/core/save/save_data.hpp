@@ -29,6 +29,8 @@ namespace bpr
         std::array<std::unordered_set<uint64_t>, 8> completed_events{};
         std::array<std::unordered_set<uint64_t>, 5> completed_cars{};
         std::unordered_set<uint64_t> completed_unique_cars{};
+        std::array<std::unordered_set<uint64_t>, 4> ruled_roads{};
+
 
         bool HasCar(uint64_t carId) const noexcept
         {
@@ -110,6 +112,13 @@ namespace bpr
         {
             return obtained_bike_events.contains(eventId);
         }
+
+        bool AddRuledRoad(int type, uint64_t roadId)
+        {
+            if (type < 0 || type >= static_cast<int>(ruled_roads.size()))
+                return false;
+            return ruled_roads[type].insert(roadId).second;   // true = was new
+        }
     };
 
 
@@ -132,7 +141,8 @@ namespace bpr
             {"visited_drivethrus", data.visited_drivethrus},
             {"completed_events", data.completed_events},
             {"completed_cars", data.completed_cars},
-            {"completed_unique_cars", data.completed_unique_cars}
+            {"completed_unique_cars", data.completed_unique_cars},
+            {"ruled_roads", data.ruled_roads},
         };
     }
 
@@ -155,5 +165,6 @@ namespace bpr
         j.at("completed_events").get_to(data.completed_events);
         j.at("completed_cars").get_to(data.completed_cars);
         j.at("completed_unique_cars").get_to(data.completed_unique_cars);
+        if (j.contains("ruled_roads")) j.at("ruled_roads").get_to(data.ruled_roads);
     }
 }

@@ -1,6 +1,7 @@
 #include "MinHook.h"
 #include "bpr/core/logger.hpp"
 #include "bpr/app/app.hpp"
+#include "bpr/hooks/function/detours.hpp"
 #include <algorithm>
 #include <format>
 namespace DetectBikeEvent {
@@ -31,6 +32,9 @@ namespace DetectBikeEvent {
 
     static void Filter(Payload& p)
     {
+        if (!DetectActiveCar::IsBikeActive())
+            return;
+
         if (p.count <= 0 || p.count > 175)
             return;
 
