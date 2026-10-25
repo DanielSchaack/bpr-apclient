@@ -25,10 +25,10 @@ namespace {
 
     int MaxReachableLicense(int availableEvents) {
         int best = 0;
-        for (; best < 7; best++) {
-            const int wins = kUniqueNeeded[best];
-            if (!HasEventWinsLogic(wins, availableEvents))
+        for (int n = 0; n < 7; ++n) {
+            if (!HasEventWinsLogic(kUniqueNeeded[n], availableEvents))
                 break;
+            best = n;
         }
         return best;
     }
