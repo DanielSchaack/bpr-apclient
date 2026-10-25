@@ -15,14 +15,19 @@ void GameHooks::Init(){
 
     DeathLink::Install();
     AlwaysWrecked::Install();
+    Filler::Install();
+    HudNotify::Install();
+    MinimapFix::Install();
 
     DisableTrigger::Install();
     DisableEventStart::Install();
     DetectBreakable::Install();
     DetectRoadRules::Install();
+    DetectIslandRoadRules::Install();
     DetectTakedown::Install();
     DetectDriveThru::Install();
     DetectActiveCar::Install();
+    DetectBikeEvent::Install();
 
     CarUnlockControl::Install();
 

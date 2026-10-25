@@ -38,7 +38,7 @@ void InfoWindow::Draw(int outerWidth, int outerHeight, float uiScale) {
 
     ImGui::SetNextWindowSizeConstraints(ImVec2(700.0f, 0.0f), ImVec2(FLT_MAX, FLT_MAX));
     ImGui::Begin("Log", &isVisible, ImGuiWindowFlags_AlwaysAutoResize);
-    ImGui::TextUnformatted("AP Client Temp Logger. Press F3 to toggle                            ");
+    ImGui::TextUnformatted("AP Client Temp Logger. Press F5 to toggle                            ");
     ImGui::TextUnformatted("");
     for (size_t i = 0; i < logMessages.size(); ++i) {
         const std::string& msg = logMessages[i];

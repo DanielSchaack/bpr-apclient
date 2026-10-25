@@ -19,15 +19,17 @@ class ApState
     };
     public:
         ApState(NetworkBridge& bridge);
+        bool g_setupDone = false;
 
 
         void SendLocation(int64_t location_id);
         void SendBreakableLocation(std::uint32_t type, std::uint32_t id, std::uint32_t area);
         void Connect(const std::string &server, const std::string &slot, const std::string &password);
         void Disconnect();
-        void Update(void* gameActionQueue);
-        void ProcessItem(int64_t item_id, int index, void* gameActionQueue);
+        void Update(void* gameActionQueue, void* gameEventQueue);
+        void ProcessItem(int64_t item_id, int index, void* gameActionQueue, void* gameEventQueue);
         void CacheBreakable(uint32_t area_id, int type_id);
+        void CheckGoal();
         void SendGoal();
         void SendDeathLink();
         bool InDeathTimeout();

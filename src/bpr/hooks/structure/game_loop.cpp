@@ -27,7 +27,7 @@ namespace GameLoop
         void* arg3,
         void* arg4)
     {
-        App::GameThread(gameActionQueue);
+        App::GameThread(gameActionQueue, gameEventQueue);
 
         Original(
             self,

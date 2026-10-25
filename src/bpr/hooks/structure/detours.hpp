@@ -2,6 +2,7 @@
 
 #include "MinHook.h"
 #include <cstdint>
+#include <string>
 
 namespace NOP
 {
@@ -40,8 +41,32 @@ namespace WaitForConnection {
     MH_STATUS Install();
 }
 
+namespace Filler {
+    inline bool g_fixFlagPending = false;
+    void QueueTeleport(float Position[4]);
+    void TeleportToPosition(void* gameEventQueue, float Position[4]);
+    void SwapToCar(void* gameEventQueue, std::uint64_t vehicleId);
+    bool Handle(std::int64_t itemId, void* gameActionQueue, void* gameEventQueue);
+    void Tick(void* gameActionQueue, void* gameEventQueue);
+    bool Install();
+}
+
+namespace HudNotify {
+    std::string TruncateUtf8(const std::string& s, std::size_t maxBytes);
+    void Show(std::string_view title, std::string_view subtitle = {});
+    MH_STATUS Install();
+}
+
+namespace MinimapFix {
+
+    std::string Describe();                                     // player list: kinds, entries, buffer, callers. F6 handler only
+    std::string DescribeMessages();                             // every message id since the last call, with its caller. F6 handler only
+    MH_STATUS Install();
+}
+
 namespace GameActions {
     bool AddGameAction(void* gameActionQueue, const void* gameAction, int32_t gameActionID, int32_t gameActionSize);
+    bool GameEventQueue_AddGameEvent(void* gameEventQueue, const void* gameEvent, int32_t gameEventID, int32_t gameEventSize);
 
     enum class VehicleType
     {
@@ -132,5 +157,31 @@ namespace GameActions {
         bool InfiniteBoost;
         bool BoostEarningEnabled;
         bool BoostMessagesEnabled;
+    };
+
+    struct GameAction_UpdateVehicleStats {
+      // BrnGameState::GameStateModuleIO::EGameActionType::E_ACTION_UPDATE_CAR_STATS
+        static constexpr int32_t ID = 230;
+
+        int32_t Speed;
+        int32_t Strength;
+        int32_t BoostLossLevel;
+        int32_t BoostLevel;
+        float DamageLimit;
+        BoostType BoostType;
+    };
+
+    struct GameEvent_ChangePlayerVehicle {
+        static constexpr int32_t ID = 2;
+        uint64_t VehicleID;
+        uint64_t WheelID;
+        bool ResetPlayerCamera;
+        bool KeepResetSection;
+    };
+
+    struct GameEvent_TeleportPlayerVehicle {
+        static constexpr int32_t ID = 1;
+        alignas(16) float Position[4];
+        alignas(16) float Direction[4];
     };
 }

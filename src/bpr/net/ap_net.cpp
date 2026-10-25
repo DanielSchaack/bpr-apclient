@@ -1,9 +1,11 @@
 #include <apclient.hpp>
 #include "ap_net.hpp"
-#include "bpr/app/app.hpp"
 #include "bpr/core/ap/slot_data.hpp"
 #include "bpr/core/broadcast.hpp"
 #include "bpr/core/logger.hpp"
+#include "bpr/core/mod_config.hpp"
+#include "bpr/app/app.hpp"
+#include "bpr/hooks/structure/detours.hpp"
 #include "deathlink.hpp"
 #include "net_events.hpp"
 
@@ -12,7 +14,7 @@
 #include <variant>
 #include <apuuid.hpp>
 
-#define UUID_FILE "uuid" // TODO: place in %appdata%
+#define UUID_FILE "mods/config/ap_uuid"
 
 using std::vector;
 
@@ -43,14 +45,14 @@ void ArchipelagoNet::Run() {
                     }
                     else if constexpr (std::is_same_v<T, NetCommands::SendDeathLink>)
                     {
-                        if (!client_ || !App::Instance->State().GetSlotData().deathlink)
+                        if (!client_ || !ModConfig::Get().deathlink)
                             return;
 
                         death_counter++;
                         std::vector<bpr::BannerSegment> segments;
-                        if (App::Instance->State().GetSlotData().deathlinkAmnesty > death_counter)
+                        if (ModConfig::Get().deathlinkAmnesty > death_counter)
                         {
-                            std::string msg = std::format("You are at {} out of {} deaths", death_counter, App::Instance->State().GetSlotData().deathlinkAmnesty);
+                            std::string msg = std::format("You are at {} out of {} crashes for a Deathlink", death_counter, ModConfig::Get().deathlinkAmnesty);
                             segments.push_back(bpr::BannerSegment(msg, 0xFFFFFFFF));
                             bridge_.broadcast(segments);
                             Logger::Log(msg);
@@ -139,12 +141,8 @@ void ArchipelagoNet::do_connect(const std::string &server, const std::string &sl
             bridge_.SendToGame(NetEvents::Disconnected{});
         }
 
-        deathlink_allowed_.store(slot_data.deathlink);
 
-        std::list<std::string> tags;
-        if (slot_data.deathlink)
-            tags.push_back("DeathLink");
-        client_->ConnectUpdate(false, kItemHandling, true, tags);
+        ToggleDeathlink(ModConfig::Get().deathlink);
         client_->StatusUpdate(APClient::ClientStatus::PLAYING);
 
         const std::string new_seed = client_->get_seed();
@@ -195,6 +193,8 @@ void ArchipelagoNet::do_connect(const std::string &server, const std::string &sl
                     continue;
                 bridge_.SendToGame(NetEvents::ItemReceived{.item_id = item.item, .index = item.index, .player = item.player});
                 last_item_index_ = item.index;
+                if(App::Instance->State().g_setupDone)
+                    DisplayItemReceived(item.item, item.location, item.player, item.flags);
             }
         });
     client_->set_bounced_handler(
@@ -250,6 +250,19 @@ void ArchipelagoNet::do_connect(const std::string &server, const std::string &sl
         });
 }
 
+void ArchipelagoNet::ToggleDeathlink(bool enabled)
+{
+    if(!client_)
+        return;
+
+    deathlink_allowed_.store(enabled);
+
+    std::list<std::string> tags;
+    if (enabled)
+        tags.push_back("DeathLink");
+    client_->ConnectUpdate(false, kItemHandling, true, tags);
+}
+
 void ArchipelagoNet::do_disconnect()
 {
     if (!client_)
@@ -258,3 +271,39 @@ void ArchipelagoNet::do_disconnect()
     bridge_.SendToGame(NetEvents::Disconnected{});
 }
 
+// Item flags from the AP protocol: 0 = filler, 1 = progression, 2 = useful, 4 = trap
+constexpr unsigned FLAG_PROGRESSION = 0b001;
+constexpr unsigned FLAG_USEFUL      = 0b010;
+
+bool ShouldShowItemPopup(unsigned flags) {
+    const ModConfig& cfg = ModConfig::Get();
+    if (flags == 0)                  return cfg.popupFiller;
+    if (flags & FLAG_PROGRESSION)    return cfg.popupProgression;
+    if (flags & FLAG_USEFUL)         return cfg.popupUseful;
+    return cfg.popupTrap;            // trap only (0b100)
+}
+
+void ArchipelagoNet::DisplayItemReceived(int64_t itemId, int64_t locationId, int playerSlot, unsigned flags)
+{
+    if (!ModConfig::Get().showIngameMessages)
+        return;
+
+    if (!ShouldShowItemPopup(flags))
+        return;
+
+    const std::string itemName = client_->get_item_name(itemId, client_->get_game());
+    const std::string player   = client_->get_player_alias(playerSlot);
+    std::string subtitle = "received from " + player;
+
+    if (locationId >= 0)   // negative = cheat console / server / starting inventory
+    {
+        const std::string location = client_->get_location_name(locationId, client_->get_player_game(playerSlot));
+
+        // Keep the player name readable, shorten the location to fit the 63 chars.
+        const std::size_t overhead = subtitle.size() + 3;   // " (" + ")"
+        const std::size_t room     = overhead < 63 ? 63 - overhead : 0;
+        subtitle += " (" + HudNotify::TruncateUtf8(location, std::max<std::size_t>(room, 4)) + ")";
+    }
+
+    HudNotify::Show(itemName, subtitle);
+}

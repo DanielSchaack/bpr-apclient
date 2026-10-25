@@ -47,15 +47,32 @@ bool ModConfig::Load() {
 
         if (key == "server")        server = value;
         else if (key == "slot")     slot = value;
+        else if (key == "tracker_window_x")   { tracker_window_x = std::stof(value);  hasTrackerWindowPos = true; }
+        else if (key == "tracker_window_y")   { tracker_window_y = std::stof(value);  hasTrackerWindowPos = true; }
         else if (key == "login_window_x") { login_window_x = std::stof(value); hasWindowPos = true; }
         else if (key == "login_window_y") { login_window_y = std::stof(value); hasWindowPos = true; }
+        else if (key == "config_window_x")   { config_window_x = std::stof(value);  hasConfigWindowPos = true; }
+        else if (key == "config_window_y")   { config_window_y = std::stof(value);  hasConfigWindowPos = true; }
         else if (key == "info_window_x")   { info_window_x = std::stof(value);  hasInfoWindowPos = true; }
         else if (key == "info_window_y")   { info_window_y = std::stof(value);  hasInfoWindowPos = true; }
+
         else if (key == "banner_bottom_up") bannerBottomUp = (value == "1" || value == "true");
         else if (key == "banner_hold_seconds")             bannerHoldSeconds = std::stof(value);
         else if (key == "banner_fade_seconds")             bannerFadeSeconds = std::stof(value);
         else if (key == "banner_promote_interval_seconds") bannerPromoteIntervalSeconds = std::stof(value);
         else if (key == "banner_max_visible")              bannerMaxVisible = std::stoi(value);
+
+        else if (key == "show_ingame_messages")            showIngameMessages = (value == "1" || value == "true");
+        else if (key == "popup_progression") popupProgression = (value == "1" || value == "true");
+        else if (key == "popup_useful")      popupUseful      = (value == "1" || value == "true");
+        else if (key == "popup_filler")      popupFiller      = (value == "1" || value == "true");
+        else if (key == "popup_trap")        popupTrap        = (value == "1" || value == "true");
+
+        else if (key == "deathlink")                       deathlink = (value == "1" || value == "true");
+        else if (key == "deathlink_amnesty")               deathlinkAmnesty = std::stoi(value);
+        else if (key == "use_what_you_get") useWhatYouGet = (value == "1" || value == "true");
+        else if (key == "check_goal_only_on_event_and_license") checkGoalOnlyOnEventAndLicense = (value == "1" || value == "true");
+        else if (key == "allow_swaps_in_events") allowSwapInEvents = (value == "1" || value == "true");
         else Logger::Log(std::format("Key not found: {}", key));
     }
     return true;
@@ -79,6 +96,14 @@ bool ModConfig::Save() const {
     file << "login_window_x=" << login_window_x << "\n";
     file << "login_window_y=" << login_window_y << "\n";
 
+    file << "[tracker]\n";
+    file << "tracker_window_x=" << tracker_window_x << "\n";
+    file << "tracker_window_y=" << tracker_window_y << "\n";
+
+    file << "[config]\n";
+    file << "config_window_x=" << config_window_x << "\n";
+    file << "config_window_y=" << config_window_y << "\n";
+
     file << "[info]\n";
     file << "info_window_x=" << info_window_x << "\n";
     file << "info_window_y=" << info_window_y << "\n";
@@ -89,5 +114,17 @@ bool ModConfig::Save() const {
     file << "banner_fade_seconds=" << bannerFadeSeconds << "\n";
     file << "banner_promote_interval_seconds=" << bannerPromoteIntervalSeconds << "\n";
     file << "banner_max_visible=" << bannerMaxVisible << "\n";
+
+    file << "[misc]\n";
+    file << "show_ingame_messages=" << (showIngameMessages ? 1 : 0) << "\n";
+    file << "popup_progression=" << (popupProgression ? 1 : 0) << "\n";
+    file << "popup_useful="      << (popupUseful ? 1 : 0) << "\n";
+    file << "popup_filler="      << (popupFiller ? 1 : 0) << "\n";
+    file << "popup_trap="        << (popupTrap ? 1 : 0) << "\n";
+    file << "deathlink=" << (deathlink ? 1 : 0) << "\n";
+    file << "deathlink_amnesty=" << deathlinkAmnesty << "\n";
+    file << "use_what_you_get=" << (useWhatYouGet ? 1 : 0) << "\n";
+    file << "check_goal_only_on_event_and_license=" << (checkGoalOnlyOnEventAndLicense ? 1 : 0) << "\n";
+    file << "allow_swaps_in_events=" << (allowSwapInEvents ? 1 : 0) << "\n";
     return file.good();
 }

@@ -1,5 +1,6 @@
 #include "MinHook.h"
 #include "bpr/core/logger.hpp"
+#include "bpr/core/vehicles.hpp"
 #include "bpr/hooks/function/detours.hpp"
 #include "bpr/hooks/game_hooks.hpp"
 #include <atomic>
@@ -68,14 +69,22 @@ namespace DetectActiveCar
         return GetSlotId(slot == Slot::Unknown ? Slot::Car : slot);
     }
 
-    const VehicleInfo* GetActiveVehicle() noexcept
+    const Vehicle::VehicleInfo* GetActiveVehicle() noexcept
     {
         const std::uint64_t id = GetActiveVehicleId();
         if (!id)
             return nullptr;
-        if (const VehicleInfo* v = FindVehicleByID(id))
-            return v;
-        return FindVehicleByLiveryID(id);
+        return Vehicle::FindVehicleByID(id);
+    }
+
+    Vehicle::BoostType GetCurrentCarType() noexcept
+    {
+        const std::uint8_t* profile = GameHooks::GetProfile();
+        if (!profile)
+            return Vehicle::BoostType::Unknown;
+
+        const auto value = *reinterpret_cast<const std::int32_t*>(profile + CurrentCarTypeOffset);
+        return (value >= 0 && value <= 3) ? static_cast<Vehicle::BoostType>(value) : Vehicle::BoostType::Unknown;
     }
 
     MH_STATUS Install()

@@ -20,6 +20,23 @@ namespace GameActions{
         return result;
     }
 
+    bool GameEventQueue_AddGameEvent(void* gameEventQueue, const void* gameEvent,
+                                            int32_t gameEventID, int32_t gameEventSize)
+    {
+        bool result = false;
+        __asm
+        {
+            push dword ptr [gameEventSize]
+            push dword ptr [gameEventID]
+            push dword ptr [gameEvent]
+            mov ecx, dword ptr [gameEventQueue]
+            mov eax, 0x004E3F70
+            call eax
+            mov byte ptr [result], al
+        }
+        return result;
+    }
+
     
     // void D
     // BPR::GameAction_UpdateVehicleStats gameAction =

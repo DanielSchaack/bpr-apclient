@@ -10,13 +10,10 @@ static constexpr const char* VERSION = BPRAP_RELEASE_VERSION;
 class LoginWindow : public Window {
 public:
     LoginWindow();
-    // LoginWindow() : Window(std::string("Login v") + VERSION) {
-    //     isVisible = true;
-    // };
     void ToggleVisibility() override;
     void Draw(int outerWidth, int outerHeight, float uiScale) override;
     void SetMessage(std::string);
-    char server[128] = "localhost:38281"; //archipelago.gg:";
+    char server[128] = "archipelago.gg:38281";
     char password[128] = "";
     char slot[128] = "";
     char id[128] = "";

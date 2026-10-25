@@ -24,12 +24,10 @@ namespace LicenseUpgradeLog
 
         if (after > before)
         {
+            App::Instance->State().GetSaveData().license = after;
             App::Instance->State().SendLocation(1000 + after);
-            if (App::Instance->State().GetSlotData().goalConfig == 0 &&
-                after >= App::Instance->State().GetSlotData().licenseGoal)
-            {
-                App::Instance->State().SendGoal();
-            }
+            EnableEvent::RestoreCompletedEvents();
+            App::Instance->State().CheckGoal();
         }
     }
 
