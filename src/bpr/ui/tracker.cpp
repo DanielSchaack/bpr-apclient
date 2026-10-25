@@ -254,8 +254,7 @@ std::vector<TrackerSection> BuildTrackerSections() {
         const auto type = static_cast<Event::EventType>(i);
         const int done  = save.GetEventWins(type);
         events.rows.push_back(MakeRow(std::string(Event::to_string(type)), done,
-                                      std::max(0, unlocked[i]),
-                                      Lookup(slot.amountAddedEvents, i)));
+                                      unlocked[i], Lookup(slot.amountAddedEvents, i)));
     }
     sections.push_back(std::move(events));
 
@@ -291,7 +290,9 @@ std::vector<TrackerSection> BuildTrackerSections() {
         TrackerSection area{std::string(Map::areaIndex[a]), {}};
         for (size_t t = 0; t < Map::typeIndex.size(); ++t) {
             const int total  = BreakableTotal(slot, static_cast<int>(a), static_cast<int>(t));
-            const int done   = std::max(save.breakable_counts[a][t], static_cast<int>(save.deferred_breakables[a][t].size()));
+            const int sent   = save.breakable_counts[a][t];
+            const int cached = static_cast<int>(save.deferred_breakables[a][t].size());
+            const int done   = sent > cached ? sent : cached;
             const bool owned = slot.lockBreakables == 0 || save.breakable_owned[a][t];
 
             const int available = owned ? total : 0;
