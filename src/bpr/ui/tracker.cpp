@@ -168,7 +168,8 @@ std::vector<GoalSection> BuildGoalSections() {
     addRow("Burning Route Reward Cars",
            CountCars(save.obtained_cars,
                      [](const Vehicle::VehicleInfo &v) {
-                       return v.unlock_type == Vehicle::UnlockType::Gift;
+                     return v.category == Vehicle::VehicleCategory::ParadiseCars &&
+                            v.unlock_type == Vehicle::UnlockType::Gift;
                      }),
            brrCars,
            config);
@@ -176,7 +177,8 @@ std::vector<GoalSection> BuildGoalSections() {
     addRow("Carbon Cars",
            CountCars(save.obtained_cars,
                      [](const Vehicle::VehicleInfo &v) {
-                       return v.unlock_type == Vehicle::UnlockType::Trophy;
+                     return v.category == Vehicle::VehicleCategory::ParadiseCars &&
+                            v.unlock_type == Vehicle::UnlockType::Trophy;
                      }),
            carbonCars,
            config);

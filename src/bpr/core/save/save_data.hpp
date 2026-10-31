@@ -54,8 +54,12 @@ namespace bpr
             {
                 obtained_cars.push_back(info->id);
                 Logger::Log(std::format("Vehicle info found, added car {:x}", info->id));
-                if (info->category == Vehicle::VehicleCategory::ParadiseCars)
-                    obtained_paradise_cars.insert(info->id);
+            }
+
+            if (info->category == Vehicle::VehicleCategory::ParadiseCars)
+            {
+                obtained_paradise_cars.insert(info->id);
+                Logger::Log(std::format("Vehicle {} is a Paradise Car", info->proper_name));
             }
         }
 

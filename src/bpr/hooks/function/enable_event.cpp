@@ -81,10 +81,13 @@ int EnableEvent::RestoreCompletedEvents() noexcept {
     const auto& save = App::Instance->State().GetSaveData();
 
     int restored = 0;
-    for (const auto& events : save.completed_events)
+    for (int i = 0; i<5 ; i++)
+    {
+        const auto& events = save.completed_events[i];
         for (uint32_t eventId : events)
             if (MarkEventCompleted(eventId))
                 ++restored;
+    }
 
     Logger::Log(std::format("Restored completed flags on {} events", restored));
     return restored;

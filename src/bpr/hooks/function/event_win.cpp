@@ -66,7 +66,7 @@ namespace EventWinLog
 
         App::Instance->State().CheckGoal();
 
-        if(App::Instance->State().GetSlotData().finishedEventsStayFinished)
+        if(App::Instance->State().GetSlotData().finishedEventsStayFinished && !isBike)
             EnableEvent::MarkEventCompleted(eventId);
 
         GameHooks::PrintCurrentCarInformation();
