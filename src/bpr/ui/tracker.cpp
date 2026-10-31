@@ -3,8 +3,10 @@
 #include <cstdint>
 #include <format>
 #include <string>
+#include <sys/stat.h>
 #include "../app/app.hpp"
 #include "bpr/core/events.hpp"
+#include "bpr/core/mod_config.hpp"
 #include "bpr/core/vehicles.hpp"
 
 namespace {
@@ -34,7 +36,9 @@ namespace {
     }
 
     // Met = done, Achievable = enough events unlocked to get there, NotMet = not yet
-    GoalStatus Classify(int done, int required, int available) {
+    GoalStatus Classify(int done, int required, int available, const ModConfig& config) {
+        if(required <= 0)
+            return config.tracker_include_not_included_sections ? GoalStatus::NotAGoal : GoalStatus::NotIncluded;
         if (done >= required)
             return GoalStatus::Met;
         if (available >= required)
@@ -42,8 +46,9 @@ namespace {
         return GoalStatus::NotMet;
     }
 
-    template <class Pred>
-    int CountCars(const std::unordered_set<uint64_t>& ids, Pred pred) {
+    template <std::ranges::input_range R, class Pred>
+        requires std::convertible_to<std::ranges::range_value_t<R>, uint64_t>
+    int CountCars(const R& ids, Pred pred) {
         int n = 0;
         for (uint64_t id : ids)
             if (const Vehicle::VehicleInfo* info = Vehicle::FindVehicleByID(id); info && pred(*info))
@@ -68,6 +73,7 @@ std::vector<GoalSection> BuildGoalSections() {
     const auto &save = state.GetSaveData();
     const auto &slot = state.GetSlotData();
 
+    auto& config = ModConfig::Get();
 
     // Unlocked events per type
     std::array<int, 8> available{};
@@ -122,18 +128,29 @@ std::vector<GoalSection> BuildGoalSections() {
     for (const auto &[i, required] : slot.uniqueEventWinsAmounts) {
         if (i < 0 || i >= 8 || required <= 0)
             continue;
-        events.rows.push_back(
-            {std::format("{} Event Wins",Event::to_string(static_cast<Event::EventType>(i))),
-             std::to_string(done[i]), std::to_string(required),
-             std::to_string(available[i]),
-             Classify(done[i], required, available[i])});
+        auto status = Classify(done[i], required, available[i], config);
+        if(status != GoalStatus::NotIncluded)
+            events.rows.push_back(
+                {std::format("{} Event Wins",
+                            Event::to_string(static_cast<Event::EventType>(i))),
+                std::to_string(done[i]), std::to_string(required),
+                std::to_string(available[i]), status});
     }
     sections.push_back(std::move(events));
 
     // Cars
     GoalSection carSection{"Collected Cars", {}};
-    auto addRow = [&](const char* label, int received, int available) {
-        carSection.rows.push_back({label, std::to_string(received), na, std::move(std::to_string(available)), received >= available ? GoalStatus::Met : GoalStatus::NotAGoal});
+    auto addRow = [&](const char *label, int received, int available, const ModConfig& config) {
+        GoalStatus status;
+        if(available <= 0)
+            status = config.tracker_include_not_included_sections ? GoalStatus::NotAGoal : GoalStatus::NotIncluded;
+        else
+            status = received >= available ? GoalStatus::Met : GoalStatus::NotAGoal;
+
+        if (status != GoalStatus::NotIncluded)
+            carSection.rows.push_back({label, std::to_string(received), na,
+                                    std::move(std::to_string(available)),
+                                    status});
     };
 
     const int receivedCars = static_cast<int>(save.obtained_paradise_cars.size());
@@ -142,25 +159,27 @@ std::vector<GoalSection> BuildGoalSections() {
     const int carbonCars = slot.addCarbonCars;
 
     carSection.rows.push_back(
-        {"Total Paradise Cars Required", std::to_string(receivedCars),
+        {"Total Paradise Cars", std::to_string(receivedCars),
          std::to_string(slot.carGoalCount), std::to_string(brCars + brrCars + carbonCars),
          receivedCars >= slot.carGoalCount ? GoalStatus::Met : GoalStatus::NotMet});
 
-    addRow("Burning Route Cars", CountBurningRoutes(save), brCars);
+    addRow("Burning Route Cars", CountBurningRoutes(save), brCars, config);
 
     addRow("Burning Route Reward Cars",
            CountCars(save.obtained_cars,
                      [](const Vehicle::VehicleInfo &v) {
                        return v.unlock_type == Vehicle::UnlockType::Gift;
                      }),
-           brrCars);
+           brrCars,
+           config);
 
     addRow("Carbon Cars",
            CountCars(save.obtained_cars,
                      [](const Vehicle::VehicleInfo &v) {
                        return v.unlock_type == Vehicle::UnlockType::Trophy;
                      }),
-           carbonCars);
+           carbonCars,
+           config);
 
     struct CategoryRow { const char* label; int addedCount; Vehicle::VehicleCategory category; };
     const CategoryRow categories[] = {
@@ -169,7 +188,7 @@ std::vector<GoalSection> BuildGoalSections() {
         {"Boost Special Cars", slot.addBoostSpecialCars, Vehicle::VehicleCategory::BoostSpecialCars},
         {"Toy Vehicles", slot.addToyCars, Vehicle::VehicleCategory::ToyVehicles},
         {"PCPD Cars", slot.addPcpdCars, Vehicle::VehicleCategory::CopCars},
-        {"Big Surf Island", slot.addBigSurfIslandCars, Vehicle::VehicleCategory::BigSurfIslandCars},
+        {"Big Surf Island Cars", slot.addBigSurfIslandCars, Vehicle::VehicleCategory::BigSurfIslandCars},
         {"Paradise Bikes", slot.addParadiseBikes, Vehicle::VehicleCategory::ParadiseBikes}, };
 
     for (const CategoryRow& c : categories) {
@@ -178,7 +197,8 @@ std::vector<GoalSection> BuildGoalSections() {
                        [&](const Vehicle::VehicleInfo &v) {
                          return v.category == c.category;
                        }),
-             c.addedCount);
+             c.addedCount,
+             config);
     }
     sections.push_back(std::move(carSection));
     return sections;
@@ -213,19 +233,19 @@ int BreakableTotal(const bpr::SlotData &s, int area, int type) {
 }
 
 // green: done, nothing left | orange: something available | red: nothing available to be done | none: no locations included
-GoalStatus TrackerStatus(int done, int available, int total) {
+GoalStatus TrackerStatus(int done, int available, int total, const ModConfig& config) {
     if (total <= 0)
-        return GoalStatus::NotAGoal;
+        return config.tracker_include_not_included_sections ? GoalStatus::NotAGoal : GoalStatus::NotIncluded;
     if (available <= 0)
-        return GoalStatus::NotMet;
+        return config.tracker_include_not_available_sections ? GoalStatus::NotMet : GoalStatus::NotIncluded;
     if (available > 0 && done < available)
-        return GoalStatus::Achievable;
-    return (available > 0 && done >= available) ? GoalStatus::Met
-                                                : GoalStatus::NotMet;
+        return config.tracker_include_available_sections ? GoalStatus::Achievable : GoalStatus::NotIncluded;
+
+    return config.tracker_include_done_sections ? GoalStatus::Met : GoalStatus::NotIncluded;
 }
 
-TrackerRow MakeRow(std::string name, int done, int available, int total) {
-    return {std::move(name), done, available, total, TrackerStatus(done, available, total)};
+TrackerRow MakeRow(std::string name, int done, int available, int total, GoalStatus status) {
+    return {std::move(name), done, available, total, status};
 }
 
 // Unlocked events per type (Burning Route comes from the received cars)
@@ -247,21 +267,36 @@ std::vector<TrackerSection> BuildTrackerSections() {
     const auto& save = state.GetSaveData();
     const auto& slot = state.GetSlotData();
 
+    auto& config = ModConfig::Get();
+
     std::vector<TrackerSection> sections;
 
     // Events
-    const std::array<int, 8> unlocked = UnlockedEvents(save);
-    TrackerSection events{"Events", {}};
-    for (int i = 0; i < 8; ++i) {
-        const auto type = static_cast<Event::EventType>(i);
-        const int done  = save.GetEventWins(type);
-        const int total = Lookup(slot.amountAddedEvents, i) + (type == Event::EventType::BURNING_ROUTE ? 1 : 0); // +1 for starter car
-        events.rows.push_back(MakeRow(std::string(Event::to_string(type)), done, unlocked[i], total));
+    if(config.tracker_include_events)
+    {
+        const std::array<int, 8> unlocked = UnlockedEvents(save);
+        TrackerSection events{"Events", {}};
+        for (int i = 0; i < 8; ++i) {
+            const auto type = static_cast<Event::EventType>(i);
+            const int done  = save.GetEventWins(type) ;
+            const int available = unlocked[i] + (type == Event::EventType::BIG_SURF_ISLAND && save.HasCar(0xA55EBC7BF8700000) ? 1 : 0);
+            const int total = Lookup(slot.amountAddedEvents, i) + (type == Event::EventType::BURNING_ROUTE ? 1 : 0); // +1 for starter car
+            auto status = TrackerStatus(done, available, total, config);
+
+            if((type == Event::EventType::BURNING_RIDE || type == Event::EventType::MIDNIGHT_RIDE) && status == GoalStatus::Achievable && !save.HasAnyBike())
+                status = config.tracker_include_not_available_sections ? GoalStatus::NotMet : GoalStatus::NotIncluded;
+
+            if(status != GoalStatus::NotIncluded)
+                events.rows.push_back(MakeRow(std::string(Event::to_string(type)), done, available, total, status));
+        }
+
+        if(!events.rows.empty())
+            sections.push_back(std::move(events));
     }
-    sections.push_back(std::move(events));
 
     // Car wins per boost type
-    if (slot.uniqueCarWins == 1 || slot.uniqueCarWins == 2) {
+    if(config.tracker_include_car_wins)
+    {
         static constexpr std::array<const char*, 5> kBoostNames = {"Speed", "Crash", "Stunt", "Special", "Bike"};
 
         std::array<int, 5> total{}, available{};
@@ -281,29 +316,98 @@ std::vector<TrackerSection> BuildTrackerSections() {
 
         TrackerSection cars{"Car Wins per Boost Type", {}};
         for (int b = 0; b < 5; ++b)
-            cars.rows.push_back(MakeRow(kBoostNames[b],
-                                        save.GetCarWins(static_cast<Vehicle::BoostType>(b)),
-                                        available[b], total[b]));
-        sections.push_back(std::move(cars));
+        {
+            auto totalCarWins =
+                save.GetCarWins(static_cast<Vehicle::BoostType>(b));
+            auto status = TrackerStatus(totalCarWins, available[b], total[b], config);
+
+            if(static_cast<Vehicle::BoostType>(b) == Vehicle::BoostType::Bike && status == GoalStatus::Achievable && !save.HasAnyBikeEvent())
+                status = config.tracker_include_not_available_sections ? GoalStatus::NotMet : GoalStatus::NotIncluded;
+
+            if (status != GoalStatus::NotIncluded)
+                cars.rows.push_back(MakeRow(kBoostNames[b], totalCarWins,
+                                        available[b], total[b], status));
+        }
+
+        if(!cars.rows.empty())
+            sections.push_back(std::move(cars));
     }
 
     // Breakables: one section per area, one row per type
-    for (size_t a = 0; a < Map::areaIndex.size(); ++a) {
-        TrackerSection area{std::string(Map::areaIndex[a]), {}};
-        for (size_t t = 0; t < Map::typeIndex.size(); ++t) {
-            const int total  = BreakableTotal(slot, static_cast<int>(a), static_cast<int>(t));
-            const int sent   = save.breakable_counts[a][t];
-            const int cached = static_cast<int>(save.deferred_breakables[a][t].size());
-            const int done   = sent > cached ? sent : cached;
-            const bool owned = slot.lockBreakables == 0 || save.breakable_owned[a][t];
+    if(config.tracker_include_car_wins)
+    {
+        for (size_t a = 0; a < Map::areaIndex.size(); ++a) {
+            TrackerSection area{std::string(Map::areaIndex[a]), {}};
+            for (size_t t = 0; t < Map::typeIndex.size(); ++t) {
+                const int total  = BreakableTotal(slot, static_cast<int>(a), static_cast<int>(t));
+                const int sent   = save.breakable_counts[a][t];
+                const int cached = static_cast<int>(save.deferred_breakables[a][t].size());
+                const int done   = sent > cached ? sent : cached;
+                const bool owned = slot.lockBreakables == 0 || save.breakable_owned[a][t];
 
-            const int available = owned ? total : 0;
+                const int available = owned ? total : 0;
 
-            area.rows.push_back(MakeRow(std::string(Map::typeIndex[t]), done, available, total));
+                auto status = TrackerStatus(done, available, total, config);
+
+                if((t == 6 || t == 7) && status == GoalStatus::Achievable && !save.HasAnyBike())
+                    status = config.tracker_include_not_available_sections ? GoalStatus::NotMet : GoalStatus::NotIncluded;
+
+                if(status != GoalStatus::NotIncluded)
+                    area.rows.push_back(MakeRow(std::string(Map::typeIndex[t]), done, available, total, status));
+            }
+
+            if(!area.rows.empty())
+                sections.push_back(std::move(area));
         }
-        sections.push_back(std::move(area));
     }
 
     return sections;
 }
 
+std::vector<std::string> GetOpenEventWins() {
+    const auto& save = App::Instance->State().GetSaveData();
+    auto& config = ModConfig::Get();
+    std::vector<std::string> open;
+
+    for (uint64_t id : save.obtained_events)
+    {
+        int eventId = 0;
+        const Event::EventInfo* e;
+        if(id > 1000000)
+            e = Event::FindByBikeEventId(static_cast<int32_t>(id));
+        else
+            e = Event::FindByEventId(static_cast<int32_t>(id));
+        if (e)
+        {
+            if((e->type == Event::EventType::BURNING_RIDE || e->type == Event::EventType::MIDNIGHT_RIDE) && !save.HasAnyBike())
+                continue;
+
+            if (!save.completed_events[static_cast<uint8_t>(e->type)].contains(id))
+                open.push_back(std::format("{} - {}", Event::to_string(e->type), e->name));
+        }
+
+    }
+
+    if(config.tracker_sort_event_names_alphabetically)
+        std::ranges::sort(open);
+    return open;
+}
+
+std::vector<std::string> GetOpenCarWins() {
+    auto& state = App::Instance->State();
+    const auto& save  = state.GetSaveData();
+    const auto& slot  = state.GetSlotData();
+    auto& config = ModConfig::Get();
+    std::vector<std::string> open;
+
+    for (auto id : save.obtained_cars)
+        if (!save.HasCarWon(id))
+        {
+            if(const Vehicle::VehicleInfo* v = Vehicle::FindVehicleByID(id))
+                open.push_back(std::format("{} - {}", Vehicle::to_string(v->category), v->proper_name));
+        }
+
+    if(config.tracker_sort_car_win_names_alphabetically)
+        std::ranges::sort(open);
+    return open;
+}

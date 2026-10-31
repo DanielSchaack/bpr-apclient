@@ -53,6 +53,9 @@ void DrawStatusIcon(GoalStatus s) {
         case GoalStatus::NotAGoal: {
             break;   // empty
         }
+        case GoalStatus::NotIncluded: {
+            break;   // empty
+        }
     }
     ImGui::Dummy(ImVec2(h, h));
     ImGui::SameLine();

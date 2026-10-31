@@ -20,10 +20,11 @@ namespace bpr
         std::array<std::array<bool, Map::typeIndex.size()>, Map::areaIndex.size()> breakable_owned{};
         std::array<std::array<std::vector<int>, Map::typeIndex.size()>, Map::areaIndex.size()> deferred_breakables{};
         std::unordered_set<uint64_t> obtained_paradise_cars{};
-        std::unordered_set<uint64_t> obtained_cars{};
+        std::vector<uint64_t> obtained_cars{};
         std::unordered_set<uint64_t> obtained_liveries{};
-        std::unordered_set<uint64_t> obtained_car_events{};
-        std::unordered_set<uint64_t> obtained_bike_events{};
+        std::vector<uint64_t> obtained_car_events{};
+        std::vector<uint64_t> obtained_bike_events{};
+        std::vector<uint64_t> obtained_events{};
         std::unordered_set<uint64_t> obtained_drivethru_jumppoints{};
         std::unordered_set<uint64_t> visited_drivethrus{};
         std::array<std::unordered_set<uint64_t>, 8> completed_events{};
@@ -34,7 +35,7 @@ namespace bpr
 
         bool HasCar(uint64_t carId) const noexcept
         {
-            if (obtained_cars.contains(carId))
+            if (std::ranges::find(obtained_cars, carId) != obtained_cars.end())
                 return true;
 
             if (const Vehicle::VehicleInfo* info = Vehicle::FindVehicleByLiveryID(carId))
@@ -49,8 +50,9 @@ namespace bpr
             if (!info)
                 return;
 
-            if (obtained_cars.insert(info->id).second)   // true = it was new
+            if (std::ranges::find(obtained_cars, info->id) == obtained_cars.end())   // not in the list yet
             {
+                obtained_cars.push_back(info->id);
                 Logger::Log(std::format("Vehicle info found, added car {:x}", info->id));
                 if (info->category == Vehicle::VehicleCategory::ParadiseCars)
                     obtained_paradise_cars.insert(info->id);
@@ -108,9 +110,49 @@ namespace bpr
             return static_cast<int>(completed_cars[static_cast<uint8_t>(Vehicle::BoostTypeToIndex(boost_type))].size());
         }
 
+        bool AddCarEvent(uint64_t eventId)
+        {
+            if (HasCarEvent(eventId))
+                return false;
+            obtained_car_events.push_back(eventId);
+            return true;
+        }
+
+        bool HasCarEvent(uint64_t eventId) const noexcept
+        {
+            if (std::ranges::find(obtained_car_events, eventId) != obtained_car_events.end())
+                return true;
+            return false;
+        }
+
         bool HasBikeEvent(uint64_t eventId) const noexcept
         {
-            return obtained_bike_events.contains(eventId);
+            if (std::ranges::find(obtained_bike_events, eventId) != obtained_bike_events.end())
+                return true;
+            return false;
+        }
+
+        bool AddBikeEvent(uint64_t eventId)
+        {
+            if (HasBikeEvent(eventId))
+                return false;
+            obtained_bike_events.push_back(eventId);
+            return true;
+        }
+
+        bool HasEvent(uint64_t eventId) const noexcept
+        {
+            if (std::ranges::find(obtained_events, eventId) != obtained_events.end())
+                return true;
+            return false;
+        }
+
+        bool AddEvent(uint64_t eventId)
+        {
+            if (HasEvent(eventId))
+                return false;
+            obtained_events.push_back(eventId);
+            return true;
         }
 
         bool AddRuledRoad(int type, uint64_t roadId)
@@ -118,6 +160,16 @@ namespace bpr
             if (type < 0 || type >= static_cast<int>(ruled_roads.size()))
                 return false;
             return ruled_roads[type].insert(roadId).second;   // true = was new
+        }
+
+        bool HasAnyBike() const noexcept
+        {
+            return std::ranges::any_of(obtained_cars, [](uint64_t id) { return Vehicle::IsBike(id); });
+        }
+
+        bool HasAnyBikeEvent() const noexcept
+        {
+            return !obtained_bike_events.empty();
         }
     };
 
@@ -135,6 +187,7 @@ namespace bpr
             {"obtained_paradise_cars", data.obtained_paradise_cars},
             {"obtained_cars", data.obtained_cars},
             {"obtained_liveries", data.obtained_liveries},
+            {"obtained_events", data.obtained_events},
             {"obtained_car_events", data.obtained_car_events},
             {"obtained_bike_events", data.obtained_bike_events},
             {"obtained_drivethru_jumppoints", data.obtained_drivethru_jumppoints},
@@ -166,5 +219,6 @@ namespace bpr
         j.at("completed_cars").get_to(data.completed_cars);
         j.at("completed_unique_cars").get_to(data.completed_unique_cars);
         if (j.contains("ruled_roads")) j.at("ruled_roads").get_to(data.ruled_roads);
+        if (j.contains("obtained_events")) j.at("obtained_events").get_to(data.obtained_events);
     }
 }

@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-enum class GoalStatus { Met, Achievable, NotMet, NotAGoal };
+enum class GoalStatus { Met, Achievable, NotMet, NotAGoal, NotIncluded };
 
 struct GoalRow {
     std::string label, done, required, available;
@@ -29,6 +29,8 @@ struct TrackerSection {
 };
 
 std::vector<TrackerSection> BuildTrackerSections();
+std::vector<std::string> GetOpenEventWins();
+std::vector<std::string> GetOpenCarWins();
 
 void DrawStatusIcon(GoalStatus s);
 void CellCenter(const std::string& s);

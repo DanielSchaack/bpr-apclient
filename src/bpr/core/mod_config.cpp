@@ -62,6 +62,18 @@ bool ModConfig::Load() {
         else if (key == "banner_promote_interval_seconds") bannerPromoteIntervalSeconds = std::stof(value);
         else if (key == "banner_max_visible")              bannerMaxVisible = std::stoi(value);
 
+        else if (key == "tracker_include_open_event_name")           tracker_include_open_event_name = (value == "1" || value == "true");
+        else if (key == "tracker_sort_event_names_alphabetically")   tracker_sort_event_names_alphabetically = (value == "1" || value == "true");
+        else if (key == "tracker_include_open_car_win_name")         tracker_include_open_car_win_name = (value == "1" || value == "true");
+        else if (key == "tracker_sort_car_win_names_alphabetically") tracker_sort_car_win_names_alphabetically = (value == "1" || value == "true");
+        else if (key == "tracker_include_events")                    tracker_include_events = (value == "1" || value == "true");
+        else if (key == "tracker_include_car_wins")                  tracker_include_car_wins = (value == "1" || value == "true");
+        else if (key == "tracker_include_breakables")                tracker_include_breakables = (value == "1" || value == "true");
+        else if (key == "tracker_include_done_sections")             tracker_include_done_sections = (value == "1" || value == "true");
+        else if (key == "tracker_include_available_sections")        tracker_include_available_sections = (value == "1" || value == "true");
+        else if (key == "tracker_include_not_available_sections")    tracker_include_not_available_sections = (value == "1" || value == "true");
+        else if (key == "tracker_include_not_included_sections")     tracker_include_not_included_sections = (value == "1" || value == "true");
+
         else if (key == "show_ingame_messages")            showIngameMessages = (value == "1" || value == "true");
         else if (key == "popup_progression") popupProgression = (value == "1" || value == "true");
         else if (key == "popup_useful")      popupUseful      = (value == "1" || value == "true");
@@ -99,6 +111,17 @@ bool ModConfig::Save() const {
     file << "[tracker]\n";
     file << "tracker_window_x=" << tracker_window_x << "\n";
     file << "tracker_window_y=" << tracker_window_y << "\n";
+    file << "tracker_include_events=" << (tracker_include_events ? 1 : 0) << "\n";
+    file << "tracker_include_car_wins=" << (tracker_include_car_wins ? 1 : 0) << "\n";
+    file << "tracker_include_breakables=" << (tracker_include_breakables ? 1 : 0) << "\n";
+    file << "tracker_include_open_event_name=" << (tracker_include_open_event_name ? 1 : 0) << "\n";
+    file << "tracker_include_open_car_win_name=" << (tracker_include_open_car_win_name ? 1 : 0) << "\n";
+    file << "tracker_sort_event_names_alphabetically=" << (tracker_sort_event_names_alphabetically ? 1 : 0) << "\n";
+    file << "tracker_sort_car_win_names_alphabetically=" << (tracker_sort_car_win_names_alphabetically ? 1 : 0) << "\n";
+    file << "tracker_include_done_sections=" << (tracker_include_done_sections ? 1 : 0) << "\n";
+    file << "tracker_include_available_sections=" << (tracker_include_available_sections ? 1 : 0) << "\n";
+    file << "tracker_include_not_available_sections=" << (tracker_include_not_available_sections ? 1 : 0) << "\n";
+    file << "tracker_include_not_included_sections=" << (tracker_include_not_included_sections ? 1 : 0) << "\n";
 
     file << "[config]\n";
     file << "config_window_x=" << config_window_x << "\n";

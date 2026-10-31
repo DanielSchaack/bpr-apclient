@@ -29,7 +29,7 @@ namespace EventWinLog
             const Vehicle::VehicleInfo* info = Vehicle::FindVehicleByID(vehicle_id);
             if (info && App::Instance->State().GetSlotData().uniqueCarWins == 1)
             {
-                App::Instance->State().SendLocation(info->unique_car_win_location_id);
+                App::Instance->State().SendLocation(200 + info->unique_car_win_location_id);
             }
 
             if (info && App::Instance->State().GetSlotData().uniqueCarWins == 2)

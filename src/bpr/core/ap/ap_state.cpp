@@ -197,7 +197,8 @@ void ApState::ProcessItem(int64_t item_id, int index, void* gameActionQueue, voi
         {
             Logger::Log(std::format("Received Car Event '{}' - area_id {}, type {}", info->name, static_cast<int>(info->area), static_cast<int>(info->type)));
             EnableEvent::EnableEvent(item_id);
-            save_data_.obtained_car_events.insert(item_id);
+            save_data_.AddCarEvent(item_id);
+            save_data_.AddEvent(item_id);
         }
         // Drive-Thru Jump points
         else if (const Map::DriveThruInfo* info = Map::FindDriveThruByID(item_id))
@@ -210,10 +211,11 @@ void ApState::ProcessItem(int64_t item_id, int index, void* gameActionQueue, voi
 
     if (item_id > 2000000 && item_id < 8000000){
         // Bike Events
-        if (const Event::EventInfo* info = Event::FindByEventId(item_id / 10))
+        if (const Event::EventInfo* info = Event::FindByBikeEventId(item_id / 10))
         {
             Logger::Log(std::format("Received Bike Event '{}' - area_id {}, type {}", info->name, static_cast<int>(info->area), static_cast<int>(info->type)));
-            save_data_.obtained_bike_events.insert(item_id / 10);
+            save_data_.AddBikeEvent(item_id / 10);
+            save_data_.AddEvent(item_id);
         }
     }
 
@@ -223,6 +225,8 @@ void ApState::ProcessItem(int64_t item_id, int index, void* gameActionQueue, voi
         Logger::Log(std::format("Received Car '{}' - unlock type {}, category {}", info->proper_name, static_cast<int>(info->unlock_type), static_cast<int>(info->category)));
         save_data_.AddCar(item_id << 12);
         CarUnlockControl::AddCar(item_id << 12);
+        if(info->event_id != 0)
+            save_data_.AddEvent(info->event_id);
 
         if(ModConfig::Get().useWhatYouGet)
             Filler::SwapToCar(gameEventQueue, info->id);

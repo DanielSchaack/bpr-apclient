@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <string_view>
 #include <vector>
 
 namespace Vehicle {
@@ -30,6 +31,20 @@ namespace Vehicle {
         CopCars             = 0x40,
         BigSurfIslandCars   = 0x80,
     };
+
+    [[nodiscard]] constexpr std::string_view to_string(VehicleCategory category) noexcept {
+        switch (category) {
+            case VehicleCategory::ParadiseCars:      return "Paradise Car";
+            case VehicleCategory::ParadiseBikes:     return "Paradise Bike";
+            case VehicleCategory::OnlineCars:        return "Online Car";
+            case VehicleCategory::ToyVehicles:       return "Toy Vehicle";
+            case VehicleCategory::LegendaryCars:     return "Legendary Car";
+            case VehicleCategory::BoostSpecialCars:  return "Boost Special Car";
+            case VehicleCategory::CopCars:           return "PCPD Car";
+            case VehicleCategory::BigSurfIslandCars: return "Big Surf Island Car";
+        }
+        return "Unknown";
+    }
 
     enum class BoostType : int8_t {
         Unknown    = -1,
@@ -79,6 +94,7 @@ namespace Vehicle {
     inline const int8_t max_livery_amount = 7;
     struct VehicleInfo {
         uint64_t id;
+        uint64_t event_id = 0;
         uint64_t archipelago_car_id;
         uint64_t archipelago_livery_id;
         uint64_t adjacent_ids[max_livery_amount];
@@ -119,9 +135,10 @@ namespace Vehicle {
         return c == VehicleCategory::ParadiseBikes;
     }
 
-    inline constexpr VehicleInfo vehicleInfos[] = {
+inline constexpr VehicleInfo vehicleInfos[] = {
         {
             .id = 0xA7E60F1A3A360000,
+            .event_id = 480860,
             .archipelago_car_id = 0xA7E60F1A3A360,
             .archipelago_livery_id = 2001,
             .adjacent_ids = { 0xA7E60F1B660BD000, 0xA7E60F1B6632E000, 0xA7E60F1A7D598000, 0xA7E60F1A95C38000 },
@@ -151,6 +168,7 @@ namespace Vehicle {
             },
         {
             .id = 0xA7E5D4F26592D000,
+            .event_id = 481032,
             .archipelago_car_id = 0xA7E5D4F26592D,
             .archipelago_livery_id = 2003,
             .adjacent_ids = {0xA7E5D60A0FCFD000, 0xA7E5D60A0FF6E000, 0xA7E5D4F267197000, 0xA7E5D4F267B5B000},
@@ -181,6 +199,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA4FCC11A5567C000,
+            .event_id = 480892,
             .archipelago_car_id = 0xA4FCC11A5567C,
             .archipelago_livery_id = 2005,
             .adjacent_ids = {0xA4FCC11A9297D000, 0xA4FCC11A92BEE000, 0xA4FCC11A57157000, 0xA4FCC11A57B1B000},
@@ -211,6 +230,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA7E5D37F70360000,
+            .event_id = 480901,
             .archipelago_car_id = 0xA7E5D37F70360,
             .archipelago_livery_id = 2007,
             .adjacent_ids = {0xA7E5D388FFB88000, 0xA7E5D38905D30000, 0xA7E5D37FB3598000, 0xA7E5D37FCBC38000},
@@ -241,6 +261,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA59406A49B160000,
+            .event_id = 480890,
             .archipelago_car_id = 0xA59406A49B160,
             .archipelago_livery_id = 2009,
             .adjacent_ids = {0xA59406AE2A988000, 0xA59406AE30B30000, 0xA59406A4DE398000, 0xA59406A4F6A38000},
@@ -271,6 +292,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA4FCC10EE9360000,
+            .event_id = 481040,
             .archipelago_car_id = 0xA4FCC10EE9360,
             .archipelago_livery_id = 2011,
             .adjacent_ids = {0xA4FCC110150BD000, 0xA4FCC1101532E000, 0xA4FCC10F2C598000, 0xA4FCC10F44C38000},
@@ -316,6 +338,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA4FCBEB7FB67C000,
+            .event_id = 486462,
             .archipelago_car_id = 0xA4FCBEB7FB67C,
             .archipelago_livery_id = 2014,
             .adjacent_ids = {0xA4FCBEB83897D000, 0xA4FCBEB838BEE000, 0xA4FCBEB7FD157000, 0xA4FCBEB7FDB1B000},
@@ -361,6 +384,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA7E5D607EFD60000,
+            .event_id = 481386,
             .archipelago_car_id = 0xA7E5D607EFD60,
             .archipelago_livery_id = 2017,
             .adjacent_ids = {0xA7E5D6091BABD000, 0xA7E5D6091BD2E000, 0xA7E5D60832F98000, 0xA7E5D6084B638000},
@@ -391,6 +415,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA593A0B813960000,
+            .event_id = 481057,
             .archipelago_car_id = 0xA593A0B813960,
             .archipelago_livery_id = 2019,
             .adjacent_ids = {0xA593A0C1A3188000, 0xA593A0C1A9330000, 0xA593A0B856B98000, 0xA593A0B86F238000},
@@ -421,6 +446,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA593DB9421760000,
+            .event_id = 481045,
             .archipelago_car_id = 0xA593DB9421760,
             .archipelago_livery_id = 2021,
             .adjacent_ids = {0xA593DB9DB0F88000, 0xA593DB9DB7130000, 0xA593DB9464998000, 0xA593DB947D038000},
@@ -451,6 +477,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA7E5CD898F360000,
+            .event_id = 481424,
             .archipelago_car_id = 0xA7E5CD898F360,
             .archipelago_livery_id = 2023,
             .adjacent_ids = {0xA7E5CD931EB88000, 0xA7E5CD9324D30000, 0xA7E5CD89D2598000, 0xA7E5CD89EAC38000},
@@ -481,6 +508,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA7E60D533AB80000,
+            .event_id = 481470,
             .archipelago_car_id = 0xA7E60D533AB80,
             .archipelago_livery_id = 2025,
             .adjacent_ids = {0xA7E60DCC77188000, 0xA7E60DCC7D330000, 0xA7E60D5BCFFC0000, 0xA7E60D5FA08C0000},
@@ -511,6 +539,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA7E5EB0AA8F60000,
+            .event_id = 480905,
             .archipelago_car_id = 0xA7E5EB0AA8F60,
             .archipelago_livery_id = 2027,
             .adjacent_ids = {0xA7E5EB0BD4CBD000, 0xA7E5EB0BD4F2E000, 0xA7E5EB0AEC198000, 0xA7E5EB0B04838000},
@@ -541,6 +570,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA594060C04960000,
+            .event_id = 481012,
             .archipelago_car_id = 0xA594060C04960,
             .archipelago_livery_id = 2029,
             .adjacent_ids = {0xA594061594188000, 0xA59406159A330000, 0xA594060C47B98000, 0xA594060C60238000},
@@ -571,6 +601,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA59403CFDC6B0000,
+            .event_id = 480974,
             .archipelago_car_id = 0xA59403CFDC6B0,
             .archipelago_livery_id = 2031,
             .adjacent_ids = {0xA59402820D188000, 0xA594028213330000, 0xA59403D013598000, 0xA59403D02BC38000},
@@ -601,6 +632,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA7E60F6685760000,
+            .event_id = 481381,
             .archipelago_car_id = 0xA7E60F6685760,
             .archipelago_livery_id = 2033,
             .adjacent_ids = {0xA7E60F7014F88000, 0xA7E60F701B130000, 0xA7E60F66C8998000, 0xA7E60F66E1038000},
@@ -631,6 +663,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA593FDD9FB6B0000,
+            .event_id = 480847,
             .archipelago_car_id = 0xA593FDD9FB6B0,
             .archipelago_livery_id = 2035,
             .adjacent_ids = {0xA593FC8C2C188000, 0xA593FC8C32330000, 0xA593FDDA32598000, 0xA593FDDA4AC38000},
@@ -661,6 +694,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA7E632DD80360000,
+            .event_id = 481061,
             .archipelago_car_id = 0xA7E632DD80360,
             .archipelago_livery_id = 2037,
             .adjacent_ids = {0xD67720B70FB88000, 0xA7E632E715D30000, 0xA7E632DDC3598000, 0xA7E632DDDBC38000},
@@ -691,6 +725,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA7E5D6543B160000,
+            .event_id = 481050,
             .archipelago_car_id = 0xA7E5D6543B160,
             .archipelago_livery_id = 2039,
             .adjacent_ids = {0xA7E5D65566EBD000, 0xA7E5D6556712E000, 0xA566020D0000D000, 0xA566020D23675000, 0xA566020D238E6000, 0xA7E5D6547E398000, 0xA7E5D65496A38000},
@@ -721,6 +756,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA59403CFD6508000,
+            .event_id = 480998,
             .archipelago_car_id = 0xA59403CFD6508,
             .archipelago_livery_id = 2041,
             .adjacent_ids = {0xA594025BE7788000, 0xA594025BED930000, 0xA5234FBC86D60000, 0xA5234FBCC3DF0000, 0xA5234FBCC9F98000, 0xA59403CFD89A7000, 0xA59403CFD936B000},
@@ -751,6 +787,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA7E60B608D960000,
+            .event_id = 480846,
             .archipelago_car_id = 0xA7E60B608D960,
             .archipelago_livery_id = 2043,
             .adjacent_ids = {0xA7E60B61B96BD000, 0xA7E60B61B992E000, 0xA7E60B60D0B98000, 0xA7E60B60E9238000},
@@ -781,6 +818,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA7E60F1A40508000,
+            .event_id = 480973,
             .archipelago_car_id = 0xA7E60F1A40508,
             .archipelago_livery_id = 2045,
             .adjacent_ids = {0xA7E60DA651788000, 0xA7E60DA657930000, 0xA7E60D52A2218000, 0xA7E60D52BA8B8000},
@@ -811,6 +849,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA59403CFE2858000,
+            .event_id = 481069,
             .archipelago_car_id = 0xA59403CFE2858,
             .archipelago_livery_id = 2047,
             .adjacent_ids = {0xA59402A832B88000, 0xA59402A838D30000, 0xA59403CFE7407000, 0xA59403CFE56BB000},
@@ -856,6 +895,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA4FCC2D988700000,
+            .event_id = 480854,
             .archipelago_car_id = 0xA4FCC2D988700,
             .archipelago_livery_id = 2050,
             .adjacent_ids = {0xA4FCC30861D88000, 0xA4FCC30867F30000, 0xA4FCC2E405FC0000, 0xA4FCC2E7D68C0000},
@@ -886,6 +926,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA7E6222D0A360000,
+            .event_id = 481083,
             .archipelago_car_id = 0xA7E6222D0A360,
             .archipelago_livery_id = 2052,
             .adjacent_ids = {0xA7E6223699B88000, 0xA7E622369FD30000, 0xA7E6222D4D598000, 0xA7E6222D65C38000},
@@ -916,6 +957,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA7E62CE79F360000,
+            .event_id = 481015,
             .archipelago_car_id = 0xA7E62CE79F360,
             .archipelago_livery_id = 2054,
             .adjacent_ids = {0xA7E62CF12EB88000, 0xA7E62CF134D30000, 0xA7E62CE7E2598000, 0xA7E62CE7FAC38000},
@@ -946,6 +988,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA7E62E8B3D160000,
+            .event_id = 527091,
             .archipelago_car_id = 0xA7E62E8B3D160,
             .archipelago_livery_id = 2056,
             .adjacent_ids = {0xA7E62E94CC988000, 0xA7E62E94D2B30000, 0xA566038412870000, 0xA56603809D848000, 0xA5660380A39F0000, 0xA7E62E8B80398000, 0xA7E62E8B98A38000},
@@ -976,6 +1019,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA7E60F1A4C858000,
+            .event_id = 481548,
             .archipelago_car_id = 0xA7E60F1A4C858,
             .archipelago_livery_id = 2058,
             .adjacent_ids = {0xA7E60DF29CB88000, 0xA7E60DF2A2D30000, 0xA5235AA8AE1CF000, 0xA5235AA8B9408000, 0xA5235AA8BF5B0000, 0xA7E60D548A698000, 0xA7E60D54A2D38000},
@@ -1021,6 +1065,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA7E5D3964E17C000,
+            .event_id = 481030,
             .archipelago_car_id = 0xA7E5D3964E17C,
             .archipelago_livery_id = 2061,
             .adjacent_ids = {0xA7E5D3968B47D000, 0xA7E5D3968B6EE000, 0xA7E5D3964FC57000, 0xA7E5D3965061B000},
@@ -1051,6 +1096,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA594001623960000,
+            .event_id = 481014,
             .archipelago_car_id = 0xA594001623960,
             .archipelago_livery_id = 2063,
             .adjacent_ids = {0xA594001FB3188000, 0xA594001FB9330000, 0xA594001666B98000, 0xA59400167F238000},
@@ -1081,6 +1127,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA5940206E8700000,
+            .event_id = 481034,
             .archipelago_car_id = 0xA5940206E8700,
             .archipelago_livery_id = 2065,
             .adjacent_ids = {0xA594038554D40000, 0xA594038648F80000, 0xA594021165FC0000, 0xA5940215368C0000},
@@ -1126,6 +1173,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA593FE7285B60000,
+            .event_id = 481027,
             .archipelago_car_id = 0xA593FE7285B60,
             .archipelago_livery_id = 2068,
             .adjacent_ids = {0xA593BEDC477C8000, 0xA593BEDC4D970000, 0xA593FE72C8D98000, 0xA593FE72E1438000},
@@ -1171,6 +1219,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA7E5D4D6C2D60000,
+            .event_id = 480899,
             .archipelago_car_id = 0xA7E5D4D6C2D60,
             .archipelago_livery_id = 2071,
             .adjacent_ids = {0xA7E5D4D7EEABD000, 0xA7E5D4D7EED2E000, 0xA7E5D4D705F98000, 0xA7E5D4D71E638000},
@@ -1201,6 +1250,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA7E5CE484B560000,
+            .event_id = 481402,
             .archipelago_car_id = 0xA7E5CE484B560,
             .archipelago_livery_id = 2073,
             .adjacent_ids = {0xA7E5CE51DAD88000, 0xA7E5CE51E0F30000, 0xA7E5CE488E798000, 0xA7E5CE48A6E38000},
@@ -1231,6 +1281,7 @@ namespace Vehicle {
         },
         {
             .id = 0xA7E62DCC80F60000,
+            .event_id = 527090,
             .archipelago_car_id = 0xA7E62DCC80F60,
             .archipelago_livery_id = 2075,
             .adjacent_ids = {0xA7E62DD610788000, 0xA7E62DD616930000, 0xA7E62DCCC4198000, 0xA7E62DCCDC838000},

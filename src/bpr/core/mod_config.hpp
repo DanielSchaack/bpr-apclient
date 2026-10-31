@@ -8,6 +8,17 @@ public:
 
     float tracker_window_x = 0.0f;
     float tracker_window_y = 0.0f;
+    bool tracker_include_open_event_name = true;
+    bool tracker_sort_event_names_alphabetically = false;
+    bool tracker_include_open_car_win_name = true;
+    bool tracker_sort_car_win_names_alphabetically = false;
+    bool tracker_include_events = true;
+    bool tracker_include_car_wins = true;
+    bool tracker_include_breakables = true;
+    bool tracker_include_done_sections = true;
+    bool tracker_include_available_sections = true;
+    bool tracker_include_not_available_sections = true;
+    bool tracker_include_not_included_sections = true;
     bool  hasTrackerWindowPos = false;
 
     float login_window_x = 0.0f;

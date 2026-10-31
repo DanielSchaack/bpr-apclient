@@ -79,6 +79,24 @@ void ConfigWindow::Draw(int outerWidth, int outerHeight, float uiScale) {
     dirty |= EditInt("Max visible Messages", cfg.bannerMaxVisible, 1, 50);
 
 
+    ImGui::SeparatorText("Tracker");
+    ImGui::TextDisabled("Sections");
+    dirty |= ImGui::Checkbox("Show Events",                  &cfg.tracker_include_events);
+    dirty |= ImGui::Checkbox("Show Car Wins",                &cfg.tracker_include_car_wins);
+    dirty |= ImGui::Checkbox("Show Breakables",              &cfg.tracker_include_breakables);
+    dirty |= ImGui::Checkbox("Show Open Event Wins",         &cfg.tracker_include_open_event_name);
+    dirty |= ImGui::Checkbox("Show Open Car Wins",           &cfg.tracker_include_open_car_win_name);
+
+    ImGui::TextDisabled("Rows by state");
+    dirty |= ImGui::Checkbox("Show Done",                    &cfg.tracker_include_done_sections);
+    dirty |= ImGui::Checkbox("Show Available",               &cfg.tracker_include_available_sections);
+    dirty |= ImGui::Checkbox("Show Not Available",           &cfg.tracker_include_not_available_sections);
+    dirty |= ImGui::Checkbox("Show Not Included",            &cfg.tracker_include_not_included_sections);
+
+    ImGui::TextDisabled("Sorting");
+    dirty |= ImGui::Checkbox("Sort Open Event Wins A-Z",     &cfg.tracker_sort_event_names_alphabetically);
+    dirty |= ImGui::Checkbox("Sort Open Car Wins A-Z",       &cfg.tracker_sort_car_win_names_alphabetically);
+
     ImGui::SeparatorText("Misc");
 
     dirty |= ImGui::Checkbox("Show Items Received Messages", &cfg.showIngameMessages);

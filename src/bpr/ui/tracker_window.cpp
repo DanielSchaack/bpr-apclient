@@ -4,25 +4,41 @@
 #include "tracker.hpp"
 #include "../app/app.hpp"
 
-namespace {
-    void DrawTrackerTable() {
-        constexpr ImGuiTableFlags flags =
-            ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_RowBg |
-            ImGuiTableFlags_BordersInnerH | ImGuiTableFlags_ScrollY |
-            ImGuiTableFlags_NoSavedSettings;
-        const float footer = ImGui::GetTextLineHeightWithSpacing();
-        const ImVec2 size(0.0f, ImGui::GetContentRegionAvail().y - footer);
+void DrawOpenSection(const char* title, const std::vector<std::string>& names) {
+    if (names.empty())
+        return;
 
-        if (ImGui::BeginTable("tracker", 5, flags, size)) {
-            ImGui::TableSetupScrollFreeze(0, 1);
-            ImGui::TableSetupColumn("Status");
-            ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_WidthStretch);
-            ImGui::TableSetupColumn("Done");
-            ImGui::TableSetupColumn("Available");
-            ImGui::TableSetupColumn("Total");
-            ImGui::TableHeadersRow();
+    ImGui::TableNextRow();
+    ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg0, ImGui::GetColorU32(ImGuiCol_TableHeaderBg));
+    ImGui::TableSetColumnIndex(1);
+    ImGui::TextDisabled("%s (%d)", title, static_cast<int>(names.size()));
 
-            for (const TrackerSection &section : BuildTrackerSections()) {
+    for (const std::string& name : names) {
+        ImGui::TableNextRow();
+        ImGui::TableSetColumnIndex(1);
+        ImGui::TextUnformatted(name.c_str());
+    }
+}
+
+void DrawTrackerTable() {
+    ModConfig& cfg = ModConfig::Get();
+    constexpr ImGuiTableFlags flags =
+        ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_RowBg |
+        ImGuiTableFlags_BordersInnerH | ImGuiTableFlags_ScrollY |
+        ImGuiTableFlags_NoSavedSettings;
+    const float footer = ImGui::GetTextLineHeightWithSpacing();
+    const ImVec2 size(0.0f, ImGui::GetContentRegionAvail().y - footer);
+
+    if (ImGui::BeginTable("tracker", 5, flags, size)) {
+        ImGui::TableSetupScrollFreeze(0, 1);
+        ImGui::TableSetupColumn("Status");
+        ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_WidthStretch);
+        ImGui::TableSetupColumn("Done");
+        ImGui::TableSetupColumn("Available");
+        ImGui::TableSetupColumn("Total");
+        ImGui::TableHeadersRow();
+
+        for (const TrackerSection &section : BuildTrackerSections()) {
             ImGui::TableNextRow();
             ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg0,
                                     ImGui::GetColorU32(ImGuiCol_TableHeaderBg));
@@ -42,14 +58,17 @@ namespace {
                 ImGui::TableSetColumnIndex(4);
                 CellCenter(std::to_string(row.total));
             }
-            }
-            ImGui::EndTable();
         }
-        ImGui::TextWrapped("Green: All available locations done");
-        ImGui::TextWrapped("Yellow: Available locations to be done");
-        ImGui::TextWrapped("Red: No locations available yet");
-        ImGui::TextWrapped("No icon: No locations included");
+        if(cfg.tracker_include_open_event_name)
+            DrawOpenSection("Open Event Wins", GetOpenEventWins());
+        if(cfg.tracker_include_open_car_win_name)
+            DrawOpenSection("Open Car Wins",   GetOpenCarWins());
+        ImGui::EndTable();
     }
+    ImGui::TextWrapped("Green: All available locations done");
+    ImGui::TextWrapped("Yellow: Available locations to be done");
+    ImGui::TextWrapped("Red: No locations available yet");
+    ImGui::TextWrapped("No icon: No locations included");
 }
 
 void TrackerWindow::ToggleVisibility() {
@@ -73,7 +92,9 @@ void TrackerWindow::Draw(int outerWidth, int outerHeight, float uiScale) {
     if (App::Instance->State().isDisconnected())
         ImGui::TextUnformatted("Connect to a slot to see progress.");
     else if (App::Instance->State().HasApSaveData())
+    {
         DrawTrackerTable();
+    }
     else
         ImGui::TextUnformatted("Save data is not ready yet.");
 
