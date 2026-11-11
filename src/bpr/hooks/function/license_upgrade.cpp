@@ -26,7 +26,8 @@ namespace LicenseUpgradeLog
         {
             App::Instance->State().GetSaveData().license = after;
             App::Instance->State().SendLocation(1000 + after);
-            EnableEvent::RestoreCompletedEvents();
+            if(App::Instance->State().GetSlotData().finishedEventsStayFinished)
+                EnableEvent::RestoreCompletedEvents();
             App::Instance->State().CheckGoal();
         }
     }
