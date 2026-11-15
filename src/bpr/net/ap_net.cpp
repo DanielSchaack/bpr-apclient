@@ -11,6 +11,7 @@
 
 #include <format>
 #include <iostream>
+#include <string>
 #include <variant>
 #include <apuuid.hpp>
 
@@ -164,6 +165,23 @@ void ArchipelagoNet::do_connect(const std::string &server, const std::string &sl
         });
         connected.store(true);
     });
+    client_->set_slot_refused_handler(
+        [this](const std::list<std::string>& reasons)
+        {
+            connected.store(false);
+
+            for (const std::string& reason : reasons)
+                Logger::Log(std::format("Slot refused: {}", reason));
+
+            bridge_.SendToGame(NetEvents::Disconnected{});
+        });
+    client_->set_socket_error_handler(
+        [this](const std::string& reason)
+        {
+            connected.store(false);
+            Logger::Log(std::format("Socket error: {}", reason));
+            bridge_.SendToGame(NetEvents::Disconnected{});
+        });
     client_->set_socket_disconnected_handler(
         [this]
         {
