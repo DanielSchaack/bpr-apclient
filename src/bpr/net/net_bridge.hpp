@@ -18,6 +18,12 @@ class NetworkBridge
             return banner_queue_;
         }
 
+        void broadcast(std::string message){
+            std::vector<bpr::BannerSegment> segments;
+            segments.push_back(bpr::BannerSegment(message, 0xFFFFFFFF));
+            banner_queue_.push(segments);
+        }
+
         void broadcast(std::vector<bpr::BannerSegment> &segs){
             banner_queue_.push(segs);
         }

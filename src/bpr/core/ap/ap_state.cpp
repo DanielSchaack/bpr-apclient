@@ -62,8 +62,7 @@ void ApState::Update(void* gameActionQueue, void* gameEventQueue){
                         std::vector<bpr::BannerSegment> segments;
                         std::string msg = std::format("Deathlink from {}: {}", e.source, bpr::deathlink_banner_text(e.source, e.cause));
                         Logger::Log(msg);
-                        segments.push_back(bpr::BannerSegment(msg, 0xFFFFFFFF));
-                        bridge_.broadcast(segments);
+                        bridge_.broadcast(msg);
 
                         death_link_time = std::chrono::steady_clock::now();
                         g_ProcessingDeathlink = true;

@@ -54,8 +54,7 @@ void ArchipelagoNet::Run() {
                         if (ModConfig::Get().deathlinkAmnesty > death_counter)
                         {
                             std::string msg = std::format("You are at {} out of {} crashes for a Deathlink", death_counter, ModConfig::Get().deathlinkAmnesty);
-                            segments.push_back(bpr::BannerSegment(msg, 0xFFFFFFFF));
-                            bridge_.broadcast(segments);
+                            bridge_.broadcast(msg);
                             Logger::Log(msg);
 
                             return;
@@ -71,8 +70,7 @@ void ArchipelagoNet::Run() {
                         };
                         client_->Bounce(data, {}, {}, { "DeathLink" });
 
-                        segments.push_back(bpr::BannerSegment(std::format("Sent deathlink: {}", cause), 0xFFFFFFFF));
-                        bridge_.broadcast(segments);
+                        bridge_.broadcast(std::format("Sent deathlink: {}", cause));
                         Logger::Log(std::format("Sent deathlink: {}", cause));
                         death_counter = 0;
                     }
@@ -165,21 +163,12 @@ void ArchipelagoNet::do_connect(const std::string &server, const std::string &sl
         });
         connected.store(true);
     });
-    client_->set_slot_refused_handler(
-        [this](const std::list<std::string>& reasons)
-        {
-            connected.store(false);
-
-            for (const std::string& reason : reasons)
-                Logger::Log(std::format("Slot refused: {}", reason));
-
-            bridge_.SendToGame(NetEvents::Disconnected{});
-        });
     client_->set_socket_error_handler(
         [this](const std::string& reason)
         {
             connected.store(false);
             Logger::Log(std::format("Socket error: {}", reason));
+            bridge_.broadcast(std::format("Socket error: {}", reason));
             bridge_.SendToGame(NetEvents::Disconnected{});
         });
     client_->set_socket_disconnected_handler(
@@ -199,6 +188,10 @@ void ArchipelagoNet::do_connect(const std::string &server, const std::string &sl
     client_->set_slot_refused_handler(
         [this](const std::list<std::string> &errors)
         {
+            for (const std::string& reason : errors){
+                Logger::Log(std::format("Slot refused: {}", reason));
+                bridge_.broadcast(std::format("Slot refused: {}", reason));
+            }
             connected.store(false);
             bridge_.SendToGame(NetEvents::ApConnectionRefused{std::vector<std::string>(errors.begin(), errors.end())});
         });
