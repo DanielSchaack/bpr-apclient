@@ -121,6 +121,7 @@ void ConfigWindow::Draw(int outerWidth, int outerHeight, float uiScale) {
     dirty |= ImGui::Checkbox("Use the Car You Get", &cfg.useWhatYouGet);
     dirty |= ImGui::Checkbox("Check goal only on event win and license upgrade", &cfg.checkGoalOnlyOnEventAndLicense);
     dirty |= ImGui::Checkbox("Allow car swaps in events", &cfg.allowSwapInEvents);
+    dirty |= ImGui::Checkbox("Put Burning Routes onto the map when receiving their car", &cfg.enableBurningRoutesOnReceive);
 
     ImGui::Separator();
     ImGui::TextWrapped("%s", "Press F3 to toggle visibility.");

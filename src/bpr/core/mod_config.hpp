@@ -54,6 +54,7 @@ public:
     bool useWhatYouGet = false;
     bool checkGoalOnlyOnEventAndLicense = true;
     bool allowSwapInEvents = false;
+    bool enableBurningRoutesOnReceive = true;
 
     static ModConfig& Get();
 

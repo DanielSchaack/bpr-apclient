@@ -29,14 +29,18 @@ void ApState::Update(void* gameActionQueue, void* gameEventQueue){
                 if constexpr (std::is_same_v<T, NetEvents::Connected>)
                 {
                     App::Instance->Gui().login_window->SetMessage("Connected");
-                    save_data_ = bpr::SaveData{
-                        .seed_ = std::move(e.seed),
-                        .slot_ = e.slot
-                    };
+                    if(!App::Instance->State().HasApSaveData())
+                        save_data_ = bpr::SaveData{
+                            .seed_ = std::move(e.seed),
+                            .slot_ = e.slot
+                        };
                     slot_data_ = std::move(e.slot_data);
 
                     if(ModConfig::Get().deathlink)
                         death_link_time = std::chrono::steady_clock::now();
+
+                    for(int64_t location_id : App::Instance->State().GetSaveData().checked_locations)
+                        bridge_.SendToNetwork(NetCommands::SendLocation{location_id});
 
                     phase_.store(ConnectionPhase::Connected);
                 }
@@ -78,6 +82,9 @@ void ApState::Update(void* gameActionQueue, void* gameEventQueue){
     if (GameHooks::GetCurrentGameStateFlag() == 6 && GameHooks::isInGame()){
         if(!g_setupDone)
         {
+            for(int64_t location_id : App::Instance->State().GetSaveData().checked_locations)
+                bridge_.SendToNetwork(NetCommands::SendLocation{location_id});
+
             for(const Map::DriveThruInfo info : Map::driveThruInfos)
                 DetectDriveThru::RevokeDiscovery(info.id);
 
@@ -120,6 +127,7 @@ void ApState::Disconnect(){
 
 void ApState::SendLocation(int64_t location_id){
     Logger::Log(std::format("Try Send Location: {}", location_id));
+    App::Instance->State().GetSaveData().checked_locations.insert(location_id);
     if (phase_ == ConnectionPhase::Connected){
         bridge_.SendToNetwork(NetCommands::SendLocation{location_id});
     }
@@ -227,6 +235,9 @@ void ApState::ProcessItem(int64_t item_id, int index, void* gameActionQueue, voi
         CarUnlockControl::AddCar(item_id << 12);
         if(info->event_id != 0)
             save_data_.AddEvent(info->event_id);
+
+        if(info->event_id && ModConfig::Get().enableBurningRoutesOnReceive)
+            EnableEvent::EnableEvent(info->event_id);
 
         if(ModConfig::Get().useWhatYouGet)
             Filler::SwapToCar(gameEventQueue, info->id);

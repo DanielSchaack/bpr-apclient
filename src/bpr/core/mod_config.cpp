@@ -85,6 +85,7 @@ bool ModConfig::Load() {
         else if (key == "use_what_you_get") useWhatYouGet = (value == "1" || value == "true");
         else if (key == "check_goal_only_on_event_and_license") checkGoalOnlyOnEventAndLicense = (value == "1" || value == "true");
         else if (key == "allow_swaps_in_events") allowSwapInEvents = (value == "1" || value == "true");
+        else if (key == "enable_burning_routes_on_receive") enableBurningRoutesOnReceive = (value == "1" || value == "true");
         else Logger::Log(std::format("Key not found: {}", key));
     }
     return true;
@@ -149,5 +150,6 @@ bool ModConfig::Save() const {
     file << "use_what_you_get=" << (useWhatYouGet ? 1 : 0) << "\n";
     file << "check_goal_only_on_event_and_license=" << (checkGoalOnlyOnEventAndLicense ? 1 : 0) << "\n";
     file << "allow_swaps_in_events=" << (allowSwapInEvents ? 1 : 0) << "\n";
+    file << "enable_burning_routes_on_receive=" << (enableBurningRoutesOnReceive ? 1 : 0) << "\n";
     return file.good();
 }

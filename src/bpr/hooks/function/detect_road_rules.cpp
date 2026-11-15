@@ -31,7 +31,7 @@ namespace DetectRoadRules
 
     static void ReportRoadRuled(const char* world, int row, int col, int id)
     {
-        const int type = (row ? 2 : 0) + col;
+        const int type = col + (row ? row + 1 : 0); // if row = bike event, row 1 at day, row 2 at night. col always 0 with bike
         if (!App::Instance->State().MarkRoadRuled(type, static_cast<uint64_t>(id)))
             return;   // already reported
  
@@ -48,7 +48,7 @@ namespace DetectRoadRules
             }
             else if (row)
             {
-                App::Instance->State().CacheBreakable(static_cast<int>(info->area), 6 + col);
+                App::Instance->State().CacheBreakable(static_cast<int>(info->area), 5 + row);
             }
         }
     }

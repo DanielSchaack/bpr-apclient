@@ -31,6 +31,7 @@ namespace bpr
         std::array<std::unordered_set<uint64_t>, 5> completed_cars{};
         std::unordered_set<uint64_t> completed_unique_cars{};
         std::array<std::unordered_set<uint64_t>, 4> ruled_roads{};
+        std::unordered_set<uint64_t> checked_locations{};
 
 
         bool HasCar(uint64_t carId) const noexcept
@@ -200,6 +201,7 @@ namespace bpr
             {"completed_cars", data.completed_cars},
             {"completed_unique_cars", data.completed_unique_cars},
             {"ruled_roads", data.ruled_roads},
+            {"checked_locations", data.checked_locations},
         };
     }
 
@@ -224,5 +226,6 @@ namespace bpr
         j.at("completed_unique_cars").get_to(data.completed_unique_cars);
         if (j.contains("ruled_roads")) j.at("ruled_roads").get_to(data.ruled_roads);
         if (j.contains("obtained_events")) j.at("obtained_events").get_to(data.obtained_events);
+        if (j.contains("checked_locations")) j.at("checked_locations").get_to(data.checked_locations);
     }
 }
