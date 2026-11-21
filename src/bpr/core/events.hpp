@@ -1,5 +1,6 @@
 #pragma once
 #include "bpr/core/map.hpp"
+#include "bpr/hooks/function/detours.hpp"
 #include <cstdint>
 #include <string_view>
 #include <vector>
@@ -85,10 +86,10 @@ namespace Event {
 
     [[nodiscard]] constexpr int ModeNameToIndex(std::string_view mode) noexcept
     {
-        if (mode == "Race")        return 1;
-        if (mode == "Stunt Run")   return 2;
-        if (mode == "Road Rage")   return 3;
-        if (mode == "Marked Man")  return 4;
+        if (mode == "Race")        return EventWinLog::RaceType;
+        if (mode == "Stunt Run")   return EventWinLog::StuntRunType;
+        if (mode == "Road Rage")   return EventWinLog::RoadRageType;
+        if (mode == "Marked Man")  return EventWinLog::MarkedManType;
         return -1;
     }
 

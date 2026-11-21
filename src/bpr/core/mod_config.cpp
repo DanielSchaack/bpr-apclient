@@ -62,6 +62,11 @@ bool ModConfig::Load() {
         else if (key == "banner_promote_interval_seconds") bannerPromoteIntervalSeconds = std::stof(value);
         else if (key == "banner_max_visible")              bannerMaxVisible = std::stoi(value);
 
+        else if (key == "race_difficulty")                 raceDifficulty = std::stoi(value);
+        else if (key == "marked_man_difficulty")           markedManDifficulty = std::stoi(value);
+        else if (key == "stunt_run_difficulty")            stuntRunDifficulty = std::stoi(value);
+        else if (key == "road_rage_difficulty")            roadRageDifficulty = std::stoi(value);
+
         else if (key == "tracker_include_open_event_name")           tracker_include_open_event_name = (value == "1" || value == "true");
         else if (key == "tracker_sort_event_names_alphabetically")   tracker_sort_event_names_alphabetically = (value == "1" || value == "true");
         else if (key == "tracker_include_open_car_win_name")         tracker_include_open_car_win_name = (value == "1" || value == "true");
@@ -138,6 +143,12 @@ bool ModConfig::Save() const {
     file << "banner_fade_seconds=" << bannerFadeSeconds << "\n";
     file << "banner_promote_interval_seconds=" << bannerPromoteIntervalSeconds << "\n";
     file << "banner_max_visible=" << bannerMaxVisible << "\n";
+
+    file << "[difficulty]\n";
+    file << "race_difficulty=" << raceDifficulty << "\n";
+    file << "marked_man_difficulty=" << markedManDifficulty  << "\n";
+    file << "stunt_run_difficulty=" << stuntRunDifficulty  << "\n";
+    file << "road_rage_difficulty=" << roadRageDifficulty  << "\n";
 
     file << "[misc]\n";
     file << "show_ingame_messages=" << (showIngameMessages ? 1 : 0) << "\n";

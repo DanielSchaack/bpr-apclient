@@ -37,6 +37,11 @@ public:
     float info_window_y = 0.0f;
     bool  hasInfoWindowPos = false;
 
+    int raceDifficulty = 0;
+    int markedManDifficulty = 0;
+    int stuntRunDifficulty = 0;
+    int roadRageDifficulty = 0;
+
     bool bannerBottomUp = true;
     float bannerHoldSeconds = 10.0f;
     float bannerFadeSeconds = 1.0f;

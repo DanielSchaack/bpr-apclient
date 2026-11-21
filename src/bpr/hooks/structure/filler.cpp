@@ -49,12 +49,12 @@ namespace Filler
     }
 
     // 100: Refill current boost meter
-    void BoostRefill(void* gameActionQueue)
+    void SetBoostAmount(void* gameActionQueue, float boostAmount)
     {
-        Logger::Log(std::format("Received Filler 'Boost Refill'"));
+        Logger::Log(std::format("Received Filler for a Boost adjustment, setting to {}", boostAmount));
         GameActions::GameAction_SetBoost set_boost{};
         set_boost.Flags.BoostAmount = true;
-        set_boost.BoostAmount = 1.0f;
+        set_boost.BoostAmount = boostAmount;
         set_boost.ActiveRaceVehicleIndex = GameHooks::GetPlayerCarIndex();
         GameActions::AddGameAction(gameActionQueue, &set_boost, set_boost.ID, sizeof(set_boost));
     }
@@ -224,11 +224,12 @@ namespace Filler
     {
         switch (itemId)
         {
-        case 100: BoostRefill(gameActionQueue);             return true;
+        case 100: SetBoostAmount(gameActionQueue, 1.0f);             return true; // Boost Refill
         case 101: RandomBoostType(gameActionQueue);         return true;
         case 102: SwapToRandomCar(gameEventQueue);          return true;
         case 103: HighTraffic();                            return true;
         case 104: TeleportToRandomDriveThru(gameEventQueue); return true;
+        case 105: SetBoostAmount(gameActionQueue, 0.0f);             return true; // Boost Depletion
         default:  return false;
         }
     }

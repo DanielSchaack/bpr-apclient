@@ -93,7 +93,7 @@ void ApState::Update(void* gameActionQueue, void* gameEventQueue){
             if(slot_data_.finishedEventsStayFinished)
                 EnableEvent::RestoreCompletedEvents();
 
-            EventWinLog::ApplyBaseDifficulty(slot_data_.modeBaseDifficulty);
+            EventWinLog::ApplyBaseDifficulty(slot_data_.modeBaseDifficulty, false);
 
             while (auto item = PopItem()){
                 ProcessItem(item->item_id, item->index, gameActionQueue, gameEventQueue);

@@ -34,7 +34,6 @@ namespace DetectTakedown
         {
             Logger::Log(std::format("Takedown: type {} | total {} | count of this type {}", type, after, PerType(mgr, type)));
             App::Instance->Gui().info_window->AddLogMessage(std::format("Takedown: type {} | total {} | count of this type {}", type, after, PerType(mgr, type)));
-            // TODO: App::Instance->State().SendLocation(...);
         }
     }
 

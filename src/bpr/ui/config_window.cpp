@@ -4,6 +4,7 @@
 #include "bpr/core/logger.hpp"
 #include "bpr/core/mod_config.hpp"
 #include "bpr/app/app.hpp"
+#include "bpr/hooks/function/detours.hpp"
 
 bool EditFloat(const char* label, float& value, float minValue, float maxValue, float speed = 0.1f) {
     ImGui::DragFloat(label, &value, speed, minValue, maxValue, "%.2f", ImGuiSliderFlags_AlwaysClamp);
@@ -96,6 +97,52 @@ void ConfigWindow::Draw(int outerWidth, int outerHeight, float uiScale) {
     ImGui::TextDisabled("Sorting");
     dirty |= ImGui::Checkbox("Sort Open Event Wins A-Z",     &cfg.tracker_sort_event_names_alphabetically);
     dirty |= ImGui::Checkbox("Sort Open Car Wins A-Z",       &cfg.tracker_sort_car_win_names_alphabetically);
+
+    ImGui::SeparatorText("Difficulty");
+
+    if (ImGui::SliderInt("Race Events Level", &cfg.raceDifficulty, 0, 6))
+    {
+        dirty = true;
+        EventWinLog::ApplyModeDifficulty(EventWinLog::RaceType, cfg.raceDifficulty, true);
+    }
+
+    if (ImGui::SliderInt("Marked Man Events Level", &cfg.markedManDifficulty, 0, 6))
+    {
+        dirty = true;
+        EventWinLog::ApplyModeDifficulty(EventWinLog::MarkedManType, cfg.markedManDifficulty, true);
+    }
+
+    if (ImGui::SliderInt("Stunt Run Events Level", &cfg.stuntRunDifficulty, 0, 6))
+    {
+        dirty = true;
+        EventWinLog::ApplyModeDifficulty(EventWinLog::StuntRunType, cfg.stuntRunDifficulty, true);
+    }
+
+    if (ImGui::SliderInt("Road Rage Events Level", &cfg.roadRageDifficulty, 0, 6))
+    {
+        dirty = true;
+        EventWinLog::ApplyModeDifficulty(EventWinLog::RoadRageType, cfg.roadRageDifficulty, true);
+    }
+
+    // TODO: Add per-mode difficulty controls here (Race, Stunt Run, Road Rage, Marked Man).
+    // Each mode gets a slider (0-6) with a "Set" button that calls ApplyBaseDifficulty
+    // with force=true. Read initial values from App::Instance->State().GetSlotData().modeBaseDifficulty.
+    //
+    // ImGui methods you can use:
+    //   ImGui::SliderInt(label, &value, 0, 6)         // 0-6 slider, returns true if changed
+    //   ImGui::SameLine()                             // Put button on same line as slider
+    //   ImGui::Button("Set")                          // Returns true when clicked
+    //   ImGui::PushID(n) / ImGui::PopID()             // Unique IDs for multiple sliders/buttons
+    //   ImGui::SeparatorText("Difficulty")            // Section header (see Banner/Tracker examples above)
+    //   ImGui::TextDisabled("Set base difficulty...") // Description text
+    //
+    // Pattern from this file:
+    //   ImGui::SliderInt("Label", &value, 0, 6);
+    //   if (ImGui::SameLine(); ImGui::Button("Apply")) { /* do work */ }
+    //
+    // You'll need to include "bpr/core/ap/ap_state.hpp" and call:
+    //   EventWinLog::ApplyBaseDifficulty(single_mode_map, true);
+    //
 
     ImGui::SeparatorText("Misc");
 

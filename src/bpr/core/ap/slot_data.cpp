@@ -3,6 +3,7 @@
 #include "bpr/core/logger.hpp"
 #include "bpr/core/map.hpp"
 #include "bpr/core/mod_config.hpp"
+#include "bpr/hooks/function/detours.hpp"
 #include <nlohmann/json.hpp>
 
 bpr::SlotData bpr::parse_slot_data(const nlohmann::json &data){
@@ -218,7 +219,15 @@ bpr::SlotData bpr::parse_slot_data(const nlohmann::json &data){
                 continue;
             }
 
-            slot_data.modeBaseDifficulty[mode_index] = difficulty.get<int>();
+            auto diff = difficulty.get<int>();
+            slot_data.modeBaseDifficulty[mode_index] = diff;
+            switch (mode_index) {
+                case EventWinLog::RaceType:      cfg.raceDifficulty = diff; break;
+                case EventWinLog::StuntRunType:  cfg.stuntRunDifficulty = diff; break;
+                case EventWinLog::RoadRageType:  cfg.roadRageDifficulty = diff; break;
+                case EventWinLog::MarkedManType: cfg.markedManDifficulty = diff; break;
+                default: break;
+            }
             Logger::Log(std::format("Mode Base Difficulty Index: {} difficulty: {}", mode_index, difficulty.get<int>()));
         }
     }

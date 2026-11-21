@@ -106,10 +106,10 @@ namespace EventWinLog
     {
         switch (type)
         {
-        case 1:  return 0;   // race
-        case 2:  return 7;   // stunt run
-        case 3:  return 3;   // road rage
-        case 4:  return 8;   // marked man
+        case EventWinLog::RaceType:      return 0;
+        case EventWinLog::StuntRunType:  return 7;
+        case EventWinLog::RoadRageType:  return 3;
+        case EventWinLog::MarkedManType: return 8;
         default: return -1;
         }
     }
@@ -118,10 +118,10 @@ namespace EventWinLog
     {
         switch (type)
         {
-        case 1:  return {0, 8, 18, 32, 50, 70};   // race
-        case 2:  return {0, 1,  6, 10, 20, 25};   // stunt run
-        case 3:  return {0, 4, 12, 20, 28, 33};   // road rage
-        case 4:  return {0, 3,  6, 11, 17, 35};   // marked man
+        case EventWinLog::RaceType:      return {0, 8, 18, 32, 50, 70};
+        case EventWinLog::StuntRunType:  return {0, 1,  6, 10, 20, 25};
+        case EventWinLog::RoadRageType:  return {0, 4, 12, 20, 28, 33};
+        case EventWinLog::MarkedManType: return {0, 3,  6, 11, 17, 35};
         default: return {};
         }
     }
@@ -133,23 +133,26 @@ namespace EventWinLog
         return l[k] + static_cast<int>(std::lround((pos - k) * (l[k + 1] - l[k])));
     }
 
-    void ApplyBaseDifficulty(const std::map<int, int>& base)
+    void ApplyBaseDifficulty(const std::map<int, int>& base, bool force)
+    {
+        for (const auto& [type, level] : base)
+            ApplyModeDifficulty(type, level, force);
+    }
+
+    void ApplyModeDifficulty(const int type, const int level, bool force)
     {
         const std::uintptr_t game = GameHooks::GetGameModule();
         if (!game) return;
         auto* rankWins = reinterpret_cast<std::int32_t*>(game + kRankWins);
 
-        for (const auto& [type, level] : base)
-        {
-            const int mode = GameModeOf(type);
-            if (mode < 0 || level <= 0) continue;
+        const int mode = GameModeOf(type);
+        if (mode < 0 || level <= 0) return;
 
-            const int wins = WinsForLevel(LadderOf(type), level);
-            if (rankWins[mode] < wins)
-            {
-                Logger::Log(std::format("Difficulty: type {} level {} -> rank wins {} -> {}", type, level, rankWins[mode], wins));
-                rankWins[mode] = wins;
-            }
+        const int wins = WinsForLevel(LadderOf(type), level);
+        if (force || rankWins[mode] < wins)
+        {
+            Logger::Log(std::format("Difficulty: type {} level {} -> rank wins {} -> {}", type, level, rankWins[mode], wins));
+            rankWins[mode] = wins;
         }
     }
 

@@ -64,7 +64,12 @@ namespace LicenseUpgradeLog
 
 namespace EventWinLog
 {
-    void ApplyBaseDifficulty(const std::map<int, int>& base);
+    const int RaceType = 1;
+    const int StuntRunType = 2;
+    const int RoadRageType = 3;
+    const int MarkedManType = 4;
+    void ApplyBaseDifficulty(const std::map<int, int>& base, bool force = true);
+    void ApplyModeDifficulty(const int type, const int level, bool force);
     MH_STATUS Install();
 }
 
